@@ -25,16 +25,18 @@ class HomeController extends Controller
     }
 
     public function ContactUsSave(Request $request){
+
         $data =$request->validate([
             'fullname'=>'required|string|min:7',
             'telephone'=>'required|numeric|min:10',
             'email'=>'nullable|email',
             'subject'=>'required|string|min:5',
             'message'=>'required|string|min:15',
-            'screenshot'=>'required',
-            'screenshot.*'=>'file|mimes:jpeg,jpg,png,doc,docx,xlsx,xls,pdf'
+            'screenshot'=>'nullable',
+            'screenshot.*'=>'nullable|file|mimes:jpeg,jpg,png,doc,docx,xlsx,xls,pdf'
         ]);
-        dd($data);
+        
+        dd($data);        
     }
     public function index()
     {
