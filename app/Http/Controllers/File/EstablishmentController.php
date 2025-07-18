@@ -29,7 +29,7 @@ class EstablishmentController extends Controller
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
-            ->orderBy("deleted_at", "desc")->get();
+            ->orderBy("user_files.deleted_at", "desc")->get();
         // Approved files
         $files = UserFiles::select('user_files.id','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
@@ -73,7 +73,7 @@ class EstablishmentController extends Controller
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.UploadedBy', Auth::user()->id)
-            ->orderBy("deleted_at", "desc")->get();
+            ->orderBy("user_files.deleted_at", "desc")->get();
 
         return view("FileManager.ESTABLISHMENT.index", compact("files", 'pending', 'mypending', 'rejected', 'myrejected', 'deleted', 'mydeleted'));
 

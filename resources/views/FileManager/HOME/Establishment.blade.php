@@ -42,7 +42,7 @@
                                 <select id="VCSelect" name="votecode" class="select2 form-control" required>
                                     <option value="">Select Vote Vode</option>
                                     @foreach ($votes as $item)
-                                        <option value="{{ $item->id }}">{{ $item->votecode }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->votecode }}-{{ $item->votename }}</option>
                                     @endforeach
                                 </select>
                             </div>

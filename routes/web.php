@@ -137,6 +137,8 @@ Route::prefix('ajax')->group(function () {
         Route::get('fetch/barchat', 'getGraph')->name('fetch-chart');
         Route::get('fetch/test/chat', 'TestingChart')->name('fetch-test');
         Route::get('fetch/multiple/institution', 'FetchMultipleInstitution')->name('fetch-multiple-institution');
+        Route::get('fetch/carder','FetchCarder')->name('fetch-carder');
+ Route::get('fetch/establishment','FetchEstablishment')->name('fetch-establishment');
 
     });
 });

@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Mail\ContactFormMail;
+use App\Models\ContactUS;
 use App\Models\Entities;
 use App\Models\JobDocuments;
 use App\Models\Questions;
@@ -10,9 +12,12 @@ use App\Models\User;
 use App\Models\UserFiles;
 use App\Models\VoteDetails;
 use App\Models\YearMonths;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use ZipArchive;
 
@@ -35,8 +40,57 @@ class HomeController extends Controller
             'screenshot'=>'nullable',
             'screenshot.*'=>'nullable|file|mimes:jpeg,jpg,png,doc,docx,xlsx,xls,pdf'
         ]);
+
+        $year  = date("Y");
+        $month = date("M");
+        $contactpath ='ContactUS/'.$year."/".$month;
         
-        dd($data);        
+        $shortArray =[];
+        if($request->hasFile('screenshot')){
+            $files=$request->file('screenshot');
+            foreach($files as $file){
+                $origFileName = $file->getClientOriginalName();
+                $filename=Carbon::now()."f_".$origFileName;
+                $path=$file->move(public_path('storage/'.$contactpath),$filename);
+                $imgArray[]=$filename;
+            }
+            $shortArray = implode(",",$imgArray);
+
+            $maildata=ContactUS::create([
+                'fullname' =>$request->fullname,
+                'telephone'=>$request->telephone,
+                'email'=>$request->email,
+                'subject'=>$request->subject,
+                'message'=>$request->message,
+                'screenshot'=>$shortArray,
+            ]);
+            if($maildata){
+                   Mail::to('tumuhimbiseallan@gmail.com|ezychicchiz@gmail.com')->send(new ContactFormMail($maildata));
+        
+        return redirect()->route('contact-us')->with('success', 'Your Mail has been received');
+            }
+            else{
+                 return redirect()->route('contact-us')->with('error', 'Your Message is not Delivered, Try againr');
+            }
+        } 
+        else{
+
+            $maildata=ContactUS::create([
+                'fullname' =>$request->fullname,
+                'telephone'=>$request->telephone,
+                'email'=>$request->email,
+                'subject'=>$request->subject,
+                'message'=>$request->message
+            ]);
+            if($maildata){
+                   Mail::to(['tumuhimbiseallan@gmail.com','ezychicchiz@gmail.com'])->send(new ContactFormMail($maildata));
+        return redirect()->route('contact-us')->with('success', 'Your Mail has been received');
+            }
+            else{
+                 return redirect()->route('contact-us')->with('error', 'Your Message is not Delivered, Try againr');
+            }
+            }
+     
     }
     public function index()
     {
