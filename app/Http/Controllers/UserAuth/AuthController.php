@@ -28,11 +28,11 @@ class AuthController extends Controller
         return back()->with('success', 'Verification link sent!');
     }
     // option 1
-    // public function EmailVerification(EmailVerificationRequest $request)
-    // {
-    //     $request->fulfill();
-    //     return redirect()->route('dashboard');
-    // }
+    public function EmailVerification(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+        return redirect()->route('dashboard');
+    }
     // option 2
     public function EmailVerifications ($id, $hash, Request $request) {
          $user = User::find($id);

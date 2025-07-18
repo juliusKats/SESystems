@@ -17,7 +17,25 @@ use Illuminate\Support\Facades\Response;
 use ZipArchive;
 
 class HomeController extends Controller
+
 {
+    public function ContactUS(Request $request)
+    {
+        return view('FileManager.Home.contact_us');
+    }
+
+    public function ContactUsSave(Request $request){
+        $data =$request->validate([
+            'fullname'=>'required|string|min:7',
+            'telephone'=>'required|numeric|min:10',
+            'email'=>'nullable|email',
+            'subject'=>'required|string|min:5',
+            'message'=>'required|string|min:15',
+            'screenshot'=>'required',
+            'screenshot.*'=>'file|mimes:jpeg,jpg,png,doc,docx,xlsx,xls,pdf'
+        ]);
+        dd($data);
+    }
     public function index()
     {
         $yearz = "yearz";
@@ -103,10 +121,7 @@ class HomeController extends Controller
 
         return back()->with('success', 'Question Sent!! Successfully');
     }
-    public function ContactUS()
-    {
-        return view('FileManager.Home.contact_us');
-    }
+    
     public function Gallery()
     {
         $path = public_path('storage/gallery/Establishment');

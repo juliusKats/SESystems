@@ -89,8 +89,8 @@ Route::prefix('user/authentication')->group(function () {
         Route::get('/user/{id}/token/', 'UserToken')->name('user-token');
         Route::get('/email/verify', 'EmailVerifyForm')->name('verification.notice');
         Route::post('/email/verify/send', 'VerificationSend')->middleware(['throttle:6,1'])->name('verification.send');
-        // Route::get('/email/verify/{id}/{hash}', 'EmailVerification')->middleware(['auth', 'signed'])->name('verification.verify');
-        Route::get('/email/verification/{id}/{hash}','EmailVerifications')->middleware(['auth', 'signed'])->name('verification.verify');
+        Route::get('/email/verify/{id}/{hash}', 'EmailVerification')->middleware(['auth', 'signed'])->name('verification.verify');
+    //     Route::get('/email/verification/{id}/{hash}','EmailVerifications')->middleware(['auth', 'signed'])->name('verification.verify');
     });
 });
 
@@ -106,6 +106,7 @@ Route::prefix('edbrs.com')->group(function () {
 });
 Route::prefix('edbrs.com')->group(function () {
     Route::controller(HomeController::class)->group(function () {
+
         Route::get('/index/home', 'index')->name('home.dashboard');
         Route::get('/establishment', 'Establishment')->name('establishment');
         Route::get('/job/description', 'JobDescription')->name('jobdescription');
@@ -114,6 +115,7 @@ Route::prefix('edbrs.com')->group(function () {
         Route::get('/system/faq', 'FrequentQuestions')->name('faq');
         Route::post('Ask/Your/Question', 'AskQuestion')->name('ask.question');
         Route::get('/contact/us', 'ContactUS')->name('contact-us');
+        Route::post('/contact/us/save/','ContactUsSave')->name('save.contact.us');
         Route::get('/gallery', 'Gallery')->name('gallery');
 
         Route::get('/preview/{id}/uploaded/excel', 'previewExcel')->name('preview.excel.file');

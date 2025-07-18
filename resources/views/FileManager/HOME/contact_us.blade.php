@@ -42,6 +42,8 @@
                     </div>
                 </div>
                 <div class="col-7">
+                    <form method="post" action="{{route('save.contact.us')}}">
+                        @csrf
                     <div class="form-group row">
                         <label class="col-md-3">Full Name</label>
                         <div class="col-md-9">
@@ -99,10 +101,18 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-                    </div>
-                    <div class="form-group">
+                    </div class="form-group">
+                    <input type="file" name="screenshot" class="form-control @error('screenshoot')is-invalid @enderror" accept=".jpg,.png,.jpg,.docx,.doc,.xlsx,.xls,.pdf">
+                     @error('message')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    <div>
+                    <div class="form-group mt-1">
                         <input type="submit" class="btn btn-primary" value="Send message">
                     </div>
+                </form>
                 </div>
             </div>
         </div>
