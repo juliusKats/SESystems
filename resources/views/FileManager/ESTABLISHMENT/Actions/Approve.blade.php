@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Deleting Item</h1>
+                    <h1 class="m-0">Approving Documents</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -26,16 +26,16 @@
                 <div class="col-lg-6">
                     <div class="card card-danger">
                         <div class="card-header">
-                            <h4 class="text-center">Deleting {{ 'Uganda' }}</h4>
+                            <h4 class="text-center">Approving {{ $file->VoteCode }} {{ $file->VoteName }}</h4>
                         </div>
                         <div class="card-body">
-                            Are you Sure you <a href="#"> Uganda</a>?
+                            Are you Sure you Want to approve <a href="#"> {{ $file->VoteCode }} {{ $file->VoteName }}</a>?
                         </div>
                         <div class="modal-footer justify-content-between">
-                            <form method="post" action="#" style="display: inline">
+                            <form method="post" action="{{ route('file.approve', $file->id) }}" style="display: inline">
                                 @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger" data-dismiss="modal">Delete</button>
+                                @method('PUT')
+                                <button type="submit" class="btn btn-outline-success" data-dismiss="modal">Approve</button>
                             </form>
                             <a href="{{ route('file.list') }}" class="btn btn-outline-primary">Cancel</a>
                         </div>

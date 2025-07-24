@@ -71,7 +71,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-md-6">
-                                                <a href="{{ route('register') }}" class="text-center">Don't Have Account</a>
+                                                <a href="{{ route('front.user.register') }}" class="text-center">Don't Have Account</a>
                                             </div>
                                             @if (Route::has('password.request'))
                                                 <div class="col-md-6">

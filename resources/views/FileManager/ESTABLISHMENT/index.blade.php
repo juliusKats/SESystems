@@ -165,6 +165,7 @@
                                                                                     class="ml-4 btn btn-sm btn-primary mt-1"><i
                                                                                         class="fa fa-edit"></i></a>
                                                                             @endif
+                                                                            <a href="{{ route('establishment.confirm.approved',$item->id) }}">Deactivate</a>
                                                                             <form method="post"
                                                                                 action="{{ route('file.approve', $item->id) }}">
                                                                                 @csrf
@@ -413,15 +414,7 @@
                                                                                     class="ml-4 btn btn-sm btn-primary mt-1"><i
                                                                                         class="fa fa-edit"></i></a>
                                                                             @endif
-                                                                            <form method="post"
-                                                                                action="{{ route('file.approve', $item->id) }}">
-                                                                                @csrf
-                                                                                @method('PUT')
-                                                                                <input type="submit"
-                                                                                    class="btn btn-sm ml-4 mt-2 btn-default"
-                                                                                    value="Approve?">
-                                                                            </form>
-
+                                                                            <a class="btn btn-sm btn-success" href="{{ route('establishment.confirm.approved',$item->id) }}">Approve?</a>
                                                                             <form method="post"
                                                                                 action="{{ route('soft.delete', $item->id) }}">
                                                                                 @csrf

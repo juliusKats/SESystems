@@ -54,7 +54,7 @@ class AuthController extends Controller
 
     public function showLoginForm()
     {
-        return view("FileManager.Authentication.login");
+        return view("FileManager.FrontEnd.Pages.login");
     }
     public function showForgetPasswordForm()
     {

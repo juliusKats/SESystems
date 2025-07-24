@@ -7,11 +7,11 @@
         <div class="container">
             <nav class="breadcrumbs">
                 <ol>
-                    <li><a href="index.html">Home</a></li>
-                    <li class="current">Starter Page</li>
+                    <li><a href="{{ route('user.entry.page') }}">Home</a></li>
+                    <li class="current">Establishment</li>
                 </ol>
             </nav>
-            <h1>Starter Page</h1>
+            <h1>Establishment Documents</h1>
         </div>
     </div><!-- End Page Title -->
 
@@ -81,15 +81,6 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th style="width: 80px">code</th>
-                                    <th>Vote Details</th>
-                                    <th>PDF File</th>
-                                    <th>PS Approved Date</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>

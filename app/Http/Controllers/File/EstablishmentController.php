@@ -41,6 +41,7 @@ class EstablishmentController extends Controller
     }
     public function ApproveDialog(Request $request,$id){
         $file=UserFiles::findOrFail($id);
+        // dd($file);
         return view('FileManager.ESTABLISHMENT.Actions.Approve',compact('file'));
     }
 

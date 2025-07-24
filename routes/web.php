@@ -7,7 +7,6 @@ use App\Http\Controllers\File\EstablishmentController;
 use App\Http\Controllers\File\FrontEndController;
 use App\Http\Controllers\File\JobDescriptionController;
 use App\Http\Controllers\File\LineMinistryController;
-use App\Http\Controllers\File\mentController;
 use App\Http\Controllers\File\RapexController;
 use App\Http\Controllers\File\SchemeController;
 use App\Http\Controllers\File\VoteController;
@@ -31,33 +30,36 @@ use Illuminate\Support\Facades\Route;
 use OwenIt\Auditing\Models\Audit;
 
 
+// Route::get('/', function () {
+//     $yearz = "yearz";
+//     $votes = VoteDetails::all();
+//     $years = User::distinct()->get(['created_at'])->groupBy('created_at');
+//     $yrs   = VoteDetails::selectRaw('extract(year FROM created_at) AS year')
+//         ->distinct()
+//         ->orderBy('year', 'desc')
+//         ->get();
+//     $yearfinal = User::select([DB::raw('extract(year FROM created_at) AS year')])
+//         ->get()
+//         ->unique('year')
+//         ->sortBy('year');
+//     $entities = Entities::all();
+//     $months   = YearMonths::all();
+//     $user     = User::selectRaw('DATE_FORMAT(created_at,"%M") as month,sum((status)=0) as Active,sum((status)=1) as Inactive ,DATE_FORMAT(created_at,"%Y-%m") as period')
+//         ->groupBy('period')
+//         ->groupBy('month')
+//         ->orderBy('period', 'asc')
+//         ->get();
+//     $data['periods']   = $user->pluck('period');
+//     $data['inactives'] = $user->pluck('Inactive');
+//     $data['actives']   = $user->pluck('Active');
+//     $data['months']    = $user->pluck('month');
+
+//     return view('welcome', $data, compact('votes', 'months', 'years', 'yrs', 'yearfinal', 'entities'));
+// });
+
 Route::get('/', function () {
-    $yearz = "yearz";
-    $votes = VoteDetails::all();
-    $years = User::distinct()->get(['created_at'])->groupBy('created_at');
-    $yrs   = VoteDetails::selectRaw('extract(year FROM created_at) AS year')
-        ->distinct()
-        ->orderBy('year', 'desc')
-        ->get();
-    $yearfinal = User::select([DB::raw('extract(year FROM created_at) AS year')])
-        ->get()
-        ->unique('year')
-        ->sortBy('year');
-    $entities = Entities::all();
-    $months   = YearMonths::all();
-    $user     = User::selectRaw('DATE_FORMAT(created_at,"%M") as month,sum((status)=0) as Active,sum((status)=1) as Inactive ,DATE_FORMAT(created_at,"%Y-%m") as period')
-        ->groupBy('period')
-        ->groupBy('month')
-        ->orderBy('period', 'asc')
-        ->get();
-    $data['periods']   = $user->pluck('period');
-    $data['inactives'] = $user->pluck('Inactive');
-    $data['actives']   = $user->pluck('Active');
-    $data['months']    = $user->pluck('month');
-
-    return view('welcome', $data, compact('votes', 'months', 'years', 'yrs', 'yearfinal', 'entities'));
+     return view('FileManager.FrontEnd.entryPage');
 });
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -199,11 +201,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::post('/restore/{id}/soft', 'Restore')->name('vote.restore');
 
                         // Action Route
-            Route::get('confirm/{id}/delete','DeteteDialog')->name('.confirm.delete');
-            Route::get('confirm/{id}/permanent/delete','PerDeteteDialog')->name('.confirm.permanent.delete');
-            Route::get('confirm/{id}/restore','RestoreDialog')->name('.confirm.restore');
-            Route::get('confirm/{id}/rejection','RejectDialog')->name('.reject.delete');
-            Route::get('confirm/{id}/Approval','ApproveDialog')->name('.confirm.approve');
+            Route::get('confirm/{id}/delete','DeteteDialog')->name('establishment.confirm.delete');
+            Route::get('confirm/{id}/permanent/delete','PerDeteteDialog')->name('establishment.confirm.permanent.delete');
+            Route::get('confirm/{id}/restore','RestoreDialog')->name('establishment.confirm.restore');
+            Route::get('confirm/{id}/rejection','RejectDialog')->name('establishment.reject.delete');
+            Route::get('/confirm/establishment/{id}/Approval','ApproveDialog')->name('establishment.confirm.approved');
 
 
         });

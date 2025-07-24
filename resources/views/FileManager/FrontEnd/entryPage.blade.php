@@ -7,82 +7,22 @@
         <marquee class="blink" behavior="scroll" direction="left" scrollamount="5"
             style=" font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bolder; font-size: xx-large;">
             <img src="{{ asset('system/frontEnd/img/bg/word.webp') }}" style="width: 1000px; color: blue;" alt="">
-
         </marquee>
-        {{-- <div class="container" data-aos="zoom-in">
-
-        <div class="swiper init-swiper">
-          <script type="application/json" class="swiper-config">
-            {
-              "loop": true,
-              "speed": 600,
-              "autoplay": {
-                "delay": 5000
-              },
-              "slidesPerView": "auto",
-              "pagination": {
-                "el": ".swiper-pagination",
-                "type": "bullets",
-                "clickable": true
-              },
-              "breakpoints": {
-                "320": {
-                  "slidesPerView": 2,
-                  "spaceBetween": 40
-                },
-                "480": {
-                  "slidesPerView": 3,
-                  "spaceBetween": 60
-                },
-                "640": {
-                  "slidesPerView": 4,
-                  "spaceBetween": 80
-                },
-                "992": {
-                  "slidesPerView": 5,
-                  "spaceBetween": 120
-                },
-                "1200": {
-                  "slidesPerView": 6,
-                  "spaceBetween": 120
-                }
-              }
-            }
-          </script>
-          <div class="swiper-wrapper align-items-center">
-            <div class="swiper-slide"></div>
-            </div>
-        </div>
-
-      </div> --}}
-
     </div>
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background"
         style="background-image: url('{{ asset('system/frontEnd/img/bg/mops.webp') }}'); background-size: contain; background-repeat: no-repeat;">
-        <div class="row ml-2 mr-2 mt-5 pt-5">
-             <div class="col-lg-7 mt-5 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
-                    <h3 class="">Welcome to the Electronic Backup and Recovery system of Management Service Department</h3>
-                </div>
-                {{-- <div class="col-lg-4 order-1 order-lg-2">
-                <div class="col-lg-4 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="200">
-                    <img src="{{ asset('system/frontEnd/img/backup.jpeg') }}" class="animated" style="padding-top: 100px; opacity: 0.8;">
-                </div> --}}
+                <h3>Welcome to the Electronic Backup and Recovery system of Management Service Department
+               </h3>
+        <img class="animated float float-right" src="{{ asset('system/Default/sys2.jpg') }}" style="margin-top: 140px; opacity:0.8"/>
+    </section>
+    {{-- <div class="row">
+            <div class="col-lg-5"></div>
+            <div class="col-lg-5 text-danger">
+                <img src="{{ asset('system/Default/sys2.jpg') }}"/>
 
-        </div>
-        {{-- <div class="container mt-4">
-
-            <div class="row  mt-4">
-                <div class="col-lg-7 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
-                    <p>Welcome to the Electronic Backup and Recovery system of Management Service Department</p>
-                </div>
-                <div class="col-lg-4 order-1 order-lg-2 hero-img mt-5" data-aos="zoom-out" data-aos-delay="200">
-                    <img src="{{ asset('system/frontEnd/img/backup.jpeg') }}"  style=" background-size: cover;;" class=" animated" alt="">
-                </div>
             </div>
         </div> --}}
-
-    </section><!-- /Hero Section -->
     .
 
     <!-- About Section -->

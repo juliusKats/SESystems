@@ -1,17 +1,17 @@
 @extends('FileManager.FrontEnd._layout')
 @section('title')
-    Establishment
+    Job Descriptions
 @endsection
 @section('content')
     <div class="page-title" data-aos="fade">
         <div class="container">
             <nav class="breadcrumbs">
                 <ol>
-                    <li><a href="index.html">Home</a></li>
-                    <li class="current">Starter Page</li>
+                    <li><a href="{{ route('user.entry.page') }}">Home</a></li>
+                    <li class="current">Job Description</li>
                 </ol>
             </nav>
-            <h1>Starter Page</h1>
+            <h1>Job Description Documents</h1>
         </div>
     </div><!-- End Page Title -->
 
