@@ -1,3 +1,4 @@
+
 $(function () {
     $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
@@ -11,6 +12,19 @@ $(function () {
         "info": true,
         "autoWidth": false,
         "responsive": true,
+    });
+
+     $('#front').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "responsive": true,
+         "orderCellsTop": true,
+                    "fixedHeader": true,
+                    "keyTable":true,
     });
 
     $("#establishment").DataTable({
@@ -58,3 +72,4 @@ $(function () {
     }).buttons().container().appendTo('#establishment_wrapper .col-md-6:eq(0)');
 
 });
+           

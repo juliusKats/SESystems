@@ -15,7 +15,7 @@
 
         <div class="content-wrapper">
             @yield('content')
-            <!-- Content Header (Page header) -->
+
 
 
 

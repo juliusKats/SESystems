@@ -3,25 +3,25 @@
     RAPEX add
 @endsection
 @section('content')
-    <!-- Content Header (Page header) -->
+
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">UPLOAD RAPEX DOCUMENTS</h1>
-                </div><!-- /.col -->
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('file.list') }}">Establishment</a></li>
                         <li class="breadcrumb-item active">Upload</li>
                     </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
 
-    <!-- Main content -->
+
+
     <section class="content">
         <div class="container-fluid">
             <div class="card">
@@ -48,28 +48,17 @@
                 @endif
 
 
-                <div hidden id="errorBox" class="card card-danger">
-                    <div class="card-header">
-                        <h3 id="errorText" class="card-title"></h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data" action="{{ route('rapex.file.store') }}">
                         @csrf
-                        <div class="row mb-1">
+                        {{-- <div class="row mb-1">
                             <div class="col-md-6">
                                 <div class="form-group mb-2">
                                     <label>Line Ministry</label><br>
                                     <select id="entity" multiple
-                                        class="select2 form-control @error('entity') is-invalid @enderror" required name="entity[]">
+                                        class="select2 form-control @error('entity') is-invalid @enderror " required
+                                        name="entity[]">
 
                                         @foreach ($entities as $item)
                                             <option value="{{$item->entityName}}">{{ $item->entityName}}</option>
@@ -117,7 +106,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <div class="form-group mb-2">
                                     <label>Comment </label>
                                     <textarea id="summernote" name="comment" class="summernote @error('comment')is-invalid @enderror">{{ old('comment') }}</textarea>
@@ -128,7 +117,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <div class="form-group mb-2">
                                     <label>Virtual link </label>
                                     <input name="link" type="url"
@@ -140,28 +129,119 @@
                                         </span>
                                     @enderror
                                 </div>
+                                <div class="form-group mb-2">
+                                    <label>Video </label><br>
+                                    <input name="video" type="file" accept="video/*" id="videoInput"
+                                        class="form-control mb-2 @error('video')is-invalid @enderror">
+                                    <video id="videoPreview" controls class="form-controls aspect-video"
+                                        style="width:420px; height: 350px;;">
+                                        @error('video')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                </div>
+                            </div>
+                        </div> --}}
+                        <div class="row mb-1">
+                            <div class="col-md-6">
+                                <div class="form-group mb-1">
+                                    <label>Line Ministry</label><br>
+                                    <select id="entity" multiple
+                                        class="select2 form-control @error('entity') is-invalid @enderror " required
+                                        name="entity[]">
 
-                                {{-- <div class="form-group mb-2">
-                                    <label>Video </label>
-                                    <input id="videoinput" name="video" type="file" accept="video/*"
-                                        class="form-control mb-2 @error('video')is-invalid @enderror"
-                                        value="{{ old('video') }}">
-                                    @error('vido')
+                                        @foreach ($entities as $item)
+                                            <option value="{{$item->entityName}}">{{ $item->entityName}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('entity')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                    <video controls id="videotag" >
-                                        <source src="splashVideo" id="videosource">
-                                        browser not supporinh h
-                                    </video>
-                                </div> --}}
-                                <div class="form-group mb-2">
-                                    <label>Video </label><br>
-                                    <input type="file" accept="video/*" id="videoInput"  class="form-control mb-2">
-                                    <video id="videoPreview" controls  class="form-controls aspect-video" style="width:420px; height: 350px;;">
-
                                 </div>
+                                <div class="form-group mb-1">
+                                    <label>Institution Name</label><br>
+                                    <select id="institute" data-placeholder="Select Institution"
+                                        class="form-control select2 @error('instittute') is-invalid @enderror" multiple
+                                        name="institute[]">
+                                    </select>
+                                </div>
+                                <div class="form-group mb-1">
+                                    <label>Upload Files</label><br>
+                                    <label class="btn btn-sm btn-success" onclick="openCustomFileInput()">Upload File
+                                    </label>&nbsp;&nbsp;<span class="text text-danger">Excel, Word,PDF PowerPoint
+                                        (Max: 4mbs)</span>
+                                    <input id="customFileInput" required name="docs[]" type="file" multiple
+                                        style="display: none" class="form-control @error('images') is-invalid @enderror"
+                                        accept=".xlsx,.xls,.doc,.docx,.ppt,.pptx,.pps," value="{{ old('docs') }}">
+                                        <ul id="selectedFilesList"></ul>
+                                    </div>
+                                    <div class="form-group mb-1">
+                                    <label>Virtual link </label>
+                                    <input name="link" type="url"
+                                        class="form-control @error('link')is-invalid @enderror" accept=".pdf"
+                                        value="{{ old('link') }}">
+                                    @error('link')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group mb-1">
+                                    <label>Comment </label>
+                                    <textarea id="summernote" name="comment" class="summernote @error('comment')is-invalid @enderror">{{ old('comment') }}</textarea>
+                                    @error('comment')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-1">
+                                    <label>Upload images</label><br>
+                                    <label class="btn btn-sm btn-success" onclick="openCustomImageInput()">Upload Images
+                                    </label><span class="text text-danger"> &nbsp;&nbsp;Images(Max: 4mbs)</span>
+                                    <input name="images[]" type="file" multiple id="customImageInput"
+                                        style="display: none" class="form-control @error('images') is-invalid @enderror"
+                                        accept=".png,.jpeg,.jpg" value="{{ old('images') }}">
+                                        <ul id="selectedImagesList"></ul>
+                                </div>
+                                <div class="form-group mb-1">
+                                    <label>Category</label><br>
+                                    <select  class="select2 form-control @error('category') is-invalid @enderror " name="category">
+                                            <option value="">Select Image Category</option>
+                                            @foreach ($categories as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->Category }}</option>
+                                            @endforeach
+                                         </select>
+                                    @error('category')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group mb-1">
+                                    <label>Description</label>
+                                    <textarea name="description" class="form-control" rows="4" placeholder="Description"></textarea>
+                                </div>
+                                <div class="form-group mb-1">
+                                    <label class="btn btn-success btn-sm" onclick="AttachVideo()">Attach Video </label><br>
+                                    <input name="video" type="file" accept="video/*,.mkv" id="videoInput"
+                                        class="form-control mb-2 @error('video')is-invalid @enderror" style="display: none">
+                                    <video id="videoPreview" controls class="form-controls aspect-video"
+                                        style="width:500px; height: 350px;;">
+                                        @error('video')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                </div>
+
+
+
                             </div>
                         </div>
 
@@ -175,7 +255,7 @@
                 </div>
             </div>
         </div>
-        <!-- /.container-fluid -->
+
     </section>
 
 @endsection
@@ -259,20 +339,41 @@
     </script>
 
     <script>
-        var errBox = document.getElementById('errorBox');
-        var errText = document.getElementById('errorText');
-        var inst = document.getElementById('institute')
-
-
         $('#entity').on('change', function() {
             var entity = document.getElementById('entity');
             var entity_id = Array.from(entity.selectedOptions).map(option => option.value);
+            var ArrayLength = entity_id.length
+            console.log(entity.value);
+            if (ArrayLength == 1) {
+                var entityId = $(this).val()
+                $.ajax({
+                    url: "{{ route('fetch-institution') }}",
+                    type: 'GET',
+                    data: {
+                        'entity_id': entityId,
+                        _token: '{{ csrf_token() }}',
+                    },
 
+                    dataType: 'json',
+                    success: function(result) {
+                        console.log(result.institute)
+                        console.log(result.institute.length)
+                        if (result.institute.length > 0) {
+                            // $('#institute').html('<option = ""> Select Class</option>')
+                            $.each(result.institute, function(key, value) {
+                                $('#institute').append('<option = "' + value.id + '">' + value
+                                    .institution + '</option>')
+                                console.log(key)
+                            })
+                        }
 
-            if (entity_id == "") {
-                errBox.removeAtrribute('hidden', 'hidden')
-                errText.innerText = "Select a line Ministry"
-            } else {
+                    },
+                    error: function(error) {
+                        alert(error)
+                    }
+                })
+
+            } else if (ArrayLength > 1) {
 
                 $.ajax({
                     url: "{{ route('fetch-multiple-institution') }}",
@@ -289,31 +390,40 @@
                             $.each(result.entity, function(key, value) {
                                 $('#institute').append('<option = "' + value.id + '">' + value
                                     .institution + '</option>')
-                                console.log(key)
                             })
                         }
                     }
                 })
+            } else {
+                // alert('Select ')
+                $('#institute').html('<option = ""> Select Class</option>')
+
             }
+
         })
     </script>
 
+
+
+
+
     <script>
+            var videoinput = document.getElementById('videoInput')
 
-        var  videopreview= document.getElementById('videoPreview')
-         var videoinput = document.getElementById('videoInput')
+        function AttachVideo() {
+            videoInput.click()
+        }
+        var videopreview = document.getElementById('videoPreview')
+        // var videoinput = document.getElementById('videoInput')
 
 
-        videoinput.addEventListener('change',(event)=>{
+        videoinput.addEventListener('change', (event) => {
 
-         if (event.target.files && event.target.files[0]) {
-         videopreview.src=URL.createObjectURL(event.target.files[0]);
-         videopreview.load()
-         }
+            if (event.target.files && event.target.files[0]) {
+                videopreview.src = URL.createObjectURL(event.target.files[0]);
+                videopreview.load()
+            }
 
         })
-
-
-
     </script>
 @endsection

@@ -3,9 +3,9 @@
     Establishment
 @endsection
 @section('content')
-    <!-- Content Header (Page header) -->
+
     <div class="content-header"></div>
-    <!-- Main content -->
+
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -180,8 +180,8 @@
                 </div>
                 <!-- /.col-md-6 -->
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+
+        </div>
     </div>
 @endsection
 @section('scripts')

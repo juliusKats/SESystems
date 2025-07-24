@@ -20,7 +20,7 @@
 
         <!-- Content Wrapper. Contains page content -->
 
-        <div class="content-wrapper"  style=" background-image: url('{{ asset('system/Default/bgimage.jpeg') }}'); opacity: 1; position: relative;" >
+        <div class="content-wrapper"  >
 
             @yield('content')
 

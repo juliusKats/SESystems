@@ -3,7 +3,7 @@
     UnAthorised User
 @endsection
 @section('content')
-    <!-- Content Header (Page header) -->
+
     <section class="content-header" >
       <div class="container-fluid" >
         <div class="row mb-2">
@@ -18,10 +18,10 @@
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
 
-    <!-- Main content -->
+
     <section class="content" >
       <div class="card container" >
         <h3 class="headline  text-center"><strong>Hello</strong> <strong style="color: blue">{{ Auth::user()->sname}} {{ Auth::user()->fname }} {{ Auth::user()->oname }}</strong></h3><hr>

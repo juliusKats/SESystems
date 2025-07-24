@@ -3,39 +3,39 @@
     Add Job
 @endsection
 @section('content')
-    <!-- Content Header (Page header) -->
+
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">ADD JOB DESCRIPTION FILES</h1>
-                </div><!-- /.col -->
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('job.file.list') }}">Establishment</a></li>
                         <li class="breadcrumb-item active">Upload</li>
                     </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
 
-    <!-- Main content -->
+
+
     <section class="content">
         <div class="container-fluid">
             <div class="card">
                 @if ($errors->any())
-    <div>
-        <div class="font-medium text-red-600">{{ __('Whoops! Something went wrong.') }}</div>
+                    <div>
+                        <div class="font-medium text-red-600">{{ __('Whoops! Something went wrong.') }}</div>
 
-        <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                        <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data" action="{{ route('job.file.store') }}">
@@ -134,7 +134,7 @@
                 </div>
             </div>
         </div>
-        <!-- /.container-fluid -->
+
     </section>
 
 @endsection
@@ -159,13 +159,13 @@
                     dataType: 'json',
                     success: function(result) {
                         console.log(result)
-                        if(result.carder.length>0){
-                         $('#cardername').html('<option = ""> Select Carder Name</option>')
-                        $.each(result.carder, function(key, value) {
-                            $('#cardername').append('<option = "' + value.id + '">' + value
-                                .cardname + '</option>')
-                        })
-                    }
+                        if (result.carder.length > 0) {
+                            $('#cardername').html('<option = ""> Select Carder Name</option>')
+                            $.each(result.carder, function(key, value) {
+                                $('#cardername').append('<option = "' + value.id + '">' + value
+                                    .cardname + '</option>')
+                            })
+                        }
                     },
                     error: function(error) {
                         alert(error)

@@ -12,6 +12,6 @@ class RapexDocuments extends Model implements AuditableContract
 {
     use SoftDeletes;
     use Auditable;
-    protected $fillable =  ['entity','institution','file','comment','zoomlink', 'updated_at','UploadedOn','UploadedBy','Approve','ApprovedOn','ApprovedBy','approved_by','DeletedBy','RestoredBy'];
+    protected $fillable =  ['entity','institution','file','comment','zoomlink', 'updated_at','UploadedOn','UploadedBy','Approve','ApprovedOn','ApprovedBy','approved_by','DeletedBy','RestoredBy','status'];
     protected $dates = ['deleted_at'];
 }

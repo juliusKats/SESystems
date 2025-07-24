@@ -18,7 +18,7 @@
             </div>
         </div>
     </section>
-    <!-- Main content -->
+
     <section class="content">
         <div class="row">
             {{-- <div class="card"> --}}

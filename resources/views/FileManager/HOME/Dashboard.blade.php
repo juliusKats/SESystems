@@ -3,7 +3,7 @@
     HOME
 @endsection
 @section('content')
-    <!-- Content Header (Page header) -->
+
     <section class="content-header">
         <div class="container">
             <div class="row">
@@ -52,7 +52,7 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
 

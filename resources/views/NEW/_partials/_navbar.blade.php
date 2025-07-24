@@ -7,10 +7,10 @@
             </li>
         @endif
         <li class="nav-item d-none d-sm-inline-block  ">
-            <a href="{{ route('home.dashboard') }}" class="nav-link" style="color: white">Home</a>
+            <a href="{{ route('user.entry.page') }}" class="nav-link" style="color: white">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block "  style="color: white">
-            <a href="@if(Auth::user() && Auth::user()->status ==1) {{ route('file.list') }}@else {{ route('establishment') }} @endif"
+            <a href="@if(Auth::user() && Auth::user()->status ==1) {{ route('file.list') }}@else {{ route('user.establishment') }} @endif"
                 class="nav-link"  style="color: white">Establishment</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block "  style="color: white">
@@ -24,12 +24,12 @@
         <li class="nav-item d-none d-sm-inline-block "  style="color: white">
             <a href="@if(Auth::user() && Auth::user()->status ==1){{ route('rapex.file.list') }}@else{{ route('rapexdocuments') }} @endif"
                 class="nav-link"  style="color: white">RAPEX Documents</a>
-        </li> 
+        </li>
         <li class="nav-item d-none d-sm-inline-block "  style="color: white">
             <a href="{{ route('gallery') }}" class="nav-link"  style="color: white">Gallery</a>
         </li>
          @if(!Auth::user())
-       
+
         <li class="nav-item d-none d-sm-inline-block "  style="color: white">
             <a href="{{ route('contact-us') }}" class="nav-link"  style="color: white">Contact US</a>
         </li>

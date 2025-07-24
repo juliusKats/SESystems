@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Mail\ContactFormMail;
 use App\Models\ContactUS;
 use App\Models\Entities;
+use App\Models\ImageCategory;
 use App\Models\JobDocuments;
 use App\Models\Questions;
 use App\Models\RapexDocuments;
@@ -44,7 +45,7 @@ class HomeController extends Controller
         $year  = date("Y");
         $month = date("M");
         $contactpath ='ContactUS/'.$year."/".$month;
-        
+
         $shortArray =[];
         if($request->hasFile('screenshot')){
             $files=$request->file('screenshot');
@@ -66,13 +67,13 @@ class HomeController extends Controller
             ]);
             if($maildata){
                    Mail::to('tumuhimbiseallan@gmail.com|ezychicchiz@gmail.com')->send(new ContactFormMail($maildata));
-        
+
         return redirect()->route('contact-us')->with('success', 'Your Mail has been received');
             }
             else{
                  return redirect()->route('contact-us')->with('error', 'Your Message is not Delivered, Try againr');
             }
-        } 
+        }
         else{
 
             $maildata=ContactUS::create([
@@ -90,7 +91,7 @@ class HomeController extends Controller
                  return redirect()->route('contact-us')->with('error', 'Your Message is not Delivered, Try againr');
             }
             }
-     
+
     }
     public function index()
     {
@@ -177,9 +178,10 @@ class HomeController extends Controller
 
         return back()->with('success', 'Question Sent!! Successfully');
     }
-    
+
     public function Gallery()
     {
+        $categories = ImageCategory::all();
         $path = public_path('storage/gallery/Establishment');
         // $path2 = public_path('images/resized/kitchens');
         $images = File::allFiles($path);
@@ -188,7 +190,7 @@ class HomeController extends Controller
         //     'images' => $images,
         //     'images2' => $images2
         // ]);
-        return view('FileManager.Home.gallery', compact('images'));
+        return view('FileManager.Home.gallery', compact('images','categories'));
     }
 
     // file preview

@@ -2,7 +2,6 @@
 namespace App\Http\Controllers\File;
 
 use App\Http\Controllers\Controller;
-use App\Models\Carders;
 use App\Models\CardMinistries;
 use App\Models\JobDocuments;
 use Carbon\Carbon;
@@ -12,6 +11,28 @@ use Illuminate\Support\Facades\File;
 
 class JobDescriptionController extends Controller
 {
+
+    //Action Dialog
+    public function DeteteDialog(Request $request,$id){
+        $file=JobDocuments::findOrFail($id);
+        return view('FileManager.JOBS.Actions.Delete',compact('file'));
+    }
+    public function PerDeteteDialog(Request $request,$id){
+        $file=JobDocuments::findOrFail($id);
+        return view('FileManager.JOBS.Actions.PerDelete',compact('file'));
+    }
+    public function RestoreDialog(Request $request,$id){
+        $file=JobDocuments::findOrFail($id);
+        return view('FileManager.JOBS.Actions.Restore',compact('file'));
+    }
+    public function RejectDialog(Request $request,$id){
+        $file=JobDocuments::findOrFail($id);
+        return view('FileManager.JOBS.Actions.Reject',compact('file'));
+    }
+    public function ApproveDialog(Request $request,$id){
+        $file=JobDocuments::findOrFail($id);
+        return view('FileManager.JOBS.Actions.Approve',compact('file'));
+    }
     public function index()
     {
         //
@@ -60,14 +81,13 @@ class JobDescriptionController extends Controller
 
     public function store(Request $request)
     {
-        //
-        // dd($request->all());
+
         $year  = date("Y");
         $month = date("M");
         $data  = $request->validate([
-            'ministry'       => 'required|exists:card_ministries,id',
+            'ministry'     => 'required|exists:card_ministries,id',
             'cardername'   => 'required',
-             'approvaldate' => 'required|date|before:today',
+            'approvaldate' => 'required|date|before:today',
             'comment'      => 'required|string|min:3',
             'fileupload'   => 'required',
             'fileupload.*' => 'mimes:pdf,doc,docx|max:4096',
@@ -76,12 +96,12 @@ class JobDescriptionController extends Controller
 
         ]);
 
-         $carderID=[];
-         $cardes =$request->cardername;
+        $carderID = [];
+        $cardes   = $request->cardername;
         foreach ($cardes as $key => $value) {
-            $carderArray[]=$value;
+            $carderArray[] = $value;
         }
-        $carderID=implode(",",$carderArray);
+        $carderID = implode(",", $carderArray);
 
         $votecomment = $request->comment;
         $dom         = new \DomDocument();
@@ -140,22 +160,28 @@ class JobDescriptionController extends Controller
             }
         }
 
+        if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin') {
+            $status = 3;
+        } else {
+            $status = 2;
+        }
+        // dd($status);
 
         $job = JobDocuments::create([
-        'carder_id'=>$request->ministry,
-            'CarderName'     => $carderID,
-            'WordFile'       => $pdfname,
-            'ext'            => $ext,
-            'PDFFile'        => $pspdfname,
-            'status'=>'Pending',
+            'carder_id'  => $request->ministry,
+            'CarderName' => $carderID,
+            'WordFile'   => $pdfname,
+            'ext'        => $ext,
+            'PDFFile'    => $pspdfname,
+            'status'     => $status,
             'ApprovedOn' => $request->approvaldate,
-            'comment'        => $votecomment,
-            'UploadedBy'     => Auth::user()->id,
+            'comment'    => $votecomment,
+            'UploadedBy' => Auth::user()->id,
         ]);
-        if($job){
-        return redirect()->route('job.file.list')->with('success', 'File Uploaded Successfully');
-        }else{
-          return redirect()->route('job.file.list')->with('error', 'File Uploaded Failed');
+        if ($job) {
+            return redirect()->route('job.file.list')->with('success', 'File Uploaded Successfully');
+        } else {
+            return redirect()->route('job.file.list')->with('error', 'File Uploaded Failed');
         }
     }
 
@@ -210,7 +236,7 @@ class JobDescriptionController extends Controller
 
     }
 
-       public function ApproveFile(Request $request, $id)
+    public function ApproveFile(Request $request, $id)
     {
         $file   = JobDocuments::find($id);
         $status = $file->status;
@@ -239,19 +265,19 @@ class JobDescriptionController extends Controller
         }
     }
 
-       public function RejectFile(Request $request, $id)
+    public function RejectFile(Request $request, $id)
     {
         $file = JobDocuments::
-        select('job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy','card_ministries.carderName as ministry')
+            select('job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy', 'card_ministries.carderName as ministry')
             ->join('users', 'users.id', '=', 'job_documents.UploadedBy')
-            ->join('doc_statuses','doc_statuses.id','=','job_documents.status')
-           ->join('card_ministries','card_ministries.id','=','job_documents.carder_id')
-            ->where('job_documents.id','=', $id)->first(); // Master Query
-        // dd($file);
+            ->join('doc_statuses', 'doc_statuses.id', '=', 'job_documents.status')
+            ->join('card_ministries', 'card_ministries.id', '=', 'job_documents.carder_id')
+            ->where('job_documents.id', '=', $id)->first(); // Master Query
+                                                        // dd($file);
         return view('FileManager.Jobs.RejectJob', compact('file'));
 
     }
-public function RejectSave(Request $request, $id)
+    public function RejectSave(Request $request, $id)
     {
         $file = JobDocuments::find($id);
         $request->validate([
@@ -288,7 +314,6 @@ public function RejectSave(Request $request, $id)
         }
 
     }
-
 
     public function show(string $id)
     {

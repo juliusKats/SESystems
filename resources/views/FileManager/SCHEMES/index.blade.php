@@ -2,26 +2,24 @@
 @section('page_title')Scheme Documents @endsection
 @section('content')
 
-
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
+ <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">Manage Scheme Of Service Documents</h1>
-                </div><!-- /.col -->
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('home.dashboard') }}">Home</a></li>
                         <li class="breadcrumb-item active">Jobs</li>
                     </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
 
-    <!-- Main content -->
+
+
     <section class="content">
         <div class="container-fluid">
             <div class="card">
@@ -72,8 +70,6 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="card">
-
-
                                             <div class="card-body">
                                                 <table id="activeadmin"
                                                     class="table table-bordered table-striped table-hover">
@@ -113,11 +109,8 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $finalEXCEL = explode('_', $item->EXCEL)[5];
                                                                         if ($extname == 'pdf') {
-                                                                            // $EXCELsize = Number::fileSize(File::size('storage/Schemes/' . $Yr . '/' . $Month . '/SCHEMEPDF/' . $item->EXCEL));
                                                                             $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
-                                                                        } else {
-                                                                            // $EXCELsize = Number::fileSize(File::size('storage/Schemes/' . $Yr . '/' . $Month . '/SCHEMEDOC/' . $item->EXCEL));
-                                                                            $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
+                                                                        } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
                                                                         }
                                                                         ?>
                                                                         <a href="#"
@@ -141,8 +134,6 @@
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
                                                                         $finalPDF = explode('_', $item->PDF)[5];
-                                                                        // $PDFsize = Number::fileSize(File::size('storage/Schemes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
-
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -162,6 +153,7 @@
                                                                             {{ $item->sname }}</a>
                                                                         <br> {{ $upload }}
                                                                     @endif
+                                                                </td>
                                                                 <td>{{ $adminapproval }}</td>
                                                                 <td>
                                                                     <div class="dropdown mt-1 btn-sm">
@@ -221,10 +213,135 @@
                                         </div>
                                         <!-- /.card -->
                                     </div>
-                                    <!-- /.col -->
+
                                 </div>
                             @else
-                                <div class="row"> User Approve</div>
+                            <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <table id="activeadmin"
+                                                    class="table table-bordered table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:200px">Carder Name(s)</th>
+                                                            <th style="width:200px">File Attached</th>
+                                                            <th style="width:200px">PS PDF File</th>
+                                                            <th style="width:70px">Approved On </th>
+                                                            <th style="width:40px">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($allactives as $key => $item)
+                                                            <?php
+                                                            $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
+                                                            $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
+                                                            $adminapproval = Carbon\Carbon::parse($item->ADMINApproval)->format('M d, Y');
+                                                            ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="#" title="View job description"
+                                                                        class="text-capitalize">
+                                                                        <?php $carders = explode(',', $item->CarderName);
+                                                                        ?>
+                                                                        @foreach ($carders as $carder)
+                                                                            <span>{{ $carder }}<br></span>
+                                                                        @endforeach
+
+                                                                </td>
+                                                                <td>
+                                                                    @if ($item->EXCEL)
+                                                                        <?php
+                                                                        $extname = $item->ext;
+                                                                        $Yr = explode('_', $item)[3];
+                                                                        $Month = explode('_', $item)[2];
+                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        if ($extname == 'pdf') {
+                                                                            $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
+                                                                        } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
+                                                                        }
+                                                                        ?>
+                                                                        <a href="#"
+                                                                            title="Preview {{ $item->finalEXCEL }}"
+                                                                            target="_blank">
+                                                                            @if ($item->ext == 'pdf')
+                                                                                <i style="color: red; font-size: 25px;"
+                                                                                    class="fas fa-file-pdf"></i>
+                                                                            @else
+                                                                                <i style="color: blue; font-size: 25px;"
+                                                                                    class="fas fa-file-word"></i>
+                                                                            @endif
+                                                                            {{ $finalEXCEL }}
+                                                                            &nbsp;&nbsp;
+                                                                        </a>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if ($item->PDF)
+                                                                        <?php
+                                                                        $Yr = explode('_', $item)[3];
+                                                                        $Month = explode('_', $item)[2];
+                                                                        $finalPDF = explode('_', $item->PDF)[5];
+
+                                                                        ?>
+                                                                        <a href="#"
+                                                                            title="Preview {{ $finalPDF }}"
+                                                                            target="_blank">
+                                                                            <i style="color: red; font-size: 30px;"
+                                                                                class="far fa-file-pdf"></i>{{ $finalPDF }}
+                                                                            &nbsp;&nbsp;
+
+                                                                        </a>
+                                                                    @endif<br>
+                                                                    Approved On: {{ $psdate }}
+                                                                </td>
+
+                                                                <td>{{ $adminapproval }}</td>
+                                                                <td>
+                                                                    <div class="dropdown mt-1 btn-sm">
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm dropdown-toggle"
+                                                                            href="#" role="button"
+                                                                            data-toggle="dropdown" arial-haspopup="true"
+                                                                            arial-expanded="false">
+                                                                            Action
+                                                                        </button>
+                                                                        <div class="dropdown-menu">
+                                                                            @if (Auth::user()->id == $item->UploadedBy)
+                                                                                <a href="#"
+                                                                                    class="ml-4 btn btn-sm btn-primary mt-1"><i
+                                                                                        class="fa fa-edit"></i></a>
+                                                                            @endif
+                                                                            <form method="post"
+                                                                                action="{{ route('scheme.soft.delete', $item->id) }}">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <input type="submit"
+                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    value="Delete">
+                                                                            </form>
+                                                                            <form
+                                                                                action="{{ route('delete.schemes', $item->id) }}"
+                                                                                method="post">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button
+                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    Permanent Delete
+                                                                                </button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+
+                                </div>
                             @endif
                         </div>
                         <div class="tab-pane" id="pending">
@@ -271,11 +388,8 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $finalEXCEL = explode('_', $item->EXCEL)[5];
                                                                         if ($extname == 'pdf') {
-                                                                            // $EXCELsize = Number::fileSize(File::size('storage/Schemes/' . $Yr . '/' . $Month . '/SCHEMEPDF/' . $item->EXCEL));
                                                                             $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
-                                                                        } else {
-                                                                            // $EXCELsize = Number::fileSize(File::size('storage/Schemes/' . $Yr . '/' . $Month . '/SCHEMEDOC/' . $item->EXCEL));
-                                                                            $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
+                                                                        } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
                                                                         }
                                                                         ?>
                                                                         <a href="#"
@@ -299,8 +413,6 @@
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
                                                                         $finalPDF = explode('_', $item->PDF)[5];
-                                                                        // $PDFsize = Number::fileSize(File::size('storage/Schemes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
-
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -383,7 +495,130 @@
                                     </div>
                                 </div>
                             @else
-                                <div class="row"> Pending User</div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <table id="pendinguser"
+                                                    class="table table-bordered table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Carder Name(s)</th>
+                                                            <th>File Attached</th>
+                                                            <th>PS PDF File</th>
+                                                            <th>PS Date</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($mypending as $key => $item)
+                                                            <?php
+                                                            $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
+                                                            $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
+                                                            $adminapproval = Carbon\Carbon::parse($item->ADMINApproval)->format('M d, Y');
+                                                            ?>
+                                                            <tr style=" align-items: self-start;">
+                                                                <td>
+                                                                    <a href="#" title="View job description"
+                                                                        class="text-capitalize">
+                                                                        <?php $carders = explode(',', $item->CarderName);
+                                                                        ?>
+                                                                        @foreach ($carders as $carder)
+                                                                            <span>{{ $carder }}<br></span>
+                                                                        @endforeach
+
+                                                                </td>
+                                                                <td>
+                                                                    @if ($item->EXCEL)
+                                                                        <?php
+                                                                        $extname = $item->ext;
+                                                                        $Yr = explode('_', $item)[3];
+                                                                        $Month = explode('_', $item)[2];
+                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        if ($extname == 'pdf') {
+                                                                            $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
+                                                                        } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
+                                                                        }
+                                                                        ?>
+                                                                        <a href="#"
+                                                                            title="Preview {{ $item->finalEXCEL }}"
+                                                                            target="_blank">
+                                                                            @if ($item->ext == 'pdf')
+                                                                                <i style="color: red; font-size: 25px;"
+                                                                                    class="fas fa-file-pdf"></i>
+                                                                            @else
+                                                                                <i style="color: blue; font-size: 25px;"
+                                                                                    class="fas fa-file-word"></i>
+                                                                            @endif
+                                                                            {{ $finalEXCEL }}
+                                                                            &nbsp;&nbsp;
+                                                                        </a>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if ($item->PDF)
+                                                                        <?php
+                                                                        $Yr = explode('_', $item)[3];
+                                                                        $Month = explode('_', $item)[2];
+                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        ?>
+                                                                        <a href="#"
+                                                                            title="Preview {{ $finalPDF }}"
+                                                                            target="_blank">
+                                                                            <i style="color: red; font-size: 30px;"
+                                                                                class="far fa-file-pdf"></i>{{ $finalPDF }}
+                                                                            &nbsp;&nbsp;
+
+                                                                        </a>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    {{ $psdate }}
+                                                                </td>
+                                                                <td>
+                                                                    <div class="dropdown mt-1 btn-sm">
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm dropdown-toggle"
+                                                                            href="#" role="button"
+                                                                            data-toggle="dropdown" arial-haspopup="true"
+                                                                            arial-expanded="false">
+                                                                            Action
+                                                                        </button>
+                                                                        <div class="dropdown-menu">
+                                                                            @if (Auth::user()->id == $item->UploadedBy)
+                                                                                <a href="#"
+                                                                                    class="ml-4 btn btn-sm btn-primary mt-1"><i
+                                                                                        class="fa fa-edit"></i></a>
+                                                                            @endif
+                                                                            <form method="post"
+                                                                                action="{{ route('scheme.soft.delete', $item->id) }}">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <input type="submit"
+                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    value="Delete">
+                                                                            </form>
+                                                                            <form
+                                                                                action="{{ route('delete.schemes', $item->id) }}"
+                                                                                method="post">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button
+                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    Permanent Delete
+                                                                                </button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                </div>
                             @endif
                         </div>
                         <div class="tab-pane" id="rejected">
@@ -429,11 +664,8 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $finalEXCEL = explode('_', $item->EXCEL)[5];
                                                                         if ($extname == 'pdf') {
-                                                                            // $EXCELsize = Number::fileSize(File::size('storage/Schemes/' . $Yr . '/' . $Month . '/SCHEMEPDF/' . $item->EXCEL));
                                                                             $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
-                                                                        } else {
-                                                                            // $EXCELsize = Number::fileSize(File::size('storage/Schemes/' . $Yr . '/' . $Month . '/SCHEMEDOC/' . $item->EXCEL));
-                                                                            $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
+                                                                        } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
                                                                         }
                                                                         ?>
                                                                         <a href="#"
@@ -458,8 +690,6 @@
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
                                                                         $finalPDF = explode('_', $item->PDF)[5];
-                                                                        // $PDFsize = Number::fileSize(File::size('storage/Schemes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
-
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -542,7 +772,130 @@
                                     </div>
                                 </div>
                             @else
-                                <div class="row"> Pending User</div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <table id="rejectuser"
+                                                    class="table table-bordered table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Carder Name(s)</th>
+                                                            <th>File Attached</th>
+                                                            <th>PS PDF File</th>
+                                                            <th>PS Date</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($myrejected as $key => $item)
+                                                            <?php
+                                                            $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
+                                                            $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
+                                                            $adminapproval = Carbon\Carbon::parse($item->ADMINApproval)->format('M d, Y');
+                                                            ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="#" title="View job description"
+                                                                        class="text-capitalize">
+                                                                        <?php $carders = explode(',', $item->CarderName);
+                                                                        ?>
+                                                                        @foreach ($carders as $carder)
+                                                                            <span>{{ $carder }}<br></span>
+                                                                        @endforeach
+                                                                </td>
+                                                                <td>
+                                                                    @if ($item->EXCEL)
+                                                                        <?php
+                                                                        $extname = $item->ext;
+                                                                        $Yr = explode('_', $item)[3];
+                                                                        $Month = explode('_', $item)[2];
+                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        if ($extname == 'pdf') {
+                                                                            $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
+                                                                        } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
+                                                                        }
+                                                                        ?>
+                                                                        <a href="#"
+                                                                            title="Preview {{ $item->finalEXCEL }}"
+                                                                            target="_blank">
+                                                                            @if ($item->ext == 'pdf')
+                                                                                <i style="color: red; font-size: 25px;"
+                                                                                    class="fas fa-file-pdf"></i>
+                                                                            @else
+                                                                                <i style="color: blue; font-size: 25px;"
+                                                                                    class="fas fa-file-word"></i>
+                                                                            @endif
+                                                                            {{ $finalEXCEL }}
+                                                                            &nbsp;&nbsp;
+
+                                                                        </a>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if ($item->PDF)
+                                                                        <?php
+                                                                        $Yr = explode('_', $item)[3];
+                                                                        $Month = explode('_', $item)[2];
+                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        ?>
+                                                                        <a href="#"
+                                                                            title="Preview {{ $finalPDF }}"
+                                                                            target="_blank">
+                                                                            <i style="color: red; font-size: 30px;"
+                                                                                class="far fa-file-pdf"></i>{{ $finalPDF }}
+                                                                            &nbsp;&nbsp;
+
+                                                                        </a>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    {{ $psdate }}
+                                                                </td>
+                                                                <td>
+                                                                    <div class="dropdown mt-1 btn-sm">
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm dropdown-toggle"
+                                                                            href="#" role="button"
+                                                                            data-toggle="dropdown" arial-haspopup="true"
+                                                                            arial-expanded="false">
+                                                                            Action
+                                                                        </button>
+                                                                        <div class="dropdown-menu">
+                                                                            @if (Auth::user()->id == $item->UploadedBy)
+                                                                                <a href="#"
+                                                                                    class="ml-4 btn btn-sm btn-primary mt-1"><i
+                                                                                        class="fa fa-edit"></i></a>
+                                                                            @endif
+                                                                            <form method="post"
+                                                                                action="{{ route('scheme.soft.delete', $item->id) }}">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <input type="submit"
+                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    value="Delete">
+                                                                            </form>
+                                                                            <form
+                                                                                action="{{ route('delete.jobs', $item->id) }}"
+                                                                                method="post">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button
+                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    Permanent Delete
+                                                                                </button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                </div>
                             @endif
                         </div>
                         <div class="tab-pane" id="trashed">
@@ -588,11 +941,8 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $finalEXCEL = explode('_', $item->EXCEL)[5];
                                                                         if ($extname == 'pdf') {
-                                                                            // $EXCELsize = Number::fileSize(File::size('storage/Schemes/' . $Yr . '/' . $Month . '/SCHEMEPDF/' . $item->EXCEL));
                                                                             $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
-                                                                        } else {
-                                                                            // $EXCELsize = Number::fileSize(File::size('storage/Schemes/' . $Yr . '/' . $Month . '/SCHEMEDOC/' . $item->EXCEL));
-                                                                            $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
+                                                                        } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
                                                                         }
                                                                         ?>
                                                                         <a href="#"
@@ -616,8 +966,6 @@
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
                                                                         $finalPDF = explode('_', $item->PDF)[5];
-                                                                        // $PDFsize = Number::fileSize(File::size('storage/Schemes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
-
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -680,7 +1028,125 @@
                                     </div>
                                 </div>
                             @else
-                                <div class="row"> Pending User</div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <table id="trasheduser"
+                                                    class="table table-bordered table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Carder Name(s)</th>
+                                                            <th>File Attached</th>
+                                                            <th>PS PDF File</th>
+                                                            <th>PS Date</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($mydeleted as $key => $item)
+                                                            <?php
+                                                            $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
+                                                            $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
+                                                            $adminapproval = Carbon\Carbon::parse($item->ADMINApproval)->format('M d, Y');
+                                                            ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="#" title="View job description"
+                                                                        class="text-capitalize">
+                                                                        <?php $carders = explode(',', $item->CarderName);
+                                                                        ?>
+                                                                        @foreach ($carders as $carder)
+                                                                            <span>{{ $carder }}<br></span>
+                                                                        @endforeach
+                                                                </td>
+                                                                <td>
+                                                                    @if ($item->EXCEL)
+                                                                        <?php
+                                                                        $extname = $item->ext;
+                                                                        $Yr = explode('_', $item)[3];
+                                                                        $Month = explode('_', $item)[2];
+                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        if ($extname == 'pdf') {
+                                                                            $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
+                                                                        } else {
+                                                                            $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
+                                                                        }
+                                                                        ?>
+                                                                        <a href="#"
+                                                                            title="Preview {{ $item->finalEXCEL }}"
+                                                                            target="_blank">
+                                                                            @if ($item->ext == 'pdf')
+                                                                                <i style="color: red; font-size: 25px;"
+                                                                                    class="fas fa-file-pdf"></i>&nbsp;&nbsp;
+                                                                            @else
+                                                                                <i style="color: blue; font-size: 25px;"
+                                                                                    class="fas fa-file-word"></i>&nbsp;&nbsp;
+                                                                            @endif
+                                                                            {{ $finalEXCEL }}
+                                                                            &nbsp;&nbsp;
+                                                                        </a>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if ($item->PDF)
+                                                                        <?php
+                                                                        $Yr = explode('_', $item)[3];
+                                                                        $Month = explode('_', $item)[2];
+                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        ?>
+                                                                        <a href="#"
+                                                                            title="Preview {{ $finalPDF }}"
+                                                                            target="_blank">
+                                                                            <i style="color: red; font-size: 30px;"
+                                                                                class="far fa-file-pdf"></i>&nbsp;&nbsp;{{ $finalPDF }}
+                                                                            &nbsp;&nbsp;
+
+                                                                        </a>
+
+                                                                    @endif<br>
+                                                                    Approved On: {{ $psdate }}
+                                                                </td>
+                                                                <td>
+                                                                    {{ $psdate }}
+                                                                </td>
+                                                                <td>
+                                                                    <div class="dropdown mt-1 btn-sm">
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm dropdown-toggle"
+                                                                            href="#" role="button"
+                                                                            data-toggle="dropdown" arial-haspopup="true"
+                                                                            arial-expanded="false">
+                                                                            Action
+                                                                        </button>
+                                                                        <div class="dropdown-menu">
+                                                                            <form method="post"
+                                                                                action="{{ route('scheme.restore', $item->id) }}">
+                                                                                @csrf
+                                                                                <input type="submit"
+                                                                                    class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                    value="Restore">
+                                                                            </form>
+
+                                                                            <form method="post"
+                                                                                action="{{ route('delete.jobs', $item->id) }}">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <input type="submit"
+                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    value="Permanent Delete">
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -688,9 +1154,9 @@
             </div>
 
 
-            <!-- /.row -->
+
         </div>
-        <!-- /.container-fluid -->
+
     </section>
 
 

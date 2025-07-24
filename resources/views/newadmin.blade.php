@@ -3,7 +3,7 @@
     Contact Us
 @endsection
 @section('content')
-    <!-- Content Header (Page header) -->
+
     <section class="content-header">
         <div class="container">
             <div class="row mb-2">
@@ -17,10 +17,10 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
-    <!-- Main content -->
+
     <section class="content">
 
         <!-- Default box -->
@@ -273,7 +273,7 @@
                                                                         </td>
                                                                         <td>{{ $item->url }}</td>
                                                                         <td>{{ $item->ip_address }}</td>
-                                                                        
+
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>
@@ -282,7 +282,7 @@
                                                 </div>
 
 
-                                                <!-- /.row -->
+
                                             </div>
 
                                         </div>
@@ -334,7 +334,7 @@
                                                 </div>
 
 
-                                                <!-- /.row -->
+
                                             </div>
 
                                         </div>

@@ -35,44 +35,47 @@ class AjaxController extends Controller
 
     public function FetchInstitution(Request $request)
     {
-        $institutes['institute'] = Institutions::where('entity', $request->entity_id)->get();
+        $institutes['institute'] = Institutions::where('lineMinistry', $request->entity_id)->get();
         return response()->json($institutes);
     }
-
     public function FetchMultipleInstitution(Request $request)
     {
+
         $data = $request->all();
-        $finalArray=[];
+        // dd($data);
+        $finalArray = [];
         foreach ($data as $key => $item) {
-            $rang   = $data['entities'];
+            $rang = $data['entities'];
             // $finalinst=Institutions::where('entity', $item)->get(['institution']);
-            $itemArray['entities']=$item;
+            $itemArray['entities'] = $item;
         }
 
         foreach ($itemArray as $key => $item) {
-            $testArray=$item;
+            $testArray = $item;
         }
-        $finalArray=$testArray;
-        $finalinst['entity']=Institutions::whereIn('entity', $finalArray)->get(['entity','institution']);
-       return response()->json($finalinst);
+        $finalArray      = $testArray;
+            $finalinst['entity'] = Institutions::whereIn('lineMinistry', $finalArray)->get(['entity', 'institution']);
+            return response()->json($finalinst);
 
     }
 
-    public function FetchCarder(Request $request){
+    public function FetchCarder(Request $request)
+    {
         // Carders::
 
-         $carders['carder'] = Carders::where('ministry', $request->carder_id)->get();
+        $carders['carder'] = Carders::where('ministry', $request->carder_id)->get();
         return response()->json($carders);
     }
 
-    public function FetchEstablishment(Request $request){
-        $files = UserFiles::select('user_files.id','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+    public function FetchEstablishment(Request $request)
+    {
+        $files = UserFiles::select('user_files.id', 'user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.status', 3)
             ->orderBy("created_at", "desc")->get(); // Master Query
-            dd($request->all());
+        dd($request->all());
     }
 
     public function getGraph(Request $request)
@@ -98,7 +101,6 @@ class AjaxController extends Controller
     }
 
 }
-
 
 // ,,'COUNT("user_files.Approve"),false AS Inactive'
 

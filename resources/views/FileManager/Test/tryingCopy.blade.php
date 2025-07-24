@@ -17,7 +17,7 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -31,10 +31,10 @@
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
 
-    <!-- Main content -->
+
     <section class="content">
       <div class="container-fluid">
         <div class="row">
@@ -58,9 +58,7 @@
                   <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
               </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
 
             <!-- DONUT CHART -->
             <div class="card card-danger">
@@ -79,9 +77,7 @@
               <div class="card-body">
                 <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
 
             <!-- PIE CHART -->
             <div class="card card-danger">
@@ -100,9 +96,7 @@
               <div class="card-body">
                 <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
 
           </div>
           <!-- /.col (LEFT) -->
@@ -126,9 +120,7 @@
                   <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
               </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
 
             <!-- BAR CHART -->
             <div class="card card-success">
@@ -149,9 +141,7 @@
                   <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
               </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
 
             <!-- STACKED BAR CHART -->
             <div class="card card-success">
@@ -172,15 +162,13 @@
                   <canvas id="stackedBarChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div>
               </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
 
           </div>
           <!-- /.col (RIGHT) -->
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+
+      </div>
     </section>
 
   </div>

@@ -3,7 +3,7 @@
     Calendar
 @endsection
 @section('content')
-    <!-- Content Header (Page header) -->
+
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -17,10 +17,10 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
-    <!-- Main content -->
+
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.col -->
+
                 <div class="col-md-9">
                     <div class="card card-primary">
                         <div class="card-body p-0">
@@ -91,10 +91,10 @@
                     </div>
                     <!-- /.card -->
                 </div>
-                <!-- /.col -->
+
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+
+        </div>
     </section>
 
     </div>

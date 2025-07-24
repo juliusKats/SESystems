@@ -3,7 +3,7 @@
      Vote Details
  @endsection
  @section('content')
-     <!-- Main Content -->
+
      <div class="main-content">
          <section class="section">
             <?php

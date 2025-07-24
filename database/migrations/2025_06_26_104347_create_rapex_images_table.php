@@ -17,9 +17,13 @@ return new class extends Migration
              $table->dateTime('UploadedOn')->useCurrent()->comment('Upload date');
             $table->bigInteger('rapex_id')->unsigned()->nullable();
             $table->longText('imagefiles')->nullable()->comment('Rapex Images');
+            $table->bigInteger('category_id')->unsigned()->nullable();
+            $table->longText('Description');
             $table->foreign('rapex_id')->references('id')->on('rapex_documents')->onDelete('cascade');
             $table->foreign('uploadedby')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('image_categories')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

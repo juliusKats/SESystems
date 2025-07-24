@@ -11,9 +11,28 @@ use Illuminate\Support\Facades\Auth;
 
 class SchemeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    //Action Dialog
+    public function DeteteDialog(Request $request,$id){
+        $file=ServiceScheme::findOrFail($id);
+        return view('FileManager.SCHEMES.Actions.Delete',compact('file'));
+    }
+    public function PerDeteteDialog(Request $request,$id){
+        $file=ServiceScheme::findOrFail($id);
+        return view('FileManager.SCHEMES.Actions.PerDelete',compact('file'));
+    }
+    public function RestoreDialog(Request $request,$id){
+        $file=ServiceScheme::findOrFail($id);
+        return view('FileManager.SCHEMES.Actions.Restore',compact('file'));
+    }
+    public function RejectDialog(Request $request,$id){
+        $file=ServiceScheme::findOrFail($id);
+        return view('FileManager.SCHEMES.Actions.Reject',compact('file'));
+    }
+    public function ApproveDialog(Request $request,$id){
+        $file=ServiceScheme::findOrFail($id);
+        return view('FileManager.SCHEMES.Actions.Approve',compact('file'));
+    }
     public function index()
     {
 
@@ -65,6 +84,11 @@ class SchemeController extends Controller
 
     public function store(Request $request)
     {
+        if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin') {
+            $status = 3;
+        } else {
+            $status = 2;
+        }
         $year  = date("Y");
         $month = date("M");
         $date  = Carbon::now();
@@ -161,6 +185,7 @@ class SchemeController extends Controller
             'WordFile'       => $pdfname,
             'ext'            => $ext,
             'PDFFile'=>$pdfname,
+            'status'=>$status,
             'ApprovedOn'=>$request->approvaldate,
             'comment'=>$schemecomment,
             'UploadedBy'=>Auth::user()->id,

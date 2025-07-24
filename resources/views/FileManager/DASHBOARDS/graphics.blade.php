@@ -3,7 +3,7 @@
     My dashboard
 @endsection
 @section('content')
-    <!-- Content Header (Page header) -->
+
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <!-- Main content -->
+
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -36,7 +36,7 @@
                     </div>
                     <!-- /.info-box -->
                 </div>
-                <!-- /.col -->
+
                 <div class="col-md-3 col-sm-6 col-12">
                     <div class="info-box">
                         <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
@@ -49,7 +49,7 @@
                     </div>
                     <!-- /.info-box -->
                 </div>
-                <!-- /.col -->
+
                 <div class="col-md-3 col-sm-6 col-12">
                     <div class="info-box">
                         <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
@@ -62,7 +62,7 @@
                     </div>
                     <!-- /.info-box -->
                 </div>
-                <!-- /.col -->
+
                 <div class="col-md-3 col-sm-6 col-12">
                     <div class="info-box">
                         <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
@@ -75,7 +75,7 @@
                     </div>
                     <!-- /.info-box -->
                 </div>
-                <!-- /.col -->
+
             </div>
             <div class="row">
                 <div class="col-lg-12">

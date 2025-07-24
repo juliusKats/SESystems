@@ -3,9 +3,9 @@
     Service Schemes
 @endsection
 @section('content')
-    <!-- Content Header (Page header) -->
+
     <div class="content-header"></div>
-    <!-- Main content -->
+
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -148,7 +148,7 @@
                                                         $Month = explode('_', $item)[2];
                                                         $finalPDF = explode('_', $item->PDF)[5];
                                                         $PDFsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
-                                                        
+
                                                         ?>
                                                         <i style="color: red; font-size: 30px;"
                                                             class="far fa-file-pdf"></i>{{ $finalPDF }}
@@ -191,8 +191,8 @@
                 </div>
                 <!-- /.col-md-6 -->
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+
+        </div>
     </div>
 @endsection
 @section('scripts')

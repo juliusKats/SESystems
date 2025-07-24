@@ -2,26 +2,24 @@
 @section('page_title') Establishment @endsection
 @section('content')
 
-
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
+ <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">Manage Establishment Documents</h1>
-                </div><!-- /.col -->
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('home.dashboard')}}">Home</a></li>
                         <li class="breadcrumb-item active">Establishment</li>
                     </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
 
-    <!-- Main content -->
+
+
     <section class="content">
         <div class="container-fluid">
             <div class="card">
@@ -66,7 +64,7 @@
                                     </div>
                                     <!-- /.card -->
                                 </div>
-                                <!-- /.col -->
+
                             </div>
 
                         </div>
@@ -77,9 +75,9 @@
             </div>
 
 
-            <!-- /.row -->
+
         </div>
-        <!-- /.container-fluid -->
+
     </section>
 
 

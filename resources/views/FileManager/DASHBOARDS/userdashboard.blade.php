@@ -3,7 +3,7 @@
     DashBoard
 @endsection
 @section('content')
-    <!-- Content Header (Page header) -->
+
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -17,10 +17,10 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
-    <!-- Main content -->
+
     <section class="content">
         <div class="container-fluid">
             <div class="card">
@@ -879,7 +879,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-md-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
@@ -892,7 +892,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
@@ -930,7 +930,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
@@ -961,7 +961,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-md-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
@@ -974,7 +974,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
@@ -1003,7 +1003,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-md-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
@@ -1016,7 +1016,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
@@ -1047,7 +1047,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-md-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
@@ -1060,7 +1060,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
@@ -1089,7 +1089,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-md-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
@@ -1102,7 +1102,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
@@ -1133,7 +1133,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-md-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
@@ -1146,7 +1146,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
@@ -1175,7 +1175,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-md-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
@@ -1188,7 +1188,7 @@
                                             </div>
                                             <!-- /.info-box -->
                                         </div>
-                                        <!-- /.col -->
+
                                         <div class="col-4">
                                             <div class="info-box">
                                                 <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
@@ -1211,7 +1211,7 @@
                     </div>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
 @endsection

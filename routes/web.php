@@ -2,9 +2,12 @@
 use App\Http\Controllers\Ajax\AjaxController;
 use App\Http\Controllers\Auditing\AuditController;
 use App\Http\Controllers\Dashboard\UserDashboardController;
+use App\Http\Controllers\File\EmailController;
 use App\Http\Controllers\File\EstablishmentController;
+use App\Http\Controllers\File\FrontEndController;
 use App\Http\Controllers\File\JobDescriptionController;
 use App\Http\Controllers\File\LineMinistryController;
+use App\Http\Controllers\File\mentController;
 use App\Http\Controllers\File\RapexController;
 use App\Http\Controllers\File\SchemeController;
 use App\Http\Controllers\File\VoteController;
@@ -26,6 +29,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use OwenIt\Auditing\Models\Audit;
+
 
 Route::get('/', function () {
     $yearz = "yearz";
@@ -90,7 +94,7 @@ Route::prefix('user/authentication')->group(function () {
         Route::get('/email/verify', 'EmailVerifyForm')->name('verification.notice');
         Route::post('/email/verify/send', 'VerificationSend')->middleware(['throttle:6,1'])->name('verification.send');
         Route::get('/email/verify/{id}/{hash}', 'EmailVerification')->middleware(['auth', 'signed'])->name('verification.verify');
-    //     Route::get('/email/verification/{id}/{hash}','EmailVerifications')->middleware(['auth', 'signed'])->name('verification.verify');
+        //     Route::get('/email/verification/{id}/{hash}','EmailVerifications')->middleware(['auth', 'signed'])->name('verification.verify');
     });
 });
 
@@ -108,14 +112,14 @@ Route::prefix('edbrs.com')->group(function () {
     Route::controller(HomeController::class)->group(function () {
 
         Route::get('/index/home', 'index')->name('home.dashboard');
-        Route::get('/establishment', 'Establishment')->name('establishment');
+        Route::get('/ment', 'ment')->name('ment');
         Route::get('/job/description', 'JobDescription')->name('jobdescription');
         Route::get('/Service/Schemes', 'ServiceSchemes')->name('servicescheme');
         Route::get('/RAPEX/documents', 'RapexDocuments')->name('rapexdocuments');
         Route::get('/system/faq', 'FrequentQuestions')->name('faq');
         Route::post('Ask/Your/Question', 'AskQuestion')->name('ask.question');
         Route::get('/contact/us', 'ContactUS')->name('contact-us');
-        Route::post('/contact/us/save/','ContactUsSave')->name('save.contact.us');
+        Route::post('/contact/us/save/', 'ContactUsSave')->name('save.contact.us');
         Route::get('/gallery', 'Gallery')->name('gallery');
 
         Route::get('/preview/{id}/uploaded/excel', 'previewExcel')->name('preview.excel.file');
@@ -126,6 +130,11 @@ Route::prefix('edbrs.com')->group(function () {
 
         Route::get('/viewing/{id}/file_details', 'ViewVote')->name('vote.view');
 
+        Route::get('/job/preview/{id}/approved/pdf', 'previewJobPDF')->name('job.description.preview');
+        Route::get('job/download/{id}/approved/pdf', 'downloadJobPDF')->name('job.description.download');
+
+        Route::get('/download/{id}/attachement/zip', 'createZip')->name('create.rapex.zip');
+//  job.description.download
     });
 });
 
@@ -137,8 +146,8 @@ Route::prefix('ajax')->group(function () {
         Route::get('fetch/barchat', 'getGraph')->name('fetch-chart');
         Route::get('fetch/test/chat', 'TestingChart')->name('fetch-test');
         Route::get('fetch/multiple/institution', 'FetchMultipleInstitution')->name('fetch-multiple-institution');
-        Route::get('fetch/carder','FetchCarder')->name('fetch-carder');
- Route::get('fetch/establishment','FetchEstablishment')->name('fetch-establishment');
+        Route::get('fetch/carder', 'FetchCarder')->name('fetch-carder');
+        Route::get('fetch/ment', 'Fetchment')->name('fetch-ment');
 
     });
 });
@@ -151,6 +160,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::post('vote/store', 'store')->name('vote.store');
             Route::put('vote/{id}/activate', 'changeStatus')->name('vote.active');
             Route::delete('vote/{id}/delete', 'destroy')->name('vote.delete');
+
+        });
+
+        Route::controller(EmailController::class)->group(function () {
+            Route::get('/inbox', 'MailInbox')->name('mail.inbox');
+            Route::get('/compose', 'MailCompose')->name('mail.compose');
+            Route::get('/read', 'MailRead')->name('mail.read');
 
         });
 
@@ -168,8 +184,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         // file controller
         Route::controller(EstablishmentController::class)->group(function () {
             // Route::get('/dashboard', 'Dashboard')->name('dashboard');
-            Route::get('Manage/Establishment/File', 'index')->name('file.list');
-            Route::get('Upload/Establishment/file', 'create')->name('file.create');
+            Route::get('Manage/ment/File', 'index')->name('file.list');
+            Route::get('Upload/ment/file', 'create')->name('file.create');
             Route::post('file/store', 'store')->name('file.store');
             Route::put('file/{id}/approve', 'ApproveFile')->name('file.approve');
             Route::get('file/{id}/reject', 'RejectFile')->name('file.reject');
@@ -182,25 +198,57 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::delete('/temporary{id}/delete', 'SoftDelete')->name('soft.delete');
             Route::post('/restore/{id}/soft', 'Restore')->name('vote.restore');
 
+                        // Action Route
+            Route::get('confirm/{id}/delete','DeteteDialog')->name('.confirm.delete');
+            Route::get('confirm/{id}/permanent/delete','PerDeteteDialog')->name('.confirm.permanent.delete');
+            Route::get('confirm/{id}/restore','RestoreDialog')->name('.confirm.restore');
+            Route::get('confirm/{id}/rejection','RejectDialog')->name('.reject.delete');
+            Route::get('confirm/{id}/Approval','ApproveDialog')->name('.confirm.approve');
+
+
         });
         Route::controller(JobDescriptionController::class)->group(function () {
             Route::get('Manage/Job/Description/Files', 'index')->name('job.file.list');
             Route::get('job/description/create', 'create')->name('job.file.create');
             Route::post('job/description/store', 'store')->name('job.file.store');
+            // Action Route
+            Route::get('confirm/{id}/delete','DeteteDialog')->name('jobs.confirm.delete');
+            Route::get('confirm/{id}/permanent/delete','PerDeteteDialog')->name('jobs.confirm.permanent.delete');
+            Route::get('confirm/{id}/restore','RestoreDialog')->name('jobs.confirm.restore');
+            Route::get('confirm/{id}/rejection','RejectDialog')->name('jobs.reject.delete');
+            Route::get('confirm/{id}/Approval','ApproveDialog')->name('jobs.confirm.approve');
+
             Route::delete('job/temporary{id}/delete', 'SoftDelete')->name('job.soft.delete');
             Route::post('job/restore/{id}/soft', 'Restore')->name('job.restore');
             Route::delete('job/{id}/delete/all/job/documents', 'deleteVote')->name('delete.jobs');
+            Route::put('job/{id}/approve', 'ApproveFile')->name('job.approve');
+            Route::get('job/{id}/reject', 'RejectFile')->name('job.reject');
+            Route::put('job/{id}/reject', 'RejectSave')->name('job.reject.save');
 
         });
         Route::controller(RapexController::class)->group(function () {
             Route::get('Manage/RAPEX/Files', 'index')->name('rapex.file.list');
             Route::get('rapex/create', 'create')->name('rapex.file.create');
             Route::post('rapex/store', 'store')->name('rapex.file.store');
+                        // Action Route
+            Route::get('confirm/{id}/delete','DeteteDialog')->name('rapex.confirm.delete');
+            Route::get('confirm/{id}/permanent/delete','PerDeteteDialog')->name('rapex.confirm.permanent.delete');
+            Route::get('confirm/{id}/restore','RestoreDialog')->name('rapex.confirm.restore');
+            Route::get('confirm/{id}/rejection','RejectDialog')->name('.reject.delete');
+            Route::get('confirm/{id}/Approval','ApproveDialog')->name('rapex.confirm.approve');
+
         });
         Route::controller(SchemeController::class)->group(function () {
             Route::get('scheme/service', 'index')->name('scheme.service.list');
             Route::get('scheme/upload/service', 'create')->name('scheme.service.upload');
             Route::post('scheme/store/service', 'store')->name('scheme.service.store');
+            // Action Route
+            Route::get('confirm/{id}/delete','DeteteDialog')->name('scheme.confirm.delete');
+            Route::get('confirm/{id}/permanent/delete','PerDeteteDialog')->name('scheme.confirm.permanent.delete');
+            Route::get('confirm/{id}/restore','RestoreDialog')->name('scheme.confirm.restore');
+            Route::get('confirm/{id}/rejection','RejectDialog')->name('scheme.reject.delete');
+            Route::get('confirm/{id}/Approval','ApproveDialog')->name('scheme.confirm.approve');
+
         });
 
         #Dashboard
@@ -214,7 +262,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
 Route::get('/checking', function (Request $request) {
 
-    return view('Test.calendar');
+    return view('FileManager.MENT/Actions.Delete');
 })->name('login.test');
 
 Route::get('/trying', function () {
@@ -249,7 +297,7 @@ Route::get('new/admin', function () {
     $activeverse   = Version::orderBy('created_at', 'desc')->where('status', true)->get();
     $inactiveverse = Version::orderBy('created_at', 'desc')->where('status', false)->get();
 
-    $activecenters  = ServiceCenter::orderBy('created_at', 'desc')->where('status', true)->get();
+    $activecenters   = ServiceCenter::orderBy('created_at', 'desc')->where('status', true)->get();
     $inactivecenters = ServiceCenter::orderBy('created_at', 'desc')->where('status', false)->get();
 
     $linesActive   = GovEntities::orderBy("created_at", "desc")->where('status', true)->get();
@@ -267,13 +315,13 @@ Route::get('new/admin', function () {
     $activeCardMin   = CardMinistries::orderBy("created_at", "desc")->where('status', true)->get();
     $inactiveCardMin = CardMinistries::orderBy("created_at", "desc")->where('status', false)->get();
 
-    $activeCard   =    Carders::select('carders.id', 'card_ministries.carderName as govmin', 'carders.cardname as carders', 'carders.status')
-    ->join ('card_ministries','card_ministries.id','=','carders.ministry')
-    ->where('carders.status', true);
+    $activeCard = Carders::select('carders.id', 'card_ministries.carderName as govmin', 'carders.cardname as carders', 'carders.status')
+        ->join('card_ministries', 'card_ministries.id', '=', 'carders.ministry')
+        ->where('carders.status', true);
 
     $inactiveCard = Carders::select('carders.id', 'card_ministries.carderName as govmin', 'carders.cardname as carders', 'carders.status')
-    ->join ('card_ministries','card_ministries.id','=','carders.ministry')
-    ->where('carders.status', false);
+        ->join('card_ministries', 'card_ministries.id', '=', 'carders.ministry')
+        ->where('carders.status', false);
 
     return view('newadmin',
         compact(
@@ -288,4 +336,18 @@ Route::get('new/admin', function () {
             'linesActive', 'linesInactive'
         )
     );
+});
+Route::controller(FrontEndController::class)->group(function () {
+    Route::get('/enduser/register', 'Register')->name('front.user.register');
+    Route::get('/enduser/login', 'Login')->name('front.user.login');
+    Route::get('/user/entry', 'index')->name('user.entry.page');
+    Route::get('/user/contact/us', 'contactus')->name('user.entry.contact');
+    Route::get('/user/frequent/question', 'FrequentQuestion')->name('user.frequent.question');
+    Route::get('/user/view/Establishment', 'Establishment')->name('user.establishment');
+Route::get('/user/view/Jobs/Description', 'Jobs')->name('user.job.description');
+ Route::get('/user/view/Service/Schemes', 'Schemes')->name('user.scheme');
+Route::get('/user/view/RAPEX/information', 'Rapex')->name('user.rapex');
+//  Route::get('/user/view/Service/Uganda', 'Service')->name('user.serviceug');
+
+    Route::get('/user/view/gallery', 'BlogFive')->name('user.blog');
 });

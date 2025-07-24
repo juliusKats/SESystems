@@ -3,16 +3,41 @@ namespace App\Http\Controllers\File;
 
 use App\Http\Controllers\Controller;
 use App\Models\GovEntities;
+use App\Models\ImageCategory;
 use App\Models\RapexDocuments;
 use App\Models\RapexImages;
+use App\Models\RapexVideo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rules\RequiredIf;
 
 class RapexController extends Controller
 {
+
+    //Action Dialog
+    public function DeteteDialog(Request $request,$id){
+        $file=RAPEXDocuments::findOrFail($id);
+        return view('FileManager.RAPEX.Actions.Delete',compact('file'));
+    }
+    public function PerDeteteDialog(Request $request,$id){
+        $file=RAPEXDocuments::findOrFail($id);
+        return view('FileManager.RAPEX.Actions.PerDelete',compact('file'));
+    }
+    public function RestoreDialog(Request $request,$id){
+        $file=RAPEXDocuments::findOrFail($id);
+        return view('FileManager.RAPEX.Actions.Restore',compact('file'));
+    }
+    public function RejectDialog(Request $request,$id){
+        $file=RAPEXDocuments::findOrFail($id);
+        return view('FileManager.RAPEX.Actions.Reject',compact('file'));
+    }
+    public function ApproveDialog(Request $request,$id){
+        $file=RAPEXDocuments::findOrFail($id);
+        return view('FileManager.RAPEX.Actions.Approve',compact('file'));
+    }
     public function index(Request $request)
     {
         $allactive = DB::table('rapex_documents')->select
@@ -70,13 +95,19 @@ class RapexController extends Controller
     public function create(Request $request)
     {
         $entities = GovEntities::all();
-        return view("FileManager.Rapex.add", compact("entities"));
+        $categories = ImageCategory::all();
+        return view("FileManager.Rapex.add", compact("entities",'categories'));
 
     }
 
     public function store(Request $request)
     {
         // dd($request->all());
+        if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin') {
+            $status = 3;
+        } else {
+            $status = 2;
+        }
         $year  = date("Y");
         $month = date("M");
         $date  = Carbon::now();
@@ -94,6 +125,9 @@ class RapexController extends Controller
             'images.*'    => 'nullable|mimes:png,jpg,jpg|max:4094',
             'link'        => 'nullable|url',
             'comment'     => 'string|required|min:5',
+            'video'=>'nullable|file|mimes:avi,divx,flv,m4v,mkv,mov,mp4,mpeg,mpg,ogm,ogv,ogx,rm,rmvb,smil,webm,wmv,xvid',
+            'categrory'=>'required_if:images,!=null|exists:image_categories,id',
+            'description'=>'required_if:images,!=null'
         ]);
         // dd($data);
 
@@ -156,11 +190,18 @@ class RapexController extends Controller
                 $originalImageName = $image->getClientOriginalName();
                 $imagename         = $datef . $originalImageName;
 
-                $imgpath    = $image->move(public_path('storage/gallery/Establishment'), $imagename);
+                $imgpath    = $image->move(public_path('storage/gallery/RAPEX'), $imagename);
                 $imgArray[] = $imagename;
 
             }
             $pictureArray = implode(",", $imgArray);
+        }
+
+        if($request->hasFile('video')){
+            $video=$request->file('video');
+            $videoname = $video->getClientOriginalName();
+            $videoNewName =$year."_".$month."_".$videoname;
+            $videopath=$video->move(public_path('storage/Rapex/Video/'.$year."/".$month),$videoNewName);
         }
 
         $rpdoc = RapexDocuments::create([
@@ -168,16 +209,28 @@ class RapexController extends Controller
             'institution' => $instituteArray,
             'file'        => $documentArray,
             'comment'     => $rapexcomment,
+            'status'=>$status,
             'zoomlink'    => $request->link,
             'UploadedBy'  => Auth::user()->id,
         ]);
         // dd($entity);
 
-        if ($pictureArray != "" or $pictureArray != null) {
+        // if ($pictureArray != "" or $pictureArray != null) {
+         if ($request->hasFile('images')!=null && $rpdoc ) {
             RapexImages::create([
                 'uploadedby' => Auth::user()->id,
                 'rapex_id'   => $rpdoc->id,
                 'imagefiles' => $pictureArray,
+                'category_id'=>$request->category,
+                'Description'=>$request->description
+            ]);
+        }
+
+        if($request->video !=null && $rpdoc ){
+            RapexVideo::create([
+                'uploadedby' => Auth::user()->id,
+                'rapex_id'   => $rpdoc->id,
+                'videofiles' => $videoNewName,
             ]);
         }
 
@@ -212,7 +265,6 @@ class RapexController extends Controller
             return redirect()->route('scheme.service.list')->with('success', 'Vote Activated');
         }
     }
-
     public function Reject(Request $request, $id)
     {
         $Rapex = RapexDocuments::findOrFail($id);
@@ -260,7 +312,6 @@ class RapexController extends Controller
             return redirect()->route('scheme.file.reject', $id)->with('error', 'Something Went Wrong');
         }
     }
-
     public function SoftDelete(Request $request, $id)
     {
         $file             = RapexDocuments::findOrFail($id);
@@ -271,7 +322,6 @@ class RapexController extends Controller
         $file->delete();
         return redirect()->route('rapex.file.list')->with('success', 'File moved to Bin successfully');
     }
-
     public function Restore($id)
     {
         $vote = RapexDocuments::withTrashed()->findOrFail($id);
@@ -282,7 +332,6 @@ class RapexController extends Controller
         $vote->save();
         return redirect()->route('rapex.file.list')->with('success', 'File Restored successfully');
     }
-
     public function Delete(Request $request, $id)
     {
         $Rapex         = RapexDocuments::findOrFail($id);

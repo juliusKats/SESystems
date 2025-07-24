@@ -3,7 +3,7 @@
     Add Vote
 @endsection
 @section('main_content')
-    <!-- Main Content -->
+
     <div class="main-content">
         <section class="section">
             <div class="section-header">

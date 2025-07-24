@@ -6,17 +6,19 @@ use App\Models\CardMinistries;
 use App\Models\DocStatus;
 use App\Models\Entities;
 use App\Models\GovEntities;
+use App\Models\ImageCategory;
 use App\Models\Institutions;
 use App\Models\Questions;
+use App\Models\ServiceCenter;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Version;
 use App\Models\VoteDetails;
+// use App\Models\ImageCategory;
 use App\Models\YearMonths;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
-use App\Models\ServiceCenter;
 
 class DefaultSeeders extends Seeder
 {
@@ -25,6 +27,16 @@ class DefaultSeeders extends Seeder
      */
     public function run(): void
     {
+         $imgcat1 = ImageCategory::create(['Category' => 'General', 'status' => false]);
+        $imgcat2 = ImageCategory::create(['Category' => 'Life Style', 'status' => false]);
+        $imgcat3 = ImageCategory::create(['Category' => 'Travel', 'status' => false]);
+        $imgcat4 = ImageCategory::create(['Category' => 'Design', 'status' => false]);
+        $imgcat5 = ImageCategory::create(['Category' => 'Creative', 'status' => false]);
+        $imgcat6 = ImageCategory::create(['Category' => 'Education', 'status' => false]);
+        $imgcat7 = ImageCategory::create(['Category' => 'Meetings', 'status' => false]);
+        $imgcat8 = ImageCategory::create(['Category' => 'Others', 'status' => false]);
+         $imgcat8 = ImageCategory::create(['Category' => 'Finance', 'status' => false]);
+
 
         $status1 = DocStatus::create(['statusName' => 'None']);
         $status1 = DocStatus::create(['statusName' => 'Pending']);

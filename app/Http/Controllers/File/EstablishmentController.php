@@ -22,6 +22,28 @@ class EstablishmentController extends Controller
         $user = Auth::user();
         return view("FileManager.ESTABLISHMENT.Dashboard", compact("user", ));
     }
+    //Action Dialog
+    public function DeteteDialog(Request $request,$id){
+        $file=UserFiles::findOrFail($id);
+        return view('FileManager.ESTABLISHMENT.Actions.Delete',compact('file'));
+    }
+    public function PerDeteteDialog(Request $request,$id){
+        $file=UserFiles::findOrFail($id);
+        return view('FileManager.ESTABLISHMENT.Actions.PerDelete',compact('file'));
+    }
+    public function RestoreDialog(Request $request,$id){
+        $file=UserFiles::findOrFail($id);
+        return view('FileManager.ESTABLISHMENT.Actions.Restore',compact('file'));
+    }
+    public function RejectDialog(Request $request,$id){
+        $file=UserFiles::findOrFail($id);
+        return view('FileManager.ESTABLISHMENT.Actions.Reject',compact('file'));
+    }
+    public function ApproveDialog(Request $request,$id){
+        $file=UserFiles::findOrFail($id);
+        return view('FileManager.ESTABLISHMENT.Actions.Approve',compact('file'));
+    }
+
     public function index()
     {
         //Deleted
@@ -95,7 +117,11 @@ class EstablishmentController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        $status = "Pending";
+        if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin') {
+            $status = 3;
+        } else {
+            $status = 2;
+        }
 
         $year  = date("Y");
         $month = date("M");
@@ -169,6 +195,7 @@ class EstablishmentController extends Controller
                 'pdffile'     => $pfname,
                 'versionname' => $request->version,
                 'ApprovedOn'  => $request->approvaldate,
+                'status'=>$status,
                 'comment'     => $votecomment,
                 'UploadedBy'  => Auth::user()->id,
 

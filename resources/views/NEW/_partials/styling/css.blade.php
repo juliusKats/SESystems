@@ -14,6 +14,8 @@
 <!-- fullCalendar -->
   <link rel="stylesheet" href="{{ asset('system/plugins/fullcalendar/main.css')}}">
   
+   <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{{ asset('system/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
    <!-- daterange picker -->
   <link rel="stylesheet" href="{{ asset('system/plugins/daterangepicker/daterangepicker.css')}}">
    <!-- Select2 -->

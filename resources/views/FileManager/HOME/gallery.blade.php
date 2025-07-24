@@ -3,7 +3,7 @@
     Gallery
 @endsection
 @section('content')
-    <!-- Content Header (Page header) -->
+
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -17,10 +17,10 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
-    <!-- Main content -->
+
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -34,14 +34,12 @@
                                 <div class="btn-group w-100 mb-2">
                                     <a class="btn btn-info active" href="javascript:void(0)" data-filter="all"> All items
                                     </a>
-                                    <a class="btn btn-info" href="javascript:void(0)" data-filter="1"> Category 1 (WHITE)
-                                    </a>
-                                    <a class="btn btn-info" href="javascript:void(0)" data-filter="2"> Category 2 (BLACK)
-                                    </a>
-                                    <a class="btn btn-info" href="javascript:void(0)" data-filter="3"> Category 3 (COLORED)
-                                    </a>
-                                    <a class="btn btn-info" href="javascript:void(0)" data-filter="4"> Category 4 (COLORED,
-                                        BLACK) </a>
+                                    @foreach ($categories as $item)
+
+                                    <a class="btn btn-info" href="javascript:void(0)" data-filter="{{ $item->Category }}"> {{ $item->Category }}</a>
+
+                                    @endforeach
+
                                 </div>
                                 <div class="mb-2">
                                     <a class="btn btn-secondary" href="javascript:void(0)" data-shuffle> Shuffle items </a>
@@ -288,7 +286,7 @@
                     </div>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
 @endsection
