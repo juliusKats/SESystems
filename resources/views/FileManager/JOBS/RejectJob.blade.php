@@ -34,7 +34,7 @@
                      <div class="col-md-1"></div>
                      <div class="col-md-10">
                          <div class="card card-body">
-                             @if (session('success'))
+                             {{-- @if (session('success'))
                                  <div class="card card-success">
                                      <div class="card-header">
                                          <h3 class="card-title">{{ session('success') }}</h3>
@@ -63,7 +63,7 @@
                                          </div>
                                      </div>
                                  </div>
-                             @endif
+                             @endif --}}
                              <div class="row">
                                  <div class="col-md-6">
                                      <div class="form-group row">

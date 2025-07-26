@@ -8,54 +8,19 @@
                 <div class="col-sm-6">
                     <h1 class="m-0">Manage RAPEX Documents</h1>
                 </div>
-
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('home.dashboard') }}">Home</a></li>
                         <li class="breadcrumb-item active">Rapex</li>
                     </ol>
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-                @if (session('success'))
-                    <div class="card card-success">
-                        <div class="card-header">
-                            <h3 class="card-title">{{ session('success') }}</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (session('error'))
-                    <div class="card card-danger">
-                        <div class="card-header">
-                            <h3 class="card-title">{{ session('error') }}</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
                 <div class="card-header p-2">
                     <a href="{{ route('rapex.file.create') }}" class="btn btn-primary float float-right mt-3 mr-3">UPLOAD
                         DOCUMENTS</a>
@@ -214,14 +179,14 @@
                                                                                 @csrf
                                                                                 @method('PUT')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                    class="btn-softdelete btn btn-sm ml-4 mt-2 btn-default"
                                                                                     value="Trash">
                                                                             </form>
                                                                             <form method="post" action="#">
                                                                                 @csrf
                                                                                 @method('PUT')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                    class="btn-delete btn btn-sm ml-4 mt-2 btn-default"
                                                                                     value="Delete">
                                                                             </form>
                                                                         @endif
@@ -390,21 +355,19 @@
                                                                                     @csrf
                                                                                     @method('PUT')
                                                                                     <input type="submit"
-                                                                                        class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                        class="btn-softdelete btn btn-sm ml-4 mt-2 btn-default"
                                                                                         value="Trash">
                                                                                 </form>
                                                                                 <form method="post" action="#">
                                                                                     @csrf
-                                                                                    @method('PUT')
+                                                                                    @method('DELETE')
                                                                                     <input type="submit"
-                                                                                        class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                        class="btn-delete btn btn-sm ml-4 mt-2 btn-default"
                                                                                         value="Delete">
                                                                                 </form>
                                                                             @endif
-
                                                                         </div>
                                                                     </div>
-
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -438,7 +401,6 @@
                                                                     <div class="card card-primary">
                                                                         <div class="card-header">
                                                                             <h3 class="card-title">Line Ministries</h3>
-
                                                                             <div class="card-tools">
                                                                                 <button type="button"
                                                                                     class="btn btn-tool"
@@ -486,7 +448,6 @@
                                                                     <div class="card card-primary">
                                                                         <div class="card-header">
                                                                             <h3 class="card-title">Uploaded Files</h3>
-
                                                                             <div class="card-tools">
                                                                                 <button type="button"
                                                                                     class="btn btn-tool"
@@ -561,21 +522,20 @@
                                                                                         @csrf
                                                                                         @method('PUT')
                                                                                         <input type="submit"
-                                                                                            class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                            class="btn-softdelete btn btn-sm ml-4 mt-2 btn-default"
                                                                                             value="Trash">
                                                                                     </form>
                                                                                     <form method="post" action="#">
                                                                                         @csrf
                                                                                         @method('PUT')
                                                                                         <input type="submit"
-                                                                                            class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                            class="btn-delete btn btn-sm ml-4 mt-2 btn-default"
                                                                                             value="Delete">
                                                                                     </form>
                                                                                 </div>
                                                                             @endif
                                                                         </div>
                                                                     </div>
-
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -740,21 +700,19 @@
                                                                                     @csrf
                                                                                     @method('PUT')
                                                                                     <input type="submit"
-                                                                                        class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                        class="btn-softdelete btn btn-sm ml-4 mt-2 btn-default"
                                                                                         value="Trash">
                                                                                 </form>
                                                                                 <form method="post" action="#">
                                                                                     @csrf
                                                                                     @method('PUT')
                                                                                     <input type="submit"
-                                                                                        class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                        class="btn-delete btn btn-sm ml-4 mt-2 btn-default"
                                                                                         value="Delete">
                                                                                 </form>
                                                                             @endif
-
                                                                         </div>
                                                                     </div>
-
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -909,27 +867,25 @@
                                                                                         @csrf
                                                                                         @method('PUT')
                                                                                         <input type="submit"
-                                                                                            class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                            class="btn-softdelete btn btn-sm ml-4 mt-2 btn-default"
                                                                                             value="Trash">
                                                                                     </form>
                                                                                     <form method="post" action="#">
                                                                                         @csrf
                                                                                         @method('PUT')
                                                                                         <input type="submit"
-                                                                                            class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                            class="btn-delete btn btn-sm ml-4 mt-2 btn-default"
                                                                                             value="Delete">
                                                                                     </form>
                                                                                 </div>
                                                                             @endif
                                                                         </div>
                                                                     </div>
-
                                                                 </td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
                                                 </table>
-
                                             </div>
                                         </div>
                                         <!-- /.card -->
@@ -960,7 +916,6 @@
                                                                     <div class="card card-primary">
                                                                         <div class="card-header">
                                                                             <h3 class="card-title">Line Ministries</h3>
-
                                                                             <div class="card-tools">
                                                                                 <button type="button"
                                                                                     class="btn btn-tool"
@@ -1075,14 +1030,14 @@
                                                                                 @csrf
                                                                                 @method('PUT')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                    class="btn-restore btn btn-sm ml-4 mt-2 btn-default"
                                                                                     value="Restore">
                                                                             </form>
                                                                             <form method="post" action="#">
                                                                                 @csrf
                                                                                 @method('PUT')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                    class="btn-delete btn btn-sm ml-4 mt-2 btn-default"
                                                                                     value="Delete">
                                                                             </form>
                                                                         </div>
@@ -1259,10 +1214,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </section>
-
 @endsection
 @section('scripts')

@@ -17,42 +17,9 @@
             </div>
         </div>
     </div>
-
-
-
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-                @if (session('success'))
-                    <div class="card card-success">
-                        <div class="card-header">
-                            <h3 class="card-title">{{ session('success') }}</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (session('error'))
-                    <div class="card card-danger">
-                        <div class="card-header">
-                            <h3 class="card-title">{{ session('error') }}</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
                 <div class="card-header p-2">
                     <a href="{{ route('scheme.service.upload') }}" class="btn btn-primary float float-right mt-3 mr-3">UPLOAD
                         DOCUMENTS</a>
@@ -175,7 +142,7 @@
                                                                                 @csrf
                                                                                 @method('PUT')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                    class="btn-deactive btn btn-sm ml-4 mt-2 btn-default"
                                                                                     value="Deactivate?">
                                                                             </form>
                                                                              <a href="{{ route('scheme.reject', $item->id) }}"
@@ -186,7 +153,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    class="btn-softdelete btn btn-danger btn-sm ml-4 mt-1"
                                                                                     value="Delete">
                                                                             </form>
                                                                             @if ($item->status == 'Active' || $item->status == 'Pending')
@@ -199,7 +166,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <button
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
                                                                                     Permanent Delete
                                                                                 </button>
                                                                             </form>
@@ -213,7 +180,6 @@
                                         </div>
                                         <!-- /.card -->
                                     </div>
-
                                 </div>
                             @else
                             <div class="row">
@@ -317,7 +283,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    class="btn-softdelete btn btn-danger btn-sm ml-4 mt-1"
                                                                                     value="Delete">
                                                                             </form>
                                                                             <form
@@ -326,7 +292,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <button
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
                                                                                     Permanent Delete
                                                                                 </button>
                                                                             </form>
@@ -455,7 +421,7 @@
                                                                                 @csrf
                                                                                 @method('PUT')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-sm ml-4 mt-2 btn-success"
+                                                                                    class="btn-approve btn btn-sm ml-4 mt-2 btn-success"
                                                                                     value="Approve?">
                                                                             </form>
                                                                              <a href="{{ route('scheme.reject', $item->id) }}"
@@ -466,7 +432,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    class="btn-softdelete btn btn-danger btn-sm ml-4 mt-1"
                                                                                     value="Delete">
                                                                             </form>
                                                                             @if ($item->status == 'Active' || $item->status == 'Pending')
@@ -479,7 +445,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <button
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
                                                                                     Permanent Delete
                                                                                 </button>
                                                                             </form>
@@ -595,7 +561,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    class="btn-softdelete btn btn-danger btn-sm ml-4 mt-1"
                                                                                     value="Delete">
                                                                             </form>
                                                                             <form
@@ -604,7 +570,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <button
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
                                                                                     Permanent Delete
                                                                                 </button>
                                                                             </form>
@@ -732,7 +698,7 @@
                                                                                 @csrf
                                                                                 @method('PUT')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                    class="btn-deactive btn btn-sm ml-4 mt-2 btn-default"
                                                                                     value="Deactivate?">
                                                                             </form>
                                                                              <a href="{{ route('scheme.reject', $item->id) }}"
@@ -743,7 +709,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    class="btn-softdelete btn btn-danger btn-sm ml-4 mt-1"
                                                                                     value="Delete">
                                                                             </form>
                                                                             @if ($item->status == 'Active' || $item->status == 'Pending')
@@ -756,7 +722,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <button
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
                                                                                     Permanent Delete
                                                                                 </button>
                                                                             </form>
@@ -872,7 +838,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    class="btn-softdelete btn btn-danger btn-sm ml-4 mt-1"
                                                                                     value="Delete">
                                                                             </form>
                                                                             <form
@@ -881,7 +847,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <button
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
                                                                                     Permanent Delete
                                                                                 </button>
                                                                             </form>
@@ -1004,7 +970,7 @@
                                                                                 action="{{ route('scheme.restore', $item->id) }}">
                                                                                 @csrf
                                                                                 <input type="submit"
-                                                                                    class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                    class="btn-restore btn btn-sm ml-4 mt-2 btn-default"
                                                                                     value="Restore">
                                                                             </form>
 
@@ -1013,7 +979,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    class="btn-delete btn-danger btn-sm ml-4 mt-1"
                                                                                     value="Permanent Delete">
                                                                             </form>
                                                                         </div>
@@ -1124,7 +1090,7 @@
                                                                                 action="{{ route('scheme.restore', $item->id) }}">
                                                                                 @csrf
                                                                                 <input type="submit"
-                                                                                    class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                    class="btn-restore btn btn-sm ml-4 mt-2 btn-default"
                                                                                     value="Restore">
                                                                             </form>
 
@@ -1152,11 +1118,7 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
-
     </section>
 
 

@@ -22,7 +22,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-                  @if (session('success'))
+                  {{-- @if (session('success'))
                     <div class="card card-success">
                         <div class="card-header">
                             <h3 class="card-title">{{ session('success') }}</h3>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                     </div>
-                @endif
+                @endif --}}
                 <div class="card-header p-2">
                     <a href="#" class="btn btn-success float float-right">Add Institution</a>
                     <ul class="nav nav-pills">

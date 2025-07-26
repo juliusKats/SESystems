@@ -40,17 +40,18 @@
 <script src="{{ asset('system/plugins/ekko-lightbox/ekko-lightbox.min.js')}}"></script>
 <!-- Filterizr-->
 <script src="{{ asset('system/plugins/filterizr/jquery.filterizr.min.js')}}"></script>
+<!-- SweetAlert2 -->
+<script src="{{ asset('system/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
+<!-- Toastr -->
+<script src="{{ asset('system/plugins/toastr/toastr.min.js')}}"></script>
 
 <!-- AdminLTE App -->
     <script src="{{ asset('system/dist/js/adminlte.min.js') }}"></script>
-
-
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-{{-- <script src="{{asset('system/dist/js/pages/dashboard3.js')}}"></script> --}}
  <!-- Page Specific -->
  <script src="{{ asset('system/pagespecific/datatable.js')}}"></script>
  <script src="{{ asset('system/pagespecific/advancedform.js')}}"></script>
   <script src="{{ asset('system/pagespecific/gallery.js')}}"></script>
+  <script src="{{ asset('system/pagespecific/actionalerts.js')}}"></script>
 
 
 

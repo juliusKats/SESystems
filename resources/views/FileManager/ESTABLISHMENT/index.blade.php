@@ -1,8 +1,10 @@
 @extends('NEW.AUTH.layout')
-@section('page_title') Establishment @endsection
+@section('page_title')
+    Establishment
+@endsection
 @section('content')
 
-<div class="content-header">
+    <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -23,36 +25,6 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-                @if (session('success'))
-                    <div class="card card-success">
-                        <div class="card-header">
-                            <h3 class="card-title">{{ session('success') }}</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (session('error'))
-                    <div class="card card-danger">
-                        <div class="card-header">
-                            <h3 class="card-title">{{ session('error') }}</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
                 <div class="card-header p-2">
                     <a href="{{ route('file.create') }}" class="btn btn-success float float-right">UPLOAD DOCUMENTS</a>
                     <ul class="nav nav-pills">
@@ -87,7 +59,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-
+                                                            
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -165,13 +137,13 @@
                                                                                     class="ml-4 btn btn-sm btn-primary mt-1"><i
                                                                                         class="fa fa-edit"></i></a>
                                                                             @endif
-                                                                            <a href="{{ route('establishment.confirm.approved',$item->id) }}">Deactivate</a>
+                                                                            
                                                                             <form method="post"
                                                                                 action="{{ route('file.approve', $item->id) }}">
                                                                                 @csrf
                                                                                 @method('PUT')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-sm ml-4 mt-2 btn-default"
+                                                                                    class="btn btn-sm ml-4 mt-2 btn-default btn-deactive"
                                                                                     value="Deactivate?">
                                                                             </form>
 
@@ -180,7 +152,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    class="btn btn-danger btn-sm ml-4 mt-1 btn-softdelete"
                                                                                     value="Delete">
                                                                             </form>
                                                                             @if ($item->status == 'Active' || $item->status == 'Pending')
@@ -193,7 +165,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <button
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    class="btn btn-danger btn-sm ml-4 mt-1 btn-delete">
                                                                                     Permanent Delete
                                                                                 </button>
                                                                             </form>
@@ -232,7 +204,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-
+                                                            
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -338,7 +310,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-
+                                                            
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -411,16 +383,25 @@
                                                                         <div class="dropdown-menu">
                                                                             @if (Auth::user()->id == $item->UploadedBy)
                                                                                 <a href="#"
-                                                                                    class="ml-4 btn btn-sm btn-primary mt-1"><i
+                                                                                    class="ml-4 btn btn-sm btn-outline-primary mt-1"><i
                                                                                         class="fa fa-edit"></i></a>
                                                                             @endif
-                                                                            <a class="btn btn-sm btn-success" href="{{ route('establishment.confirm.approved',$item->id) }}">Approve?</a>
+
+                                                                            <form method="post"
+                                                                                action="{{ route('file.approve', $item->id) }}">
+                                                                                @csrf
+                                                                                @method('PUT')
+                                                                                <button type="submit"
+                                                                                    class="btn btn-sm ml-4 btn-outline-success btn-approve mt-1"
+                                                                                    data-dismiss="modal">
+                                                                                    <i class="fa fa-check-circle"></i></button>
+                                                                            </form>
                                                                             <form method="post"
                                                                                 action="{{ route('soft.delete', $item->id) }}">
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    class="btn btn-danger btn-softdelete btn-sm ml-4 mt-1"
                                                                                     value="Delete">
                                                                             </form>
                                                                             @if ($item->status == 'Active' || $item->status == 'Pending')
@@ -433,7 +414,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <button
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    class="btn btn-danger btn-delete btn-sm ml-4 mt-1">
                                                                                     Permanent Delete
                                                                                 </button>
                                                                             </form>
@@ -471,7 +452,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->ApprovedOn)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-
+                                                            
                                                             ?>
                                                             <tr>
                                                                 <td>
@@ -543,8 +524,8 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
-                                                                                    value="Delete">
+                                                                                    class="btn-softdelete btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    value="Archive">
                                                                             </form>
 
                                                                             <form
@@ -553,14 +534,13 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <button
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
-                                                                                    Permanent Delete
+                                                                                    class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    Delete
                                                                                 </button>
                                                                             </form>
                                                                         </div>
                                                                     </div>
                                                                 </td>
-
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -595,7 +575,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-
+                                                            
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -676,7 +656,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    class="btn-softdelete btn btn-danger btn-sm ml-4 mt-1"
                                                                                     value="Delete">
                                                                             </form>
                                                                             <form method="post"
@@ -684,7 +664,7 @@
                                                                                 @csrf
                                                                                 @method('PUT')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-success btn-sm ml-4 mt-1"
+                                                                                    class="btn-approve btn btn-success btn-sm ml-4 mt-1"
                                                                                     value="ReApprove">
                                                                             </form>
 
@@ -699,14 +679,13 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <button
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
                                                                                     Permanent Delete
                                                                                 </button>
                                                                             </form>
                                                                         </div>
                                                                     </div>
                                                                 </td>
-
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -737,7 +716,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-
+                                                            
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -809,7 +788,7 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    class="btn-softdelete btn btn-danger btn-sm ml-4 mt-1"
                                                                                     value="Delete">
                                                                             </form>
                                                                             @if ($item->status == 'Active' || $item->status == 'Pending')
@@ -822,14 +801,13 @@
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <button
-                                                                                    class="btn btn-danger btn-sm ml-4 mt-1">
+                                                                                    class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
                                                                                     Permanent Delete
                                                                                 </button>
                                                                             </form>
                                                                         </div>
                                                                     </div>
                                                                 </td>
-
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -864,7 +842,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-
+                                                            
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -945,7 +923,7 @@
                                                                                     enctype="multipart/form-data">
                                                                                     @csrf
                                                                                     <button
-                                                                                        class=" ml-4 btn btn-success btn-sm mt-2">
+                                                                                        class="btn-restore ml-4 btn btn-success btn-sm mt-2">
                                                                                         <i
                                                                                             class="fa fa-regular fa-recycle"></i>
                                                                                     </button>
@@ -957,7 +935,7 @@
                                                                                     @csrf
                                                                                     @method('DELETE')
                                                                                     <button
-                                                                                        class=" ml-4 btn btn-danger btn-sm mt-2">
+                                                                                        class=" btn-delete ml-4 btn btn-danger btn-sm mt-2">
                                                                                         <i
                                                                                             class="fa fa-regular fa-trash"></i>
                                                                                     </button>
@@ -997,7 +975,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-
+                                                            
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -1100,14 +1078,9 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
-
     </section>
-
-
-
 @endsection
 @section('scripts')
+    
+@endsection

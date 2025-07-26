@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="col-7">
-                    @if (session('success'))
+                    {{-- @if (session('success'))
                     <div class="card card-success">
                         <div class="card-header">
                             <h3 class="card-title">{{ session('success') }}</h3>
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                     </div>
-                @endif
+                @endif --}}
                     <form method="post" action="{{route('save.contact.us')}}">
                         @csrf
                     <div class="form-group row">

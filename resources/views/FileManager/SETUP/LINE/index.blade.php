@@ -23,7 +23,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                  @if (session('success'))
+                  {{-- @if (session('success'))
                     <div class="card card-success">
                         <div class="card-header">
                             <h3 class="card-title">{{ session('success') }}</h3>
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                     </div>
-                @endif
+                @endif --}}
                 <div class="col-md-9">
                     <div class="card">
 
