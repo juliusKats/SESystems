@@ -1,45 +1,49 @@
-@extends('NEW.NON.layout')
-@section('page_title')
-    UnAthorised User
+@extends('FileManager.FrontEnd._layout')
+@section('title')
+    Login Error
 @endsection
 @section('content')
+    <section class="text text-white"  style="background-image: url('{{ asset('system/Default/sys4.jpeg') }}'); background-size: cover; background-repeat: no-repeat">
 
-    <section class="content-header" >
-      <div class="container-fluid" >
-        <div class="row mb-2">
-            <div class="col-sm-2"></div>
-          <div class="col-sm-8">
-            <h1 class="text-danger"><strong>ELECTRONIC DATA BACKUP & RECOVERY SYSTEM (EDBRS)</strong></h1>
-          </div>
-          <div class="col-sm-2">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{ route('home.dashboard') }}">Home</a></li>
-              <li class="breadcrumb-item active">Error Login</li>
-            </ol>
-          </div>
+    <div class="justify-content-center" style="height: 50px;background-color: #37517e">
+
+        <marquee class="blink" behavior="scroll" direction="left" scrollamount="5"
+            style=" font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bolder; font-size: xx-large;">
+            <img src="{{ asset('system/frontEnd/img/bg/word.webp') }}" style="width: 1000px; color: blue;" alt="">
+        </marquee>
+    </div>
+    <div class="page-title" data-aos="fade" style="height: 50px;background-color: #37517e">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10">
+                    <h1>Login Error</h1>
+                </div>
+                <div class="col-md-2">
+                    <nav class="breadcrumbs">
+                        <ol>
+                            <li><a href="{{ route('user.entry.page') }}">Home</a></li>
+                            <li class="current">LoginError</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
-
-
-    <section class="content" >
-      <div class="card container" >
-        <h3 class="headline  text-center"><strong>Hello</strong> <strong style="color: blue">{{ Auth::user()->sname}} {{ Auth::user()->fname }} {{ Auth::user()->oname }}</strong></h3><hr>
-        {{-- <h2 class="headline text-danger text-center">Login Error</h2> --}}
-
-        <div class="error-content">
-          <h3><i class="fas fa-exclamation-triangle text-danger"></i>Your Account Is inactive or Disabled.</h3>
-
-          <p>
-            Contact the System Administrator to Activate or Enable your accouth.
-            Meanwhile, you may <a href="{{ route('home.dashboard') }}">return to Home</a>.
-          </p>
-
-
+    </div>
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="text-center">
+            <h2 class="error-title mt-4" data-aos="fade-up" data-aos-delay="400"><strong>Hello</strong> <strong
+                    style="color: white">{{ Auth::user()->sname }} {{ Auth::user()->fname }}
+                    {{ Auth::user()->oname }}</strong></h2>
+            <hr>
+            <h3 class="text text-white"><i class="fas fa-exclamation-triangle text-danger mt-1 error-title" data-aos="fade-up"
+                    data-aos-delay="400"></i>Your Account Is inactive or Disabled.</h3>
+            <p style="font-size: 28px; font: bold;" class="error-text mb-4" data-aos="fade-up" data-aos-delay="500">
+                Contact the System Administrator to Activate or Enable your account.
+            </p>
+            <div class="error-action" data-aos="fade-up" data-aos-delay="700">
+                <a href="/" class="btn btn-primary">Back to Home</a>
+            </div>
         </div>
-      </div>
-      <!-- /.error-page -->
-
+    </div>
     </section>
-
 @endsection

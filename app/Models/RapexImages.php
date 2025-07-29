@@ -14,4 +14,5 @@ class RapexImages extends Model implements AuditableContract
     use Auditable;
     //
     protected $fillable=['uploadedby', 'rapex_id', 'imagefiles','category_id','Description'];
+    protected $dates = ['deleted_at'];
 }

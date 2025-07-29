@@ -43,7 +43,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-2">
-                                    <label>Carder</label>
+                                    <label>Line Ministry</label>
                                     <select id="carder" name="ministry" required
                                         class="form-control select2 @error('ministry') is-invalid @enderror">
                                         <option value="">Select Ministry</option>
@@ -77,10 +77,10 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-2">
-                                    <label>Upload File</label><span>(pdf and word)</span>
+                                    <label>Word File</label><span>(word)</span>
                                     <input required name="fileupload" type="file"
                                         class="form-control @error('fileupload') is-invalid @enderror"
-                                        accept=".doc,.docx,.pdf" value="{{ old('fileupload') }}">
+                                        accept=".doc,.docx" value="{{ old('fileupload') }}">
                                     @error('fileupload')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -110,6 +110,23 @@
                                         class="form-control @error('approvaldate')is-invalid @enderror"
                                         value="{{ old('approvaldate') }}">
                                     @error('approvaldate')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-2">
+                                    <label>Document Version </label>
+                                    <select name="version" class="form-control select2" required>
+                                        <option>Select Version</option>
+                                        @foreach ($versions as $item )
+                                          <option value="{{ $item->id }}">{{ $item->versionname }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    @error('version')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -146,7 +163,15 @@
             var cardername = $(this).val()
             console.log(cardername)
             if (cardername == 0) {
-                alert('Select a valid ministry')
+                Swal.fire({
+                    title: 'Select a valid ministry',
+                    icon:'info',
+                    timer:2500
+                })
+                txtinput.innerText =""
+                 $('#cardername').html('<option = ""> Select Carder Name</option>')
+
+
                 txtinput.setAttribute('required', 'required');
             } else {
                 $.ajax({

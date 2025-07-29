@@ -13,7 +13,7 @@
         </nav>
         <h1>Blog</h1>
       </div>
-    </div><!-- End Page Title -->
+    </div>
 
     <div class="container">
       <div class="row">

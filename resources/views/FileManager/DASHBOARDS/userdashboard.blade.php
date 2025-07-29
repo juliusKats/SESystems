@@ -995,9 +995,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $Votestoday }}
+                                                                    {{ $Jobtoday }}
                                                                 @else
-                                                                    {{ $myVotestoday }}
+                                                                    {{ $myJobtoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -1016,9 +1016,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActivetoday }}
+                                                                    {{ $JobActivetoday }}
                                                                 @else
-                                                                    {{ $myVotesActivetoday }}
+                                                                    {{ $myJobActivetoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -1037,9 +1037,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingtoday }}
+                                                                    {{ $JobPendingtoday }}
                                                                 @else
-                                                                    {{ $myVotesPendingtoday }}
+                                                                    {{ $myJobPendingtoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -1058,9 +1058,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejecttoday }}
+                                                                    {{ $JobRejecttoday }}
                                                                 @else
-                                                                    {{ $myVotesRejecttoday }}
+                                                                    {{ $myJobRejecttoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -1111,9 +1111,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $Votesyesterday }}
+                                                                    {{ $Jobyesterday }}
                                                                 @else
-                                                                    {{ $myVotesyesterday }}
+                                                                    {{ $myJobyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -1132,9 +1132,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveyesterday }}
+                                                                    {{ $JobActiveyesterday }}
                                                                 @else
-                                                                    {{ $myVotesActiveyesterday }}
+                                                                    {{ $myJobActiveyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -1153,9 +1153,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectyesterday }}
+                                                                    {{ $JobRejectyesterday }}
                                                                 @else
-                                                                    {{ $myVotesRejectyesterday }}
+                                                                    {{ $myJobRejectyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -1174,9 +1174,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingyesterday }}
+                                                                    {{ $JobPendingyesterday }}
                                                                 @else
-                                                                    {{ $myVotesPendingyesterday }}
+                                                                    {{ $myJobPendingyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -1227,9 +1227,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $Voteslastweek }}
+                                                                    {{ $Joblastweek }}
                                                                 @else
-                                                                    {{ $myVoteslastweek }}
+                                                                    {{ $myJoblastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -1248,9 +1248,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActivelastweek }}
+                                                                    {{ $JobActivelastweek }}
                                                                 @else
-                                                                    {{ $myVotesActivelastweek }}
+                                                                    {{ $myJobActivelastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -1269,9 +1269,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectlastweek }}
+                                                                    {{ $JobRejectlastweek }}
                                                                 @else
-                                                                    {{ $myVotesRejectlastweek }}
+                                                                    {{ $myJobRejectlastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -1290,9 +1290,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendinglastweek }}
+                                                                    {{ $JobPendinglastweek }}
                                                                 @else
-                                                                    {{ $myVotesPendinglastweek }}
+                                                                    {{ $myJobPendinglastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -1343,9 +1343,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesThisweek }}
+                                                                    {{ $JobThisweek }}
                                                                 @else
-                                                                    {{ $myVotesThisweek }}
+                                                                    {{ $myJobThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -1364,9 +1364,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveThisweek }}
+                                                                    {{ $JobActiveThisweek }}
                                                                 @else
-                                                                    {{ $myVotesActiveThisweek }}
+                                                                    {{ $myJobActiveThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -1385,9 +1385,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectThisweek }}
+                                                                    {{ $JobRejectThisweek }}
                                                                 @else
-                                                                    {{ $myVotesRejectThisweek }}
+                                                                    {{ $myJobRejectThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -1406,9 +1406,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingThisweek }}
+                                                                    {{ $JobPendingThisweek }}
                                                                 @else
-                                                                    {{ $myVotesPendingThisweek }}
+                                                                    {{ $myJobPendingThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -1459,7 +1459,7 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesThisMonth }} @else{{ $myVotesThisMonth }}
+                                                                    {{ $JobThisMonth }} @else{{ $myJobThisMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -1478,9 +1478,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveThisweek }}
+                                                                    {{ $JobActiveThisweek }}
                                                                 @else
-                                                                    {{ $myVotesActiveThisweek }}
+                                                                    {{ $myJobActiveThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -1499,9 +1499,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectThisMonth }}
+                                                                    {{ $JobRejectThisMonth }}
                                                                 @else
-                                                                    {{ $myVotesRejectThisMonth }}
+                                                                    {{ $myJobRejectThisMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -1520,9 +1520,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingThisMonth }}
+                                                                    {{ $JobPendingThisMonth }}
                                                                 @else
-                                                                    {{ $myVotesPendingThisMonth }}
+                                                                    {{ $myJobPendingThisMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -1573,9 +1573,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesLastMonth }}
+                                                                    {{ $JobLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesLastMonth }}
+                                                                    {{ $myJobLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -1594,9 +1594,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveLastMonth }}
+                                                                    {{ $JobActiveLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesActiveLastMonth }}
+                                                                    {{ $myJobActiveLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -1615,9 +1615,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectLastMonth }}
+                                                                    {{ $JobRejectLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesRejectLastMonth }}
+                                                                    {{ $myJobRejectLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -1636,9 +1636,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingLastMonth }}
+                                                                    {{ $JobPendingLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesPendingLastMonth }}
+                                                                    {{ $myJobPendingLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -1689,9 +1689,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesThisYear }}
+                                                                    {{ $JobThisYear }}
                                                                 @else
-                                                                    {{ $myVotesThisYear }}
+                                                                    {{ $myJobThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -1710,9 +1710,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveThisYear }}
+                                                                    {{ $JobActiveThisYear }}
                                                                 @else
-                                                                    {{ $myVotesActiveThisYear }}
+                                                                    {{ $myJobActiveThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -1731,9 +1731,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectThisYear }}
+                                                                    {{ $JobRejectThisYear }}
                                                                 @else
-                                                                    {{ $myVotesRejectThisYear }}
+                                                                    {{ $myJobRejectThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -1752,9 +1752,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingThisYear }}
+                                                                    {{ $JobPendingThisYear }}
                                                                 @else
-                                                                    {{ $myVotesPendingThisYear }}
+                                                                    {{ $myJobPendingThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -1805,9 +1805,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesLastYear }}
+                                                                    {{ $JobLastYear }}
                                                                 @else
-                                                                    {{ $myVotesLastYear }}
+                                                                    {{ $myJobLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -1826,9 +1826,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveLastYear }}
+                                                                    {{ $JobActiveLastYear }}
                                                                 @else
-                                                                    {{ $myVotesActiveLastYear }}
+                                                                    {{ $myJobActiveLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -1847,9 +1847,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectLastYear }}
+                                                                    {{ $JobRejectLastYear }}
                                                                 @else
-                                                                    {{ $myVotesRejectLastYear }}
+                                                                    {{ $myJobRejectLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -1868,9 +1868,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingLastYear }}
+                                                                    {{ $JobPendingLastYear }}
                                                                 @else
-                                                                    {{ $myVotesPendingLastYear }}
+                                                                    {{ $myJobPendingLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -1925,9 +1925,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $Votestoday }}
+                                                                    {{ $Schemetoday }}
                                                                 @else
-                                                                    {{ $myVotestoday }}
+                                                                    {{ $mySchemetoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -1946,9 +1946,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActivetoday }}
+                                                                    {{ $SchemeActivetoday }}
                                                                 @else
-                                                                    {{ $myVotesActivetoday }}
+                                                                    {{ $mySchemeActivetoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -1967,9 +1967,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingtoday }}
+                                                                    {{ $SchemePendingtoday }}
                                                                 @else
-                                                                    {{ $myVotesPendingtoday }}
+                                                                    {{ $mySchemePendingtoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -1988,9 +1988,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejecttoday }}
+                                                                    {{ $SchemeRejecttoday }}
                                                                 @else
-                                                                    {{ $myVotesRejecttoday }}
+                                                                    {{ $mySchemeRejecttoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -2043,9 +2043,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $Votesyesterday }}
+                                                                    {{ $Schemeyesterday }}
                                                                 @else
-                                                                    {{ $myVotesyesterday }}
+                                                                    {{ $mySchemeyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -2064,9 +2064,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveyesterday }}
+                                                                    {{ $SchemeActiveyesterday }}
                                                                 @else
-                                                                    {{ $myVotesActiveyesterday }}
+                                                                    {{ $mySchemeActiveyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -2085,9 +2085,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectyesterday }}
+                                                                    {{ $SchemeRejectyesterday }}
                                                                 @else
-                                                                    {{ $myVotesRejectyesterday }}
+                                                                    {{ $mySchemeRejectyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -2106,9 +2106,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingyesterday }}
+                                                                    {{ $SchemePendingyesterday }}
                                                                 @else
-                                                                    {{ $myVotesPendingyesterday }}
+                                                                    {{ $mySchemePendingyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -2161,9 +2161,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $Voteslastweek }}
+                                                                    {{ $Schemelastweek }}
                                                                 @else
-                                                                    {{ $myVoteslastweek }}
+                                                                    {{ $mySchemelastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -2182,9 +2182,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActivelastweek }}
+                                                                    {{ $SchemeActivelastweek }}
                                                                 @else
-                                                                    {{ $myVotesActivelastweek }}
+                                                                    {{ $mySchemeActivelastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -2203,9 +2203,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectlastweek }}
+                                                                    {{ $SchemeRejectlastweek }}
                                                                 @else
-                                                                    {{ $myVotesRejectlastweek }}
+                                                                    {{ $mySchemeRejectlastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -2224,9 +2224,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendinglastweek }}
+                                                                    {{ $SchemePendinglastweek }}
                                                                 @else
-                                                                    {{ $myVotesPendinglastweek }}
+                                                                    {{ $mySchemePendinglastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -2279,9 +2279,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesThisweek }}
+                                                                    {{ $SchemeThisweek }}
                                                                 @else
-                                                                    {{ $myVotesThisweek }}
+                                                                    {{ $mySchemeThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -2300,9 +2300,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveThisweek }}
+                                                                    {{ $SchemeActiveThisweek }}
                                                                 @else
-                                                                    {{ $myVotesActiveThisweek }}
+                                                                    {{ $mySchemeActiveThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -2321,9 +2321,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectThisweek }}
+                                                                    {{ $SchemeRejectThisweek }}
                                                                 @else
-                                                                    {{ $myVotesRejectThisweek }}
+                                                                    {{ $mySchemeRejectThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -2342,9 +2342,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingThisweek }}
+                                                                    {{ $SchemePendingThisweek }}
                                                                 @else
-                                                                    {{ $myVotesPendingThisweek }}
+                                                                    {{ $mySchemePendingThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -2397,7 +2397,7 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesThisMonth }} @else{{ $myVotesThisMonth }}
+                                                                    {{ $SchemeThisMonth }} @else{{ $mySchemeThisMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -2416,9 +2416,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveThisweek }}
+                                                                    {{ $SchemeActiveThisweek }}
                                                                 @else
-                                                                    {{ $myVotesActiveThisweek }}
+                                                                    {{ $mySchemeActiveThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -2437,9 +2437,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectThisMonth }}
+                                                                    {{ $SchemeRejectThisMonth }}
                                                                 @else
-                                                                    {{ $myVotesRejectThisMonth }}
+                                                                    {{ $mySchemeRejectThisMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -2458,9 +2458,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingThisMonth }}
+                                                                    {{ $SchemePendingThisMonth }}
                                                                 @else
-                                                                    {{ $myVotesPendingThisMonth }}
+                                                                    {{ $mySchemePendingThisMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -2513,9 +2513,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesLastMonth }}
+                                                                    {{ $SchemeLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesLastMonth }}
+                                                                    {{ $mySchemeLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -2534,9 +2534,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveLastMonth }}
+                                                                    {{ $SchemeActiveLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesActiveLastMonth }}
+                                                                    {{ $mySchemeActiveLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -2555,9 +2555,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectLastMonth }}
+                                                                    {{ $SchemeRejectLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesRejectLastMonth }}
+                                                                    {{ $mySchemeRejectLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -2576,9 +2576,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingLastMonth }}
+                                                                    {{ $SchemePendingLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesPendingLastMonth }}
+                                                                    {{ $mySchemePendingLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -2631,9 +2631,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesThisYear }}
+                                                                    {{ $SchemeThisYear }}
                                                                 @else
-                                                                    {{ $myVotesThisYear }}
+                                                                    {{ $mySchemeThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -2652,9 +2652,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveThisYear }}
+                                                                    {{ $SchemeActiveThisYear }}
                                                                 @else
-                                                                    {{ $myVotesActiveThisYear }}
+                                                                    {{ $mySchemeActiveThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -2673,9 +2673,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectThisYear }}
+                                                                    {{ $SchemeRejectThisYear }}
                                                                 @else
-                                                                    {{ $myVotesRejectThisYear }}
+                                                                    {{ $mySchemeRejectThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -2694,9 +2694,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingThisYear }}
+                                                                    {{ $SchemePendingThisYear }}
                                                                 @else
-                                                                    {{ $myVotesPendingThisYear }}
+                                                                    {{ $mySchemePendingThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -2749,9 +2749,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesLastYear }}
+                                                                    {{ $SchemeLastYear }}
                                                                 @else
-                                                                    {{ $myVotesLastYear }}
+                                                                    {{ $mySchemeLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -2770,9 +2770,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveLastYear }}
+                                                                    {{ $SchemeActiveLastYear }}
                                                                 @else
-                                                                    {{ $myVotesActiveLastYear }}
+                                                                    {{ $mySchemeActiveLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -2791,9 +2791,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectLastYear }}
+                                                                    {{ $SchemeRejectLastYear }}
                                                                 @else
-                                                                    {{ $myVotesRejectLastYear }}
+                                                                    {{ $mySchemeRejectLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -2812,9 +2812,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingLastYear }}
+                                                                    {{ $SchemePendingLastYear }}
                                                                 @else
-                                                                    {{ $myVotesPendingLastYear }}
+                                                                    {{ $mySchemePendingLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -2869,9 +2869,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $Votestoday }}
+                                                                    {{ $Rapextoday }}
                                                                 @else
-                                                                    {{ $myVotestoday }}
+                                                                    {{ $myRapextoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -2890,9 +2890,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActivetoday }}
+                                                                    {{ $RapexActivetoday }}
                                                                 @else
-                                                                    {{ $myVotesActivetoday }}
+                                                                    {{ $myRapexActivetoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -2911,9 +2911,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingtoday }}
+                                                                    {{ $RapexPendingtoday }}
                                                                 @else
-                                                                    {{ $myVotesPendingtoday }}
+                                                                    {{ $myRapexPendingtoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -2932,9 +2932,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejecttoday }}
+                                                                    {{ $RapexRejecttoday }}
                                                                 @else
-                                                                    {{ $myVotesRejecttoday }}
+                                                                    {{ $myRapexRejecttoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -2987,9 +2987,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $Votesyesterday }}
+                                                                    {{ $Rapexyesterday }}
                                                                 @else
-                                                                    {{ $myVotesyesterday }}
+                                                                    {{ $myRapexyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -3008,9 +3008,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveyesterday }}
+                                                                    {{ $RapexActiveyesterday }}
                                                                 @else
-                                                                    {{ $myVotesActiveyesterday }}
+                                                                    {{ $myRapexActiveyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -3029,9 +3029,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectyesterday }}
+                                                                    {{ $RapexRejectyesterday }}
                                                                 @else
-                                                                    {{ $myVotesRejectyesterday }}
+                                                                    {{ $myRapexRejectyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -3050,9 +3050,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingyesterday }}
+                                                                    {{ $RapexPendingyesterday }}
                                                                 @else
-                                                                    {{ $myVotesPendingyesterday }}
+                                                                    {{ $myRapexPendingyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -3105,9 +3105,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $Voteslastweek }}
+                                                                    {{ $Rapexlastweek }}
                                                                 @else
-                                                                    {{ $myVoteslastweek }}
+                                                                    {{ $myRapexlastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -3126,9 +3126,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActivelastweek }}
+                                                                    {{ $RapexActivelastweek }}
                                                                 @else
-                                                                    {{ $myVotesActivelastweek }}
+                                                                    {{ $myRapexActivelastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -3147,9 +3147,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectlastweek }}
+                                                                    {{ $RapexRejectlastweek }}
                                                                 @else
-                                                                    {{ $myVotesRejectlastweek }}
+                                                                    {{ $myRapexRejectlastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -3168,9 +3168,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendinglastweek }}
+                                                                    {{ $RapexPendinglastweek }}
                                                                 @else
-                                                                    {{ $myVotesPendinglastweek }}
+                                                                    {{ $myRapexPendinglastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -3223,9 +3223,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesThisweek }}
+                                                                    {{ $RapexThisweek }}
                                                                 @else
-                                                                    {{ $myVotesThisweek }}
+                                                                    {{ $myRapexThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -3244,9 +3244,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveThisweek }}
+                                                                    {{ $RapexActiveThisweek }}
                                                                 @else
-                                                                    {{ $myVotesActiveThisweek }}
+                                                                    {{ $myRapexActiveThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -3265,9 +3265,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectThisweek }}
+                                                                    {{ $RapexRejectThisweek }}
                                                                 @else
-                                                                    {{ $myVotesRejectThisweek }}
+                                                                    {{ $myRapexRejectThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -3286,9 +3286,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingThisweek }}
+                                                                    {{ $RapexPendingThisweek }}
                                                                 @else
-                                                                    {{ $myVotesPendingThisweek }}
+                                                                    {{ $myRapexPendingThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -3341,7 +3341,7 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesThisMonth }} @else{{ $myVotesThisMonth }}
+                                                                    {{ $RapexThisMonth }} @else{{ $myRapexThisMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -3360,9 +3360,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveThisweek }}
+                                                                    {{ $RapexActiveThisweek }}
                                                                 @else
-                                                                    {{ $myVotesActiveThisweek }}
+                                                                    {{ $myRapexActiveThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -3381,9 +3381,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectThisMonth }}
+                                                                    {{ $RapexRejectThisMonth }}
                                                                 @else
-                                                                    {{ $myVotesRejectThisMonth }}
+                                                                    {{ $myRapexRejectThisMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -3402,9 +3402,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingThisMonth }}
+                                                                    {{ $RapexPendingThisMonth }}
                                                                 @else
-                                                                    {{ $myVotesPendingThisMonth }}
+                                                                    {{ $myRapexPendingThisMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -3457,9 +3457,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesLastMonth }}
+                                                                    {{ $RapexLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesLastMonth }}
+                                                                    {{ $myRapexLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -3478,9 +3478,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveLastMonth }}
+                                                                    {{ $RapexActiveLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesActiveLastMonth }}
+                                                                    {{ $myRapexActiveLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -3499,9 +3499,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectLastMonth }}
+                                                                    {{ $RapexRejectLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesRejectLastMonth }}
+                                                                    {{ $myRapexRejectLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -3520,9 +3520,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingLastMonth }}
+                                                                    {{ $RapexPendingLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesPendingLastMonth }}
+                                                                    {{ $myRapexPendingLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -3575,9 +3575,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesThisYear }}
+                                                                    {{ $RapexThisYear }}
                                                                 @else
-                                                                    {{ $myVotesThisYear }}
+                                                                    {{ $myRapexThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -3596,9 +3596,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveThisYear }}
+                                                                    {{ $RapexActiveThisYear }}
                                                                 @else
-                                                                    {{ $myVotesActiveThisYear }}
+                                                                    {{ $myRapexActiveThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -3617,9 +3617,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectThisYear }}
+                                                                    {{ $RapexRejectThisYear }}
                                                                 @else
-                                                                    {{ $myVotesRejectThisYear }}
+                                                                    {{ $myRapexRejectThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -3638,9 +3638,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingThisYear }}
+                                                                    {{ $RapexPendingThisYear }}
                                                                 @else
-                                                                    {{ $myVotesPendingThisYear }}
+                                                                    {{ $myRapexPendingThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -3693,9 +3693,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesLastYear }}
+                                                                    {{ $RapexLastYear }}
                                                                 @else
-                                                                    {{ $myVotesLastYear }}
+                                                                    {{ $myRapexLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -3714,9 +3714,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveLastYear }}
+                                                                    {{ $RapexActiveLastYear }}
                                                                 @else
-                                                                    {{ $myVotesActiveLastYear }}
+                                                                    {{ $myRapexActiveLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -3735,9 +3735,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectLastYear }}
+                                                                    {{ $RapexRejectLastYear }}
                                                                 @else
-                                                                    {{ $myVotesRejectLastYear }}
+                                                                    {{ $myRapexRejectLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -3756,9 +3756,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingLastYear }}
+                                                                    {{ $RapexPendingLastYear }}
                                                                 @else
-                                                                    {{ $myVotesPendingLastYear }}
+                                                                    {{ $myRapexPendingLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -3777,13 +3777,13 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="tab-pane" id="serviceuganda">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="card card-success">
                                         <div class="card-header">
                                             <h3 class="card-title">Today</h3>
-
                                             <div class="card-tools">
                                                 <button type="button" class="btn btn-tool"
                                                     data-card-widget="card-refresh"
@@ -3813,9 +3813,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $Votestoday }}
+                                                                    {{ $SUtoday }}
                                                                 @else
-                                                                    {{ $myVotestoday }}
+                                                                    {{ $mySUtoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -3834,9 +3834,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActivetoday }}
+                                                                    {{ $SUActivetoday }}
                                                                 @else
-                                                                    {{ $myVotesActivetoday }}
+                                                                    {{ $mySUActivetoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -3855,9 +3855,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingtoday }}
+                                                                    {{ $SUPendingtoday }}
                                                                 @else
-                                                                    {{ $myVotesPendingtoday }}
+                                                                    {{ $mySUPendingtoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -3876,9 +3876,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejecttoday }}
+                                                                    {{ $SURejecttoday }}
                                                                 @else
-                                                                    {{ $myVotesRejecttoday }}
+                                                                    {{ $mySURejecttoday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -3931,9 +3931,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $Votesyesterday }}
+                                                                    {{ $SUyesterday }}
                                                                 @else
-                                                                    {{ $myVotesyesterday }}
+                                                                    {{ $mySUyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -3952,9 +3952,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveyesterday }}
+                                                                    {{ $SUActiveyesterday }}
                                                                 @else
-                                                                    {{ $myVotesActiveyesterday }}
+                                                                    {{ $mySUActiveyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -3973,9 +3973,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectyesterday }}
+                                                                    {{ $SURejectyesterday }}
                                                                 @else
-                                                                    {{ $myVotesRejectyesterday }}
+                                                                    {{ $mySURejectyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -3994,9 +3994,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingyesterday }}
+                                                                    {{ $SUPendingyesterday }}
                                                                 @else
-                                                                    {{ $myVotesPendingyesterday }}
+                                                                    {{ $mySUPendingyesterday }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -4049,9 +4049,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $Voteslastweek }}
+                                                                    {{ $SUlastweek }}
                                                                 @else
-                                                                    {{ $myVoteslastweek }}
+                                                                    {{ $mySUlastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -4070,9 +4070,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActivelastweek }}
+                                                                    {{ $SUActivelastweek }}
                                                                 @else
-                                                                    {{ $myVotesActivelastweek }}
+                                                                    {{ $mySUActivelastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -4091,9 +4091,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectlastweek }}
+                                                                    {{ $SURejectlastweek }}
                                                                 @else
-                                                                    {{ $myVotesRejectlastweek }}
+                                                                    {{ $mySURejectlastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -4112,9 +4112,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendinglastweek }}
+                                                                    {{ $SUPendinglastweek }}
                                                                 @else
-                                                                    {{ $myVotesPendinglastweek }}
+                                                                    {{ $mySUPendinglastweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -4167,9 +4167,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesThisweek }}
+                                                                    {{ $SUThisweek }}
                                                                 @else
-                                                                    {{ $myVotesThisweek }}
+                                                                    {{ $mySUThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -4188,9 +4188,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveThisweek }}
+                                                                    {{ $SUActiveThisweek }}
                                                                 @else
-                                                                    {{ $myVotesActiveThisweek }}
+                                                                    {{ $mySUActiveThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -4209,9 +4209,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectThisweek }}
+                                                                    {{ $SURejectThisweek }}
                                                                 @else
-                                                                    {{ $myVotesRejectThisweek }}
+                                                                    {{ $mySURejectThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -4230,9 +4230,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingThisweek }}
+                                                                    {{ $SUPendingThisweek }}
                                                                 @else
-                                                                    {{ $myVotesPendingThisweek }}
+                                                                    {{ $mySUPendingThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -4285,7 +4285,7 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesThisMonth }} @else{{ $myVotesThisMonth }}
+                                                                    {{ $SUThisMonth }} @else{{ $mySUThisMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -4304,9 +4304,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveThisweek }}
+                                                                    {{ $SUActiveThisweek }}
                                                                 @else
-                                                                    {{ $myVotesActiveThisweek }}
+                                                                    {{ $mySUActiveThisweek }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -4325,9 +4325,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectThisMonth }}
+                                                                    {{ $SURejectThisMonth }}
                                                                 @else
-                                                                    {{ $myVotesRejectThisMonth }}
+                                                                    {{ $mySURejectThisMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -4346,9 +4346,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingThisMonth }}
+                                                                    {{ $SUPendingThisMonth }}
                                                                 @else
-                                                                    {{ $myVotesPendingThisMonth }}
+                                                                    {{ $mySUPendingThisMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -4401,9 +4401,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesLastMonth }}
+                                                                    {{ $SULastMonth }}
                                                                 @else
-                                                                    {{ $myVotesLastMonth }}
+                                                                    {{ $mySULastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -4422,9 +4422,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveLastMonth }}
+                                                                    {{ $SUActiveLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesActiveLastMonth }}
+                                                                    {{ $mySUActiveLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -4443,9 +4443,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectLastMonth }}
+                                                                    {{ $SURejectLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesRejectLastMonth }}
+                                                                    {{ $mySURejectLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -4464,9 +4464,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingLastMonth }}
+                                                                    {{ $SUPendingLastMonth }}
                                                                 @else
-                                                                    {{ $myVotesPendingLastMonth }}
+                                                                    {{ $mySUPendingLastMonth }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -4519,9 +4519,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesThisYear }}
+                                                                    {{ $SUThisYear }}
                                                                 @else
-                                                                    {{ $myVotesThisYear }}
+                                                                    {{ $mySUThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -4540,9 +4540,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveThisYear }}
+                                                                    {{ $SUActiveThisYear }}
                                                                 @else
-                                                                    {{ $myVotesActiveThisYear }}
+                                                                    {{ $mySUActiveThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -4561,9 +4561,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectThisYear }}
+                                                                    {{ $SURejectThisYear }}
                                                                 @else
-                                                                    {{ $myVotesRejectThisYear }}
+                                                                    {{ $mySURejectThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -4582,9 +4582,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingThisYear }}
+                                                                    {{ $SUPendingThisYear }}
                                                                 @else
-                                                                    {{ $myVotesPendingThisYear }}
+                                                                    {{ $mySUPendingThisYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -4637,9 +4637,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesLastYear }}
+                                                                    {{ $SULastYear }}
                                                                 @else
-                                                                    {{ $myVotesLastYear }}
+                                                                    {{ $mySULastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Uploaded</p>
@@ -4658,9 +4658,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesActiveLastYear }}
+                                                                    {{ $SUActiveLastYear }}
                                                                 @else
-                                                                    {{ $myVotesActiveLastYear }}
+                                                                    {{ $mySUActiveLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Approved</p>
@@ -4679,9 +4679,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesRejectLastYear }}
+                                                                    {{ $SURejectLastYear }}
                                                                 @else
-                                                                    {{ $myVotesRejectLastYear }}
+                                                                    {{ $mySURejectLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Rejected</p>
@@ -4700,9 +4700,9 @@
                                                         <div class="inner">
                                                             <h3>
                                                                 @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    {{ $VotesPendingLastYear }}
+                                                                    {{ $SUPendingLastYear }}
                                                                 @else
-                                                                    {{ $myVotesPendingLastYear }}
+                                                                    {{ $mySUPendingLastYear }}
                                                                 @endif
                                                             </h3>
                                                             <p>Pending</p>
@@ -4721,6 +4721,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

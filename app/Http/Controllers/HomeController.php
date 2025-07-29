@@ -3,11 +3,11 @@ namespace App\Http\Controllers;
 
 use App\Mail\ContactFormMail;
 use App\Models\ContactUS;
-use App\Models\Entities;
 use App\Models\ImageCategory;
 use App\Models\JobDocuments;
 use App\Models\Questions;
 use App\Models\RapexDocuments;
+use App\Models\Services;
 use App\Models\ServiceScheme;
 use App\Models\User;
 use App\Models\UserFiles;
@@ -30,69 +30,7 @@ class HomeController extends Controller
         return view('FileManager.Home.contact_us');
     }
 
-    public function ContactUsSave(Request $request){
 
-        $data =$request->validate([
-            'fullname'=>'required|string|min:7',
-            'telephone'=>'required|numeric|min:10',
-            'email'=>'nullable|email',
-            'subject'=>'required|string|min:5',
-            'message'=>'required|string|min:15',
-            'screenshot'=>'nullable',
-            'screenshot.*'=>'nullable|file|mimes:jpeg,jpg,png,doc,docx,xlsx,xls,pdf'
-        ]);
-
-        $year  = date("Y");
-        $month = date("M");
-        $contactpath ='ContactUS/'.$year."/".$month;
-
-        $shortArray =[];
-        if($request->hasFile('screenshot')){
-            $files=$request->file('screenshot');
-            foreach($files as $file){
-                $origFileName = $file->getClientOriginalName();
-                $filename=Carbon::now()."f_".$origFileName;
-                $path=$file->move(public_path('storage/'.$contactpath),$filename);
-                $imgArray[]=$filename;
-            }
-            $shortArray = implode(",",$imgArray);
-
-            $maildata=ContactUS::create([
-                'fullname' =>$request->fullname,
-                'telephone'=>$request->telephone,
-                'email'=>$request->email,
-                'subject'=>$request->subject,
-                'message'=>$request->message,
-                'screenshot'=>$shortArray,
-            ]);
-            if($maildata){
-                   Mail::to('tumuhimbiseallan@gmail.com|ezychicchiz@gmail.com')->send(new ContactFormMail($maildata));
-
-        return redirect()->route('contact-us')->with('success', 'Your Mail has been received');
-            }
-            else{
-                 return redirect()->route('contact-us')->with('error', 'Your Message is not Delivered, Try againr');
-            }
-        }
-        else{
-
-            $maildata=ContactUS::create([
-                'fullname' =>$request->fullname,
-                'telephone'=>$request->telephone,
-                'email'=>$request->email,
-                'subject'=>$request->subject,
-                'message'=>$request->message
-            ]);
-            if($maildata){
-                   Mail::to(['tumuhimbiseallan@gmail.com','ezychicchiz@gmail.com'])->send(new ContactFormMail($maildata));
-        return redirect()->route('contact-us')->with('success', 'Your Mail has been received');
-            }
-            else{
-                 return redirect()->route('contact-us')->with('error', 'Your Message is not Delivered, Try againr');
-            }
-            }
-
-    }
     public function index()
     {
         $yearz = "yearz";
@@ -106,7 +44,7 @@ class HomeController extends Controller
             ->get()
             ->unique('year')
             ->sortBy('year');
-        $entities = Entities::all();
+        $entities = Services::all();
         $months   = YearMonths::all();
         // dd($votes);
         return view('FileManager.Home.Dashboard', compact('votes', 'months', 'years', 'yrs', 'yearfinal', 'entities'));
@@ -193,171 +131,5 @@ class HomeController extends Controller
         return view('FileManager.Home.gallery', compact('images','categories'));
     }
 
-    // file preview
-    public function previewPdf(Request $request, $id)
-    {
-        $pdf = UserFiles::find($id);
-
-        $pdffile = $pdf->pdffile;
-        $pdf     = explode('_', $pdffile);
-        $month   = $pdf[2];
-        $year    = $pdf[3];                                                        //file name in db
-        $path    = "storage/Votes/" . $year . "/" . $month . "/PSPDF/" . $pdffile; //path of pdf
-        $file    = File::get($path);
-        // dd($path);
-        $response = Response::make($file, 200, [
-            'Content-Type'        => 'application/pdf',
-            'Content-Disposition' => 'inline;' . $pdffile,
-        ]);
-        return $response;
-    }
-
-    public function previewExcel(Request $request, $id)
-    {
-        $pdf       = UserFiles::find($id);
-        $excelfile = $pdf->excelfile;
-        $pdf       = explode('_', $excelfile);
-        $month     = $pdf[2];
-        $year      = $pdf[3];                                                          //file name in db
-        $path      = "storage/Votes/" . $year . "/" . $month . "/EXCEL/" . $excelfile; //path of pdf
-        $file      = File::get($path);
-        $response  = Response::make($file, 200, [
-            'Content-Type'        => 'application/vnd.ms-excel',
-            'Content-Disposition' => 'inline;' . $excelfile,
-        ]);
-        return $response;
-    }
-
-// File Downloads
-    public function downloadPdf(Request $request, $id)
-    {
-        $pdf     = UserFiles::find($id);
-        $pdffile = $pdf->pdffile;
-        $pdfx    = explode('_', $pdffile);
-        $month   = $pdfx[2];
-        $year    = $pdfx[3];                                                       //file name in db
-        $path    = "storage/Votes/" . $year . "/" . $month . "/PSPDF/" . $pdffile; //path of pdf
-        $name    = $pdfx[5];
-        $headers = ['Content-Type' => 'application/pdf'];
-        return Response::download($path, $name, $headers);
-    }
-    public function downloadExcel(Request $request, $id)
-    {
-        $pdf       = UserFiles::find($id);
-        $excelfile = $pdf->excelfile;
-        $excels    = explode('_', $excelfile);
-        $month     = $excels[2];
-        $year      = $excels[3];                                                       //file name in db
-        $path      = "storage/Votes/" . $year . "/" . $month . "/EXCEL/" . $excelfile; //path of pdf
-        $name      = $excels[5];
-        $headers   = ['Content-Type' => 'application/vnd.ms-excel'];
-        return Response::download($path, $name, $headers);
-    }
-
-    public function ViewVote(Request $request, $id)
-    {
-        $votes = VoteDetails::all();
-        $file  = UserFiles::select('user_files.id', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'user_files.status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.Approve as PSDate', 'user_files.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at as CrDate', 'user_files.updated_at as UpDate', 'user_files.UpdatedBy')
-            ->join('users', 'users.id', '=', 'user_files.UploadedBy')
-            ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
-            ->where('user_files.id', $id)
-            ->orderBy("UpDate", "desc")->first();
-        // dd($file);
-        return view('FileManager.Home.view_vote', compact('votes', 'file'));
-
-    }
-
-    // Job PDF View
-    public function previewJobPdf(Request $request, $id)
-    {
-        $pdf = JobDocuments::find($id);
-
-        $pdffile = $pdf->PDFFile;
-        // dd($pdffile);
-        $pdf   = explode('_', $pdffile);
-        $month = $pdf[2];
-        $year  = $pdf[3];                                                       //file name in db
-        $path  = "storage/Jobs/" . $year . "/" . $month . "/PSPDF/" . $pdffile; //path of pdf
-        $file  = File::get($path);
-        // dd($path);
-        $response = Response::make($file, 200, [
-            'Content-Type'        => 'application/pdf',
-            'Content-Disposition' => 'inline;' . $pdffile,
-        ]);
-        return $response;
-    }
-    public function downloadJobPdf(Request $request, $id)
-    {
-        $pdf     = JobDocuments::find($id);
-        $pdffile = $pdf->PDFFile;
-        // dd($pdffile);
-        $pdfx  = explode('_', $pdffile);
-        $month = $pdfx[2];
-        $year  = $pdfx[3];                                                      //file name in db
-        $path  = "storage/Jobs/" . $year . "/" . $month . "/PSPDF/" . $pdffile; //path of pdf
-        $name  = $pdfx[5];
-        // dd($name);
-        $headers = ['Content-Type' => 'application/pdf'];
-        return Response::download($path, $name, $headers);
-    }
-
-    public function downloadJobExcel(Request $request, $id)
-    {
-        $pdf       = JobDocuments::find($id);
-        $excelfile = $pdf->excelfile;
-        $excelext  = $pdf->ext;
-        $excels    = explode('_', $excelfile);
-        $month     = $excels[2];
-        $year      = $excels[3];
-        if ($excelext == 'pdf') {                                                //file name in db
-            $path = "storage/Jobs/" . $year . "/" . $month . "/JDPDF/" . $excelfile; //path of pdf
-        } else {
-            $path = "storage/Jobs/" . $year . "/" . $month . "/JDDOC/" . $excelfile; //path of pdf
-        }
-        $name    = $excels[5];
-        $headers = ['Content-Type' => 'application/vnd.ms-excel'];
-        return Response::download($path, $name, $headers);
-    }
-
-    public function createZip(Request $request, $id)
-    {
-        $Rapex       = RapexDocuments::findOrFail($id);
-        $filez       = $Rapex->file;
-        $zipFileName = $Rapex->entity.'.zip';
-
-        // $zipFileName = 'smaple.zip';
-        // dd($filez);
-        $zip = new ZipArchive();
-        if ($zip->open(public_path($zipFileName), ZipArchive::CREATE) === true) {
-            $filesToZip = [];
-
-            $attachments = explode(',', $filez);
-            foreach ($attachments as $attache) {
-                $pdfx       = explode('_', $attache);
-                $month      = $pdfx[1];
-                $year       = $pdfx[2];
-                 $path= "storage/Rapex/" . $year . "/" . $month . "/" . $attache;
-                //  $filed  = File::get($path);
-                $docArray[] = $path;
-
-            }
-            $filesToZip = implode(',', $docArray);
-            // dd($filesToZip);
-
-            $finalzip=explode(',',$filesToZip);
-            // dd($finalzip);
-
-            foreach($finalzip as $file){
-                // dd($file);
-
-                $zip->addFile($path,basename($file));
-            }
-            $zip->close();
-            return response()->download(public_path($zipFileName))->deleteFileAfterSend(true);
-        } else {
-            return "Failed to create the zip file.";
-        }
-
-    }
 
 }

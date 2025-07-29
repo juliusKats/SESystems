@@ -3,21 +3,31 @@
     Job Descriptions
 @endsection
 @section('content')
+ <div class="justify-content-center" style="height: 50px;background-color: #37517e">
+        <marquee class="blink" behavior="scroll" direction="left" scrollamount="5"
+            style=" font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bolder; font-size: xx-large;">
+            <img src="{{ asset('system/frontEnd/img/bg/word.webp') }}" style="width: 1000px; color: blue;" alt="">
+        </marquee>
+    </div>
     <div class="page-title" data-aos="fade">
         <div class="container">
-            <nav class="breadcrumbs">
-                <ol>
-                    <li><a href="{{ route('user.entry.page') }}">Home</a></li>
-                    <li class="current">Job Description</li>
-                </ol>
-            </nav>
-            <h1>Job Description Documents</h1>
+            <div class="row">
+                <div class="col-md-10">
+                    <h1>Job Description Documents</h1>
+                </div>
+                <div class="col-md-2">
+                    <nav class="breadcrumbs">
+                        <ol>
+                            <li><a href="{{ route('user.entry.page') }}">Home</a></li>
+                            <li class="current">Job Description</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
         </div>
-    </div><!-- End Page Title -->
+    </div>
 
-    <!-- Starter Section Section -->
     <section id="starter-section" class="starter-section section text-white" style="background-color: #4668a2">
-
         <div class="container" data-aos="fade-up">
             <div class="card">
                 <div class="card-body">
@@ -26,7 +36,8 @@
                             <thead class="bg-highlight">
                                 <tr>
                                     <th>Cadre Information</th>
-                                    <th style="width:200px">PDF File</th>
+                                    <th>PDF File</th>
+                                     <th style="width:50px">Approved On</th>
                                     <th style="width:40px">Action</th>
                                 </tr>
                             </thead>
@@ -39,8 +50,7 @@
                                     ?>
                                     <tr>
                                         <td>
-                                            <a href="#">{{ $item->ministry }}</a>
-
+                                            {{ $item->ministry }}
                                             <div class="card card-primary">
                                                 <div class="card-header">
                                                     <h3 class="card-title">Cadres</h3>
@@ -73,12 +83,13 @@
 
                                                 ?>
                                                 <i style="color: red; font-size: 30px;"
-                                                    class="far fa-file-pdf"></i>{{ $finalPDF }}
-                                                &nbsp;&nbsp;
-                                                -{{ $PDFsize }}
+                                                    class="far fa-file-pdf"></i>&nbsp;&nbsp;{{ $finalPDF }}
+                                                &nbsp;&nbsp; <span class="text text-danger">{{ $item->versionname }}</span>
+                                                -({{ $PDFsize }})
                                             @endif
-                                            <br>
-                                            PS' Approval Date: {{ $psdate }}
+                                        </td>
+                                        <td>
+                                            {{ $psdate }}
                                         </td>
 
                                         <td>

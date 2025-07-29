@@ -3,30 +3,40 @@
     FAQ
 @endsection
 @section('content')
+<div class="justify-content-center" style="height: 50px;background-color: #37517e">
+        <marquee class="blink" behavior="scroll" direction="left" scrollamount="5"
+            style=" font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bolder; font-size: xx-large;">
+            <img src="{{ asset('system/frontEnd/img/bg/word.webp') }}" style="width: 1000px; color: blue;" alt="">
+        </marquee>
+    </div>
 
     <div class="page-title" data-aos="fade">
         <div class="container text text-white">
-            <nav class="breadcrumbs">
-                <ol>
-                    <li><a href="index.html">Home</a></li>
-                    <li class="current">FAQ</li>
-                </ol>
-            </nav>
-            <h1> Frequently Asked Question</h1>
+            <div class="row">
+                <div class="col-md-10">
+                    <h1>Frequently Asked Question</h1>
+                </div>
+                <div class="col-md-2">
+                    <nav class="breadcrumbs">
+                        <ol>
+                            <li><a href="{{ route('user.entry.page') }}">Home</a></li>
+                            <li class="current">FAQ</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Starter Section Section -->
     <section id="faq-2" class="faq-2 section light-background"
         style="background-image: url('{{ asset('system/frontEnd/img/bg/bg-8.webp') }}')">
         <div class="container text text-white">
-            <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
                 <h2 class="text text-white">Frequently Asked Questions</h2>
                 <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint
                     consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat
                     sit in iste officiis commodi quidem hic quas.</p>
-            </div><!-- End Section Title -->
+            </div>
             <div class="container">
                 <div class="row">
                     <div class="col-md-9 col-sm-9">
@@ -46,7 +56,7 @@
                                                 <p class=" text text-black">{{ $firstquestion->reply }}.</p>
                                             </div>
                                             <i class="faq-toggle bi bi-chevron-right"></i>
-                                        </div><!-- End Faq item-->
+                                        </div>
                                         @foreach ($questions as $key => $item)
                                             <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
                                                 <i class="faq-icon bi bi-question-circle"></i>
@@ -54,7 +64,7 @@
                                                 <div class="faq-content">
                                                     <p class=" text text-black">{{ $item->reply }}.</p>
                                                 </div>
-                                            </div><!-- End Faq item-->
+                                            </div>
                                         @endforeach
                                     @endif
                                 </div>

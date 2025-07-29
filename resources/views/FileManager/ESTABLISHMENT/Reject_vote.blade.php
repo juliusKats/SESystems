@@ -107,7 +107,7 @@
                              <div class="form-group">
                                  <div><label>Comment</label></div>
                                  <div>
-                                     <textarea class="form-control summernote-simple">
+                                     <textarea id="summernote2" class="form-control summernote-simple">
                                                  {{ $file->VComment }}
                                             </textarea>
                                  </div>

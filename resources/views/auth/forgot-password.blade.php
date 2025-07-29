@@ -13,14 +13,7 @@
                     @csrf
                     <div class="form-group mb-3">
                         <label>Email</label>
-                        <div class="input-group">
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" name="email">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
-                                </div>
-                            </div>
-                        </div>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" name="email">    
                         @error('email')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

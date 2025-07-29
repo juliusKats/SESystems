@@ -1,5 +1,35 @@
 
 $(document).ready(function () {
+     var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+
+    //logout
+    $(document).on('click', '.btn-logout', function (event) {
+        var form = $(this).closest("form");
+        event.preventDefault();
+
+        Swal.fire({
+            title: "Do you want to Logout?",
+            icon: "question",
+            // showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Logout"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit()
+                Swal.fire({
+                    title: 'Logout',
+                    icon: 'success',
+                    text: 'Your Have Successfully Logged Out'
+                })
+            }
+        })
+    });
     //approve
     $(document).on('click', '.btn-approve', function (event) {
         var form = $(this).closest("form");

@@ -13,7 +13,7 @@ class DocStatus extends Model implements AuditableContract
     use SoftDeletes;
     use Auditable;
 
-    protected $fillable=['None','Pending','Approved','Rejected','Deleted','Restored'];
+    protected $fillable=['statusName'];
  protected $dates    = ['deleted_at'];
 
 }

@@ -1,5 +1,5 @@
 
-    <div class="container copyright text-center mt-4">
+    <div class="container copyright text-center mt-2">
         <p>© <span>Copyright</span> <strong class="px-1 sitename">EBRDS</strong>- Management of Services Department. <span>All Rights Reserved</span></p>
         <div class="credits">
             Designed by <a href="mailto:julikats2018@gmail.com">Tumuhimbise Allan</a>

@@ -17,9 +17,11 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+
+
     public function EmailVerifyForm()
     {
-        return view("FileManager.Authentication.verify_email");
+        return view("FileManager.FrontEnd.Auth.verify_email");
     }
 
     public function VerificationSend(Request $request)
@@ -50,15 +52,21 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Email verified successfully!']);
     }
-
-
     public function showLoginForm()
     {
-        return view("FileManager.FrontEnd.Pages.login");
+        return view("FileManager.FrontEnd.Auth.login");
+    }
+    public function Login()
+    {
+        return view('FileManager.FrontEnd.Auth.Login');
+    }
+     public function Register()
+    {
+        return view('FileManager.FrontEnd.Auth.Register');
     }
     public function showForgetPasswordForm()
     {
-        return view("FileManager.Authentication.forgot-password");
+        return view("FileManager.FrontEnd.Auth.forgot-password");
     }
     public function ForgetPassword(Request $request)
     {
@@ -89,7 +97,7 @@ class AuthController extends Controller
     public function showResetPasswordForm(Request $request, $token)
     // public function showResetPasswordForm(Request $request)
     {
-        return view("FileManager.Authentication.reset-password", ['token' => $token]);
+        return view("FileManager.FrontEnd.Auth.reset-password", ['token' => $token]);
     }
     public function submitResetPasswordForm(Request $request)
     {
@@ -105,7 +113,7 @@ class AuthController extends Controller
             'create_at' => Carbon::now(),
         ]);
         $user = User::where('email', $request->email)->first();
-        Mail::send('FileManager.Authentication.emailed_forgetPassword', ['token' => $token, 'user'], function ($message) use ($request) {
+        Mail::send('FileManager.FrontEnd.Auth.emailed_forgetPassword', ['token' => $token, 'user'], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject('Reset Password');
         });
@@ -122,9 +130,8 @@ class AuthController extends Controller
     {
         $id   = Auth::user()->id;
         $user = User::find($id);
-        return view('FileManager.Authentication.APITOKEN', compact('user'));
+        return view('FileManager.FrontEnd.Auth.APITOKEN', compact('user'));
     }
-
     public function UpdateProfile(Request $request)
     {
         $authuser = Auth::user()->id;
@@ -165,7 +172,6 @@ class AuthController extends Controller
         }
 
     }
-
     public function UpdatePassword(Request $request)
     {
         $authuser = Auth::user()->id;
@@ -209,7 +215,6 @@ class AuthController extends Controller
         return back()->with('success', 'Logode out');
         //    auth()->logoutOtherBrowserSessions($request->password);
     }
-
     public function RemovePhoto(Request $request)
     {
         $authuser = Auth::user()->id;
@@ -230,6 +235,7 @@ class AuthController extends Controller
     {
         return view('FileManager.USERS.add');
     }
+
     public function SaveAddUser(Request $request)
     {
         $userinfo = $request->validate([
@@ -305,7 +311,6 @@ class AuthController extends Controller
             }
         }
     }
-
     public function DeleteUser(Request $request, $id)
     {
         $user      = User::find($id);

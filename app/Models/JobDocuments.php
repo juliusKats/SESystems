@@ -11,7 +11,7 @@ class JobDocuments extends Model implements AuditableContract
 {
     use SoftDeletes;
     use Auditable;
-    protected $fillable=['CarderName','WordFile','ext','PDFFile','PSApprovalDate','comment','UploadedBy','updated_at','UploadedOn','Approve','ApprovedOn','ApprovedBy','UpdatedBy','approved_by','rejected','RejectedOn','RejectedBy','Reason','DeletedBy','status','RestoredBy','carder_id'];
+    protected $fillable=['carderId','versionId','CarderName','WordFile','ext','PDFFile','PSApprovalDate','comment','UploadedBy','updated_at','UploadedOn','Approve','ApprovedOn','ApprovedBy','UpdatedBy','approved_by','rejected','RejectedOn','RejectedBy','Reason','DeletedBy','status','RestoredBy','carder_id'];
      protected $dates = ['deleted_at'];
 
     }

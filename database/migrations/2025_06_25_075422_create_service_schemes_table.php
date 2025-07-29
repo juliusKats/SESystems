@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('service_schemes', function (Blueprint $table) {
              $table->id();
+             $table->foreignId('carderId')->references('id')->on('carders')->nullable()->cascadeOnDelete();
+            $table->foreignId('versionId')->references('id')->on('versions')->nullable()->cascadeOnDelete();
             $table->string('CarderName', 200)->comment('Name Of Carder');
             $table->longText('WordFile')->comment('Word documment .doc,.docx');
             $table->enum('ext', ['pdf', 'docx', 'doc'])->comment('File extension');
@@ -39,6 +41,7 @@ return new class extends Migration
             $table->bigInteger("RejectedBy")->unsigned()->nullable();
             $table->longText("Reason")->nullable();
             $table->foreign("RejectedBy")->references("id")->on("users")->onDelete("cascade");
+            $table->unique(['carderId','versionId']);
         });
     }
 

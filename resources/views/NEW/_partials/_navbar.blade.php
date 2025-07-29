@@ -10,23 +10,29 @@
             <a href="{{ route('user.entry.page') }}" class="nav-link" style="color: white">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block "  style="color: white">
-            <a href="@if(Auth::user() && Auth::user()->status ==1) {{ route('file.list') }}@else {{ route('user.establishment') }} @endif"
+            <a href="@if(Auth::user() && Auth::user()->status ==1) {{ route('file.list') }}@else {{ route('user.establishment.documents') }} @endif"
                 class="nav-link"  style="color: white">Establishment</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block "  style="color: white">
-            <a href="@if(Auth::user() && Auth::user()->status ==1){{ route('job.file.list') }}@else{{ route('jobdescription') }} @endif" class="nav-link"  style="color: white">Job
+            <a href="@if(Auth::user() && Auth::user()->status ==1){{ route('job.file.list') }}@else{{ route('user.jobs.documents') }} @endif" class="nav-link"  style="color: white">Job
                 Description</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block "  style="color: white">
-            <a href="@if(Auth::user() && Auth::user()->status ==1){{ route('scheme.service.list') }} @else{{ route('servicescheme') }} @endif"
+            <a href="@if(Auth::user() && Auth::user()->status ==1){{ route('scheme.service.list') }} @else{{ route('user.scheme.documents') }} @endif"
                 class="nav-link"  style="color: white">Scheme of Service</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block "  style="color: white">
-            <a href="@if(Auth::user() && Auth::user()->status ==1){{ route('rapex.file.list') }}@else{{ route('rapexdocuments') }} @endif"
+            <a href="@if(Auth::user() && Auth::user()->status ==1){{ route('rapex.file.list') }}@else{{ route('user.rapex.documents') }} @endif"
                 class="nav-link"  style="color: white">RAPEX Documents</a>
         </li>
+
+<li class="nav-item d-none d-sm-inline-block "  style="color: white">
+            <a href="@if(Auth::user() && Auth::user()->status ==1){{ route('su.file.list') }}@else{{ route('user.serviceug.documents') }} @endif"
+                class="nav-link"  style="color: white">Service Uganda</a>
+        </li>
+
         <li class="nav-item d-none d-sm-inline-block "  style="color: white">
-            <a href="{{ route('gallery') }}" class="nav-link"  style="color: white">Gallery</a>
+            <a href="{{ route('user.blog') }}" class="nav-link"  style="color: white">Gallery</a>
         </li>
          @if(!Auth::user())
 
@@ -39,7 +45,6 @@
         @endif
 
     </ul>
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         @auth<!-- Team Setting -->
@@ -48,17 +53,6 @@
                     class="nav-link dropdown-toggle">Hi @auth {{ Auth::user()->sname}} {{ Auth::user()->fname }} {{ Auth::user()->oname }}
                     @else
                     User @endauth </a>
-                {{-- <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                    <li class="dropdown-item text-muted">Team Setting</li>
-                    <li class="dropdown-divider"></li>
-                    <li><a href="#" class="dropdown-item">Team Setting</a></li>
-                    <li><a href="#" class="dropdown-item">Create Team</a></li>
-                    <li class="dropdown-divider"></li>
-                    <li class="dropdown-item text-muted">Switch Teams</li>
-                    <li><a href="#" class="dropdown-item">Team One</a></li>
-                    <li><a href="#" class="dropdown-item">Team 2</a></li>
-                    <li class="dropdown-divider"></li>
-                </ul> --}}
             </li>
             <!-- User Profile -->
             <li class="nav-item dropdown">
@@ -70,20 +64,16 @@
                     @else
                         <img class="direct-chat-img" src="{{ asset('system/Default/defaultuser.jpg') }}">
                     @endauth
-
             </a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                {{-- <li class="dropdown-item text-muted">Manage Account</li> --}}
                 <li class="dropdown-divider"></li>
                 <li><a href="{{ route('user-profile', Auth::user()->id) }}" class="dropdown-item">User Profile</a></li>
-                {{-- <li><a href="{{ route('user-token', Auth::user()->id) }}" class="dropdown-item">Api Tokens</a></li> --}}
                 <li class="dropdown-divider"></li>
                 <li>
                     <form method="POST" action="{{ route('logout') }}" class="dropdown-item">
                         @csrf
-
                         <button type="submit"
-                            class="btn btn-danger">
+                            class="btn-logout btn btn-danger">
                             {{ __('Log Out') }}
                         </button>
                     </form>

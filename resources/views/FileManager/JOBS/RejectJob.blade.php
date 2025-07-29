@@ -34,36 +34,6 @@
                      <div class="col-md-1"></div>
                      <div class="col-md-10">
                          <div class="card card-body">
-                             {{-- @if (session('success'))
-                                 <div class="card card-success">
-                                     <div class="card-header">
-                                         <h3 class="card-title">{{ session('success') }}</h3>
-                                         <div class="card-tools">
-                                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                 <i class="fas fa-minus"></i>
-                                             </button>
-                                             <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                                 <i class="fas fa-times"></i>
-                                             </button>
-                                         </div>
-                                     </div>
-                                 </div>
-                             @endif
-                             @if (session('error'))
-                                 <div class="card card-danger">
-                                     <div class="card-header">
-                                         <h3 class="card-title">{{ session('error') }}</h3>
-                                         <div class="card-tools">
-                                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                 <i class="fas fa-minus"></i>
-                                             </button>
-                                             <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                                 <i class="fas fa-times"></i>
-                                             </button>
-                                         </div>
-                                     </div>
-                                 </div>
-                             @endif --}}
                              <div class="row">
                                  <div class="col-md-6">
                                      <div class="form-group row">

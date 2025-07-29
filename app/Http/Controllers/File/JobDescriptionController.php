@@ -4,6 +4,7 @@ namespace App\Http\Controllers\File;
 use App\Http\Controllers\Controller;
 use App\Models\CardMinistries;
 use App\Models\JobDocuments;
+use App\Models\Version;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,28 +12,6 @@ use Illuminate\Support\Facades\File;
 
 class JobDescriptionController extends Controller
 {
-
-    //Action Dialog
-    public function DeteteDialog(Request $request,$id){
-        $file=JobDocuments::findOrFail($id);
-        return view('FileManager.JOBS.Actions.Delete',compact('file'));
-    }
-    public function PerDeteteDialog(Request $request,$id){
-        $file=JobDocuments::findOrFail($id);
-        return view('FileManager.JOBS.Actions.PerDelete',compact('file'));
-    }
-    public function RestoreDialog(Request $request,$id){
-        $file=JobDocuments::findOrFail($id);
-        return view('FileManager.JOBS.Actions.Restore',compact('file'));
-    }
-    public function RejectDialog(Request $request,$id){
-        $file=JobDocuments::findOrFail($id);
-        return view('FileManager.JOBS.Actions.Reject',compact('file'));
-    }
-    public function ApproveDialog(Request $request,$id){
-        $file=JobDocuments::findOrFail($id);
-        return view('FileManager.JOBS.Actions.Approve',compact('file'));
-    }
     public function index()
     {
         //
@@ -76,12 +55,13 @@ class JobDescriptionController extends Controller
     public function create()
     {
         $carders = CardMinistries::all();
-        return view("FileManager.JOBS.add", compact('carders'));
+        $versions=Version::all();
+        return view("FileManager.JOBS.add", compact('carders','versions'));
     }
 
     public function store(Request $request)
     {
-
+// dd($request->all());
         $year  = date("Y");
         $month = date("M");
         $data  = $request->validate([
@@ -90,9 +70,10 @@ class JobDescriptionController extends Controller
             'approvaldate' => 'required|date|before:today',
             'comment'      => 'required|string|min:3',
             'fileupload'   => 'required',
-            'fileupload.*' => 'mimes:pdf,doc,docx|max:4096',
+            'fileupload.*' => 'mimes:doc,docx|max:4096',
             'pdf'          => 'required',
             'pdf.*'        => 'mimes:pdf|max:4096',
+            'version'=>'required|exists:versions,id'
 
         ]);
 
@@ -166,18 +147,26 @@ class JobDescriptionController extends Controller
             $status = 2;
         }
         // dd($status);
+        //Check if document witht the same version exists
+        $exists = JobDocuments::where('carderId',$request->ministry)->where('versionId',$request->version)->exists();
+        if($exists){
+            return redirect()->route('job.file.create')->with('warning','A version With the same version already exists');
+        }
+        else{
+            $job = JobDocuments::create([
+                'carderId'  => $request->ministry,
+                'CarderName' => $carderID,
+                'WordFile'   => $pdfname,
+                'ext'        => $ext,
+                'PDFFile'    => $pspdfname,
+                'status'     => $status,
+                'ApprovedOn' => $request->approvaldate,
+                'comment'    => $votecomment,
+                'UploadedBy' => Auth::user()->id,
+                'versionId'  => $request->version,
+            ]);
+        }
 
-        $job = JobDocuments::create([
-            'carder_id'  => $request->ministry,
-            'CarderName' => $carderID,
-            'WordFile'   => $pdfname,
-            'ext'        => $ext,
-            'PDFFile'    => $pspdfname,
-            'status'     => $status,
-            'ApprovedOn' => $request->approvaldate,
-            'comment'    => $votecomment,
-            'UploadedBy' => Auth::user()->id,
-        ]);
         if ($job) {
             return redirect()->route('job.file.list')->with('success', 'File Uploaded Successfully');
         } else {

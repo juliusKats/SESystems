@@ -12,26 +12,19 @@
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background"
         style="background-image: url('{{ asset('system/frontEnd/img/bg/mops.webp') }}'); background-size: contain; background-repeat: no-repeat;">
-                <h3>Welcome to the Electronic Backup and Recovery system of Management Service Department
-               </h3>
-        <img class="animated float float-right" src="{{ asset('system/Default/sys2.jpg') }}" style="margin-top: 140px; opacity:0.8"/>
+        <h3>Welcome to the Electronic Backup and Recovery system of Management Service Department
+        </h3>
+        <img class="animated float float-right" src="{{ asset('system/Default/sys2.jpg') }}"
+            style="margin-top: 140px; opacity:0.8" />
     </section>
-    {{-- <div class="row">
-            <div class="col-lg-5"></div>
-            <div class="col-lg-5 text-danger">
-                <img src="{{ asset('system/Default/sys2.jpg') }}"/>
-
-            </div>
-        </div> --}}
-    .
 
     <!-- About Section -->
     <section id="about" class="about section">
 
-        <!-- Section Title -->
+        
         <div class="container section-title" data-aos="fade-up">
             <h2>About Us</h2>
-        </div><!-- End Section Title -->
+        </div>
 
         <div class="container">
 
@@ -68,158 +61,96 @@
 
 
     <!-- Services Section -->
+    @if(count($services)>0)
     <section id="services" class="services section light-background">
-
-        <!-- Section Title -->
+        
         <div class="container section-title" data-aos="fade-up">
             <h2>Services</h2>
             <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div><!-- End Section Title -->
+        </div>
 
         <div class="container">
-
             <div class="row gy-4">
-
+                @foreach ($services as $service )
                 <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-item position-relative">
-                        <div class="icon"><i class="bi bi-activity icon"></i></div>
-                        <h4><a href="" class="stretched-link">Lorem Ipsum</a></h4>
-                        <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
-                    </div>
-                </div><!-- End Service Item -->
+                        <div class="icon">
+                           <img  @if($service->label)
+                           src="{{ url('storage/servicelogo/' . $service->label) }}"
+                            @else
+                            src="{{ asset('system/Default/service/logo.png') }}"
+                            @endif
+                            alt="{{ $service->serviceName }}">
+                        </div>
 
-                <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-item position-relative">
-                        <div class="icon"><i class="bi bi-bounding-box-circles icon"></i></div>
-                        <h4><a href="" class="stretched-link">Sed ut perspici</a></h4>
-                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+                        <h4><a href="" class="stretched-link">{{ $service->serviceName }}</a></h4>
+                        <p> @if($service->about){{ Str::words($service->about,20) }}@endif</p>
                     </div>
-                </div><!-- End Service Item -->
-
-                <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
-                    <div class="service-item position-relative">
-                        <div class="icon"><i class="bi bi-calendar4-week icon"></i></div>
-                        <h4><a href="" class="stretched-link">Magni Dolores</a></h4>
-                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
-                    </div>
-                </div><!-- End Service Item -->
-
-                <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
-                    <div class="service-item position-relative">
-                        <div class="icon"><i class="bi bi-broadcast icon"></i></div>
-                        <h4><a href="" class="stretched-link">Nemo Enim</a></h4>
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
-                    </div>
-                </div><!-- End Service Item -->
-
+                </div>
+                @endforeach
             </div>
-
         </div>
 
     </section><!-- /Services Section -->
+    @endif
+    @if (count($teammembers) > 0)
+        <!-- Team Section -->
+        <section id="team" class="team section">
 
-
-    <!-- Team Section -->
-    <section id="team" class="team section">
-
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Team</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div><!-- End Section Title -->
-
-        <div class="container">
-
-            <div class="row gy-4">
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="team-member d-flex align-items-start">
-                        <div class="pic"><img src="{{ asset('system/frontEnd/img/person/person-m-7.web') }}p"
-                                class="img-fluid" alt=""></div>
-                        <div class="member-info">
-                            <h4>Walter White</h4>
-                            <span>Chief Executive Officer</span>
-                            <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""> <i class="bi bi-linkedin"></i> </a>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Team Member -->
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="team-member d-flex align-items-start">
-                        <div class="pic"><img src="{{ asset('system/frontEnd/img/person/person-f-8.web') }}p"
-                                class="img-fluid" alt=""></div>
-                        <div class="member-info">
-                            <h4>Sarah Jhonson</h4>
-                            <span>Product Manager</span>
-                            <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""> <i class="bi bi-linkedin"></i> </a>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Team Member -->
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="team-member d-flex align-items-start">
-                        <div class="pic"><img src="{{ asset('system/frontEnd/img/person/person-m-6.web') }}p"
-                                class="img-fluid" alt=""></div>
-                        <div class="member-info">
-                            <h4>William Anderson</h4>
-                            <span>CTO</span>
-                            <p>Quisquam facilis cum velit laborum corrupti fuga rerum quia</p>
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""> <i class="bi bi-linkedin"></i> </a>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Team Member -->
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-                    <div class="team-member d-flex align-items-start">
-                        <div class="pic"><img src="{{ asset('system/frontEnd/img/person/person-f-4.web') }}p"
-                                class="img-fluid" alt=""></div>
-                        <div class="member-info">
-                            <h4>Amanda Jepson</h4>
-                            <span>Accountant</span>
-                            <p>Dolorum tempora officiis odit laborum officiis et et accusamus</p>
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter-x"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""> <i class="bi bi-linkedin"></i> </a>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Team Member -->
-
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Team</h2>
+                <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
             </div>
 
-        </div>
+            <div class="container">
 
-    </section><!-- /Team Section -->
-
-
+                <div class="row gy-4">
+                    @foreach ($teammembers as $member)
+                        {{-- {{ $member }} --}}
+                        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                            <div class="team-member d-flex align-items-start">
+                                <div class="pic">
+                                    <img @if ($member->profile_photo_path) src="{{ url('storage/profile/' . $member->profile_photo_path) }}"
+                                    @else
+                                     src="{{ asset('system/Default/defaultuser.jpg') }}" @endif
+                                        class="img-fluid" alt="">
+                                </div>
+                                <div class="member-info">
+                                    <h4>
+                                        {{ $member->sname }}&nbsp;{{ $member->fname }}&nbsp;{{ $member->oname }}
+                                    </h4>
+                                    <span>
+                                        @if ($member->title)
+                                            {{ $member->title }}
+                                        @endif
+                                    </span>
+                                    <p>
+                                        {{Str::words($member->about,10) }}
+                                        {{-- Explicabo voluptatem mollitia et repellat qui dolorum quasi --}}
+                                    </p>
+                                    <div class="social">
+                                        @if($member->twitter)<a href=""><i class="bi bi-twitter-x"></i></a>@endif
+                                        @if($member->facebook)<a href=""><i class="bi bi-facebook"></i></a>@endif
+                                        @if($member->instagram)<a href=""><i class="bi bi-instagram"></i></a>@endif
+                                        @if($member->linkedin)<a href=""> <i class="bi bi-linkedin"></i> </a>@endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
 
     <!-- Recent Blog Postst Section -->
     <section id="recent-blog-postst" class="recent-blog-postst section light-background">
 
-        <!-- Section Title -->
+        
         <div class="container section-title" data-aos="fade-up">
             <h2>Recent Blog Posts</h2>
             <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div><!-- End Section Title -->
+        </div>
 
         <div class="container">
 

@@ -1,4 +1,3 @@
-
 @extends('FileManager.FrontEnd._layout')
 @section('title') Contact Us @endsection
     @section('content')
@@ -15,15 +14,15 @@
       </div>
     </div>
 
-    <!-- Starter Section Section -->
+    
     <!-- Contact Section -->
     <section id="contact" class="contact section">
 
-      <!-- Section Title -->
+      
       <div class="container section-title" data-aos="fade-up">
         <h2>Contact</h2>
         <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
+      </div>
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 

@@ -18,8 +18,6 @@
         </div>
     </div>
 
-
-
     <section class="content">
         <div class="container-fluid">
             <div class="card">
@@ -1038,14 +1036,7 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
-
     </section>
-
-
-
 @endsection
 @section('scripts')

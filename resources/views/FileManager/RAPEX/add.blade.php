@@ -52,97 +52,7 @@
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data" action="{{ route('rapex.file.store') }}">
                         @csrf
-                        {{-- <div class="row mb-1">
-                            <div class="col-md-6">
-                                <div class="form-group mb-2">
-                                    <label>Line Ministry</label><br>
-                                    <select id="entity" multiple
-                                        class="select2 form-control @error('entity') is-invalid @enderror " required
-                                        name="entity[]">
 
-                                        @foreach ($entities as $item)
-                                            <option value="{{$item->entityName}}">{{ $item->entityName}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('entity')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-2">
-                                    <label>Institution Name</label><br>
-                                    <select id="institute" data-placeholder="Select Institution"
-                                        class="form-control select2 @error('instittute') is-invalid @enderror" multiple
-                                        name="institute[]">
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="col-md-6">
-                                <div class="form-group mb-2">
-                                    <label class="btn btn-sm btn-success" onclick="openCustomFileInput()">Upload File
-                                    </label>&nbsp;&nbsp;<span class="text text-danger">Excel, Word,PDF PowerPoint
-                                        (Max: 4mbs)</span>
-                                    <input id="customFileInput" required name="docs[]" type="file" multiple
-                                        style="display: none" class="form-control @error('images') is-invalid @enderror"
-                                        accept=".xlsx,.xls,.doc,.docx,.ppt,.pptx,.pps," value="{{ old('docs') }}">
-                                </div>
-                                <ul id="selectedFilesList"></ul>
-
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-2">
-                                    <label class="btn btn-sm btn-success" onclick="openCustomImageInput()">Upload Images
-                                    </label><span class="text text-danger"> &nbsp;&nbsp;Images(Max: 4mbs)</span>
-                                    <input name="images[]" type="file" multiple id="customImageInput"
-                                        style="display: none" class="form-control @error('images') is-invalid @enderror"
-                                        accept=".png,.jpeg,.jpg" value="{{ old('images') }}">
-                                </div>
-                                <ul id="selectedImagesList"></ul>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-2">
-                                    <label>Comment </label>
-                                    <textarea id="summernote" name="comment" class="summernote @error('comment')is-invalid @enderror">{{ old('comment') }}</textarea>
-                                    @error('comment')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-2">
-                                    <label>Virtual link </label>
-                                    <input name="link" type="url"
-                                        class="form-control @error('link')is-invalid @enderror" accept=".pdf"
-                                        value="{{ old('link') }}">
-                                    @error('link')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label>Video </label><br>
-                                    <input name="video" type="file" accept="video/*" id="videoInput"
-                                        class="form-control mb-2 @error('video')is-invalid @enderror">
-                                    <video id="videoPreview" controls class="form-controls aspect-video"
-                                        style="width:420px; height: 350px;;">
-                                        @error('video')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                </div>
-                            </div>
-                        </div> --}}
                         <div class="row mb-1">
                             <div class="col-md-6">
                                 <div class="form-group mb-1">
@@ -175,7 +85,7 @@
                                         (Max: 4mbs)</span>
                                     <input id="customFileInput" required name="docs[]" type="file" multiple
                                         style="display: none" class="form-control @error('images') is-invalid @enderror"
-                                        accept=".xlsx,.xls,.doc,.docx,.ppt,.pptx,.pps," value="{{ old('docs') }}">
+                                        accept=".xlsx,.xls,.doc,.docx,.ppt,.pptx,.pps,.pdf" value="{{ old('docs') }}">
                                         <ul id="selectedFilesList"></ul>
                                     </div>
                                     <div class="form-group mb-1">

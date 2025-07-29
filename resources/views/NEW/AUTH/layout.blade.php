@@ -40,34 +40,45 @@
     @yield('scripts')
     <script>
         $(function() {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
             @if (session('success'))
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: "{{ session('success') }}",
-                    timer: 2500
-                })
+                // Swal.fire({
+                //     icon: 'success',
+                //     title: 'Success',
+                //     text: "{{ session('success') }}",
+                //     timer: 2500
+                // })
+                toastr.success('{{ session('success') }}')
             @elseif (session('error'))
+                var form = $(this).closest("form");
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: "{{ session('error') }}",
-                    timer: 3000
+                    // timer: 3000
                 })
+                // toastr.error('{{ session('error') }}')
             @elseif (session('warning'))
                 Swal.fire({
                     icon: 'warning',
                     title: 'warning',
                     text: "{{ session('warning') }}",
-                    timer: 3000
+                    // timer: 3000
                 })
+                // toastr.warning('{{ session('warning') }}')
             @elseif (session('info'))
-                Swal.fire({
-                    icon: 'info',
-                    title: 'information',
-                    text: "{{ session('info') }}",
-                    timer: 3000
-                })
+                // Swal.fire({
+                //     icon: 'info',
+                //     title: 'information',
+                //     text: "{{ session('info') }}",
+                //     timer: 3000
+                // })
+                toastr.info('{{ session('info') }}')
             @endif
         })
     </script>

@@ -13,8 +13,6 @@
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
       <a href="{{ route('user.entry.page') }}" class="logo d-flex align-items-center me-auto">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        {{-- <img src="{{ asset('system/frontEnd/img/logo.webp') }}" alt=""> --}}
         <img src="{{ asset('system/Default/logo.png') }}" alt="">
         <h1 class="sitename">EDBRS</h1>
       </a>

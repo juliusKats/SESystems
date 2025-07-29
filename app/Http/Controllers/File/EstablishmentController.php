@@ -22,28 +22,7 @@ class EstablishmentController extends Controller
         $user = Auth::user();
         return view("FileManager.ESTABLISHMENT.Dashboard", compact("user", ));
     }
-    //Action Dialog
-    public function DeteteDialog(Request $request,$id){
-        $file=UserFiles::findOrFail($id);
-        return view('FileManager.ESTABLISHMENT.Actions.Delete',compact('file'));
-    }
-    public function PerDeteteDialog(Request $request,$id){
-        $file=UserFiles::findOrFail($id);
-        return view('FileManager.ESTABLISHMENT.Actions.PerDelete',compact('file'));
-    }
-    public function RestoreDialog(Request $request,$id){
-        $file=UserFiles::findOrFail($id);
-        return view('FileManager.ESTABLISHMENT.Actions.Restore',compact('file'));
-    }
-    public function RejectDialog(Request $request,$id){
-        $file=UserFiles::findOrFail($id);
-        return view('FileManager.ESTABLISHMENT.Actions.Reject',compact('file'));
-    }
-    public function ApproveDialog(Request $request,$id){
-        $file=UserFiles::findOrFail($id);
-        // dd($file);
-        return view('FileManager.ESTABLISHMENT.Actions.Approve',compact('file'));
-    }
+
 
     public function index()
     {
@@ -137,7 +116,7 @@ class EstablishmentController extends Controller
             'pdf.*'        => 'required|mimes:pdf|max:4096',
             'approvaldate' => 'required|date|before:today',
         ]);
-        $exist = UserFiles::where('VoteCode', '=', $request->votecode)->where('versionname', $request->version)->exists();
+        $exist = UserFiles::where('VoteCode', '=', $request->votecode)->where('versionId', $request->version)->exists();
         // dd($exist);
         if ($exist) {
             return back()->with('error', 'A vote with the selected version already exists');
@@ -408,7 +387,7 @@ class EstablishmentController extends Controller
     public function Restore($id)
     {
         $vote         = UserFiles::withTrashed()->findOrFail($id);
-        $vote->status = "Pending";
+        $vote->status = 2;
         $vote->restore();
         return redirect()->route('file.list')->with('success', 'File Restored successfully');
 

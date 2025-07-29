@@ -31,7 +31,7 @@ return new class extends Migration
             $table->bigInteger("status")->unsigned()->default(2);
              $table->foreign("status")->references("id")->on("doc_statuses")->onDelete("cascade");
             $table->dateTime("DateOn")->nullable();
-            $table->bigInteger("versionname")->unsigned()->nullable();
+            $table->bigInteger("versionId")->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
               $table->string('DeletedBy',90)->nullable();

@@ -9,56 +9,32 @@ use App\Http\Controllers\File\JobDescriptionController;
 use App\Http\Controllers\File\LineMinistryController;
 use App\Http\Controllers\File\RapexController;
 use App\Http\Controllers\File\SchemeController;
+use App\Http\Controllers\File\ServiceUgandaController;
 use App\Http\Controllers\File\VoteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserAuth\AuthController;
 use App\Http\Middleware\AllowOnlyAdmin;
 use App\Models\Carders;
 use App\Models\CardMinistries;
-use App\Models\Entities;
+use App\Models\EDBRTeam;
 use App\Models\GovEntities;
 use App\Models\Institutions;
 use App\Models\ServiceCenter;
+use App\Models\Services;
 use App\Models\User;
 use App\Models\Version;
 use App\Models\VoteDetails;
-use App\Models\YearMonths;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use OwenIt\Auditing\Models\Audit;
 
-
-// Route::get('/', function () {
-//     $yearz = "yearz";
-//     $votes = VoteDetails::all();
-//     $years = User::distinct()->get(['created_at'])->groupBy('created_at');
-//     $yrs   = VoteDetails::selectRaw('extract(year FROM created_at) AS year')
-//         ->distinct()
-//         ->orderBy('year', 'desc')
-//         ->get();
-//     $yearfinal = User::select([DB::raw('extract(year FROM created_at) AS year')])
-//         ->get()
-//         ->unique('year')
-//         ->sortBy('year');
-//     $entities = Entities::all();
-//     $months   = YearMonths::all();
-//     $user     = User::selectRaw('DATE_FORMAT(created_at,"%M") as month,sum((status)=0) as Active,sum((status)=1) as Inactive ,DATE_FORMAT(created_at,"%Y-%m") as period')
-//         ->groupBy('period')
-//         ->groupBy('month')
-//         ->orderBy('period', 'asc')
-//         ->get();
-//     $data['periods']   = $user->pluck('period');
-//     $data['inactives'] = $user->pluck('Inactive');
-//     $data['actives']   = $user->pluck('Active');
-//     $data['months']    = $user->pluck('month');
-
-//     return view('welcome', $data, compact('votes', 'months', 'years', 'yrs', 'yearfinal', 'entities'));
-// });
-
 Route::get('/', function () {
-     return view('FileManager.FrontEnd.entryPage');
+    $services    = Services::all()->where('status', true);
+    $teammembers = EDBRTeam::select('e_d_b_r_teams.id', 'users.sname', 'users.fname', 'users.oname', 'users.profile_photo_path', 'e_d_b_r_teams.title', 'e_d_b_r_teams.about', 'e_d_b_r_teams.twitter', 'e_d_b_r_teams.facebook', 'e_d_b_r_teams.instagram', 'e_d_b_r_teams.linkedin', 'e_d_b_r_teams.updated_at', 'e_d_b_r_teams.deleted_at')
+        ->join('users', 'users.id', '=', 'e_d_b_r_teams.user_id')
+        ->where('e_d_b_r_teams.status', true)->get();
+    return view('FileManager.FrontEnd.entryPage', compact('teammembers', 'services'));
 });
 Route::middleware([
     'auth:sanctum',
@@ -79,6 +55,9 @@ Route::middleware([
 
 Route::prefix('user/authentication')->group(function () {
     Route::controller(AuthController::class)->group(function () {
+        Route::get('/enduser/register', 'Register')->name('front.user.register');
+        Route::get('/enduser/login', 'Login')->name('front.user.login');
+
         Route::get('/forget/password', 'showForgetPasswordForm')->name('forget.password.get');
         Route::post('/forget-password', 'ForgetPassword')->name('forget.password.post');
         //   Route::get('/reset/password','showResetPasswordForm')->name('reset.password.get');
@@ -108,35 +87,6 @@ Route::prefix('edbrs.com')->group(function () {
         Route::put('/activate/{id}/users', 'ActivateUser')->name('user.activate');
         Route::get('main/dashboard', 'dashboard')->name('main.dashboard');
 
-    });
-});
-Route::prefix('edbrs.com')->group(function () {
-    Route::controller(HomeController::class)->group(function () {
-
-        Route::get('/index/home', 'index')->name('home.dashboard');
-        Route::get('/ment', 'ment')->name('ment');
-        Route::get('/job/description', 'JobDescription')->name('jobdescription');
-        Route::get('/Service/Schemes', 'ServiceSchemes')->name('servicescheme');
-        Route::get('/RAPEX/documents', 'RapexDocuments')->name('rapexdocuments');
-        Route::get('/system/faq', 'FrequentQuestions')->name('faq');
-        Route::post('Ask/Your/Question', 'AskQuestion')->name('ask.question');
-        Route::get('/contact/us', 'ContactUS')->name('contact-us');
-        Route::post('/contact/us/save/', 'ContactUsSave')->name('save.contact.us');
-        Route::get('/gallery', 'Gallery')->name('gallery');
-
-        Route::get('/preview/{id}/uploaded/excel', 'previewExcel')->name('preview.excel.file');
-        Route::get('/download/{id}/approved/excel', 'downloadExcel')->name('download.excel.file');
-        //   pdf actions
-        Route::get('/preview/{id}/approved/pdf', 'previewPDF')->name('preview.ps.file');
-        Route::get('/download/{id}/approved/pdf', 'downloadPDF')->name('download.ps.file');
-
-        Route::get('/viewing/{id}/file_details', 'ViewVote')->name('vote.view');
-
-        Route::get('/job/preview/{id}/approved/pdf', 'previewJobPDF')->name('job.description.preview');
-        Route::get('job/download/{id}/approved/pdf', 'downloadJobPDF')->name('job.description.download');
-
-        Route::get('/download/{id}/attachement/zip', 'createZip')->name('create.rapex.zip');
-//  job.description.download
     });
 });
 
@@ -200,25 +150,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::delete('/temporary{id}/delete', 'SoftDelete')->name('soft.delete');
             Route::post('/restore/{id}/soft', 'Restore')->name('vote.restore');
 
-                        // Action Route
-            Route::get('confirm/{id}/delete','DeteteDialog')->name('establishment.confirm.delete');
-            Route::get('confirm/{id}/permanent/delete','PerDeteteDialog')->name('establishment.confirm.permanent.delete');
-            Route::get('confirm/{id}/restore','RestoreDialog')->name('establishment.confirm.restore');
-            Route::get('confirm/{id}/rejection','RejectDialog')->name('establishment.reject.delete');
-            Route::get('/confirm/establishment/{id}/Approval','ApproveDialog')->name('establishment.confirm.approved');
-
-
         });
         Route::controller(JobDescriptionController::class)->group(function () {
             Route::get('Manage/Job/Description/Files', 'index')->name('job.file.list');
             Route::get('job/description/create', 'create')->name('job.file.create');
             Route::post('job/description/store', 'store')->name('job.file.store');
-            // Action Route
-            Route::get('confirm/{id}/delete','DeteteDialog')->name('jobs.confirm.delete');
-            Route::get('confirm/{id}/permanent/delete','PerDeteteDialog')->name('jobs.confirm.permanent.delete');
-            Route::get('confirm/{id}/restore','RestoreDialog')->name('jobs.confirm.restore');
-            Route::get('confirm/{id}/rejection','RejectDialog')->name('jobs.reject.delete');
-            Route::get('confirm/{id}/Approval','ApproveDialog')->name('jobs.confirm.approve');
 
             Route::delete('job/temporary{id}/delete', 'SoftDelete')->name('job.soft.delete');
             Route::post('job/restore/{id}/soft', 'Restore')->name('job.restore');
@@ -232,24 +168,27 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('Manage/RAPEX/Files', 'index')->name('rapex.file.list');
             Route::get('rapex/create', 'create')->name('rapex.file.create');
             Route::post('rapex/store', 'store')->name('rapex.file.store');
-                        // Action Route
-            Route::get('confirm/{id}/delete','DeteteDialog')->name('rapex.confirm.delete');
-            Route::get('confirm/{id}/permanent/delete','PerDeteteDialog')->name('rapex.confirm.permanent.delete');
-            Route::get('confirm/{id}/restore','RestoreDialog')->name('rapex.confirm.restore');
-            Route::get('confirm/{id}/rejection','RejectDialog')->name('.reject.delete');
-            Route::get('confirm/{id}/Approval','ApproveDialog')->name('rapex.confirm.approve');
 
         });
         Route::controller(SchemeController::class)->group(function () {
             Route::get('scheme/service', 'index')->name('scheme.service.list');
             Route::get('scheme/upload/service', 'create')->name('scheme.service.upload');
             Route::post('scheme/store/service', 'store')->name('scheme.service.store');
-            // Action Route
-            Route::get('confirm/{id}/delete','DeteteDialog')->name('scheme.confirm.delete');
-            Route::get('confirm/{id}/permanent/delete','PerDeteteDialog')->name('scheme.confirm.permanent.delete');
-            Route::get('confirm/{id}/restore','RestoreDialog')->name('scheme.confirm.restore');
-            Route::get('confirm/{id}/rejection','RejectDialog')->name('scheme.reject.delete');
-            Route::get('confirm/{id}/Approval','ApproveDialog')->name('scheme.confirm.approve');
+
+             Route::delete('scheme/temporary{id}/delete', 'SoftDelete')->name('scheme.soft.delete');
+            Route::post('scheme/restore/{id}/soft', 'Restore')->name('scheme.restore');
+            Route::delete('scheme/{id}/delete/all/scheme/documents', 'deleteVote')->name('delete.schemes');
+            Route::put('scheme/{id}/approve', 'ApproveFile')->name('scheme.approve');
+            Route::get('scheme/{id}/reject', 'RejectFile')->name('scheme.reject');
+            Route::put('scheme/{id}/reject', 'RejectSave')->name('scheme.reject.save');
+
+
+        });
+
+        Route::controller(ServiceUgandaController::class)->group(function () {
+            Route::get('Manage/ServiceUganda/Files', 'index')->name('su.file.list');
+            Route::get('ServiceUganda/create', 'create')->name('su.file.create');
+            Route::post('ServiceUganda/store', 'store')->name('su.file.store');
 
         });
 
@@ -340,16 +279,44 @@ Route::get('new/admin', function () {
     );
 });
 Route::controller(FrontEndController::class)->group(function () {
-    Route::get('/enduser/register', 'Register')->name('front.user.register');
-    Route::get('/enduser/login', 'Login')->name('front.user.login');
     Route::get('/user/entry', 'index')->name('user.entry.page');
     Route::get('/user/contact/us', 'contactus')->name('user.entry.contact');
+    Route::post('/contact/us/save/', 'ContactUsSave')->name('save.contact.us');
     Route::get('/user/frequent/question', 'FrequentQuestion')->name('user.frequent.question');
-    Route::get('/user/view/Establishment', 'Establishment')->name('user.establishment');
-Route::get('/user/view/Jobs/Description', 'Jobs')->name('user.job.description');
- Route::get('/user/view/Service/Schemes', 'Schemes')->name('user.scheme');
-Route::get('/user/view/RAPEX/information', 'Rapex')->name('user.rapex');
-//  Route::get('/user/view/Service/Uganda', 'Service')->name('user.serviceug');
+    Route::get('/user/view/Establishment', 'Establishment')->name('user.establishment.documents');
+    Route::get('/user/view/Jobs/Description', 'Jobs')->name('user.jobs.documents');
+    Route::get('/user/view/Service/Schemes', 'Schemes')->name('user.scheme.documents');
+    Route::get('/user/view/RAPEX/information', 'Rapex')->name('user.rapex.documents');
+    Route::get('/user/view/Service/Uganda', 'ServiceUg')->name('user.serviceug.documents');
 
     Route::get('/user/view/gallery', 'BlogFive')->name('user.blog');
+
+    Route::get('/preview/{id}/uploaded/excel', 'previewExcel')->name('preview.excel.file');
+    Route::get('/download/{id}/approved/excel', 'downloadExcel')->name('download.excel.file');
+    //   pdf actions
+    Route::get('/preview/{id}/approved/pdf', 'previewPDF')->name('preview.ps.file');
+    Route::get('/download/{id}/approved/pdf', 'downloadPDF')->name('download.ps.file');
+
+    Route::get('/viewing/{id}/file_details', 'ViewVote')->name('vote.view');
+
+    Route::get('/job/preview/{id}/approved/pdf', 'previewJobPDF')->name('job.description.preview');
+    Route::get('job/download/{id}/approved/pdf', 'downloadJobPDF')->name('job.description.download');
+
+    Route::get('/download/{id}/attachement/zip', 'createZip')->name('create.rapex.zip');
+    Route::get('/download/{id}/attachement/zip', 'createZipSU')->name('create.su.zip');
+    Route::get('/download/{string}/attachement/file', 'downloadSUfile')->name('su.download.file');
+    Route::get('/preview/{string}/attachement/pdf', 'previewSUPdf')->name('su.pdf.view');
+});
+
+Route::prefix('edbrs.com')->group(function () {
+    Route::controller(HomeController::class)->group(function () {
+
+        Route::get('/index/home', 'index')->name('home.dashboard');
+
+        Route::get('/system/faq', 'FrequentQuestions')->name('faq');
+        Route::post('Ask/Your/Question', 'AskQuestion')->name('ask.question');
+        Route::get('/contact/us', 'ContactUS')->name('contact-us');
+
+//  job.description.download
+    });
 });

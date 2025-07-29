@@ -3,22 +3,34 @@
     Establishment
 @endsection
 @section('content')
+    <div class="justify-content-center" style="height: 50px;background-color: #37517e">
+        <marquee class="blink" behavior="scroll" direction="left" scrollamount="5"
+            style=" font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bolder; font-size: xx-large;">
+            <img src="{{ asset('system/frontEnd/img/bg/word.webp') }}" style="width: 1000px; color: blue;" alt="">
+        </marquee>
+    </div>
     <div class="page-title" data-aos="fade">
         <div class="container">
-            <nav class="breadcrumbs">
-                <ol>
-                    <li><a href="{{ route('user.entry.page') }}">Home</a></li>
-                    <li class="current">Establishment</li>
-                </ol>
-            </nav>
-            <h1>Establishment Documents</h1>
+            <div class="row">
+                <div class="col-md-10">
+                    <h1>Establishment Documents</h1>
+                </div>
+                <div class="col-md-2">
+                    <nav class="breadcrumbs">
+                        <ol>
+                            <li><a href="{{ route('user.entry.page') }}">Home</a></li>
+                            <li class="current">Establishment</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
         </div>
-    </div><!-- End Page Title -->
+    </div>
 
-    <!-- Starter Section Section -->
-    <section id="starter-section" class="starter-section section text-white" style="background-color: #4668a2">
 
-        <div class="container" data-aos="fade-up">
+    <section id="starter-section" class="starter-section section text-white"
+        style="background-image: url('{{ asset('system/frontEnd/img/bg/bg-8.webp') }}')">
+        <div class="container" data-aos="fade-up" style="width: 100%">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -36,7 +48,6 @@
 
                                 @foreach ($files as $key => $item)
                                     <?php
-
                                     $upload = \Carbon\Carbon::parse($item->ApprovedOn)->format('M d, Y');
                                     if ($item->PDF) {
                                         $Yr = explode('_', $item)[3];
@@ -48,21 +59,17 @@
                                     ?>
                                     <tr>
                                         <td>{{ $item->votecode }}</td>
-                                        <td><a href="#">{{ $item->votecode }} - {{ $item->VoteName }}</a></td>
+                                        <td>{{ $item->votecode }} - {{ $item->VoteName }}</td>
                                         <td>
-                                            <a style="display: inline" href="{{ route('preview.ps.file', $item->id) }}"
-                                                title="Preview {{ $item->pdfOriginal }}" target="_blank">
-                                                <i style="color: red; font-size: 30px;" class="far fa-file-pdf"></i>
-                                                {{ $finalPDF }} &nbsp;&nbsp;
-                                                -{{ $PDFsize }}
-                                            </a>
+                                            <i style="color: red; font-size: 30px;" class="far fa-file-pdf"></i>
+                                            {{ $finalPDF }} &nbsp;--<span
+                                                class="text text-danger">{{ $item->versionname }}</span>
+                                            &nbsp;({{ $PDFsize }})
 
                                         </td>
-
                                         <td>
                                             {{ $upload }}</td>
                                         <td>
-
                                             <div class="dropdown mt-1 btn-sm">
                                                 <button class="btn btn-danger btn-sm dropdown-toggle" href="#"
                                                     role="button" data-toggle="dropdown" arial-haspopup="true"
@@ -86,6 +93,5 @@
                 </div>
             </div>
         </div>
-
     </section>
 @endsection

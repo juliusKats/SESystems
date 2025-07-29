@@ -16,28 +16,6 @@ use Illuminate\Validation\Rules\RequiredIf;
 
 class RapexController extends Controller
 {
-
-    //Action Dialog
-    public function DeteteDialog(Request $request,$id){
-        $file=RAPEXDocuments::findOrFail($id);
-        return view('FileManager.RAPEX.Actions.Delete',compact('file'));
-    }
-    public function PerDeteteDialog(Request $request,$id){
-        $file=RAPEXDocuments::findOrFail($id);
-        return view('FileManager.RAPEX.Actions.PerDelete',compact('file'));
-    }
-    public function RestoreDialog(Request $request,$id){
-        $file=RAPEXDocuments::findOrFail($id);
-        return view('FileManager.RAPEX.Actions.Restore',compact('file'));
-    }
-    public function RejectDialog(Request $request,$id){
-        $file=RAPEXDocuments::findOrFail($id);
-        return view('FileManager.RAPEX.Actions.Reject',compact('file'));
-    }
-    public function ApproveDialog(Request $request,$id){
-        $file=RAPEXDocuments::findOrFail($id);
-        return view('FileManager.RAPEX.Actions.Approve',compact('file'));
-    }
     public function index(Request $request)
     {
         $allactive = DB::table('rapex_documents')->select

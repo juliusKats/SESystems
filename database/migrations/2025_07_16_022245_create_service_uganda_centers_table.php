@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('service_uganda_centers', function (Blueprint $table) {
-           $table->bigInteger('centerId')->unsigned()->nullable()->comment('Service CenterID Names');
-            $table->string('SUCenter')->comment('CenterName');
+            $table->id();
+            $table->longText('SUCenter')->comment('CenterName');
             $table->longText('file')->comment('Only Excel,PDF,Word and Images');
             $table->longText('comment')->nullable()->comment('User Comment');
             $table->longText('zoomlink')->nullable()->comment('Virtual Meeting');
@@ -39,8 +39,8 @@ return new class extends Migration
             $table->string("RejectedBy",50)->nullable();
             $table->longText("Reason")->nullable();
             $table->foreign("UploadedBy")->references("id")->on("users")->onDelete("cascade");
-             $table->foreign("centerId")->references("id")->on("service_centers")->onDelete("cascade");
-        });
+        
+            });
     }
 
     /**

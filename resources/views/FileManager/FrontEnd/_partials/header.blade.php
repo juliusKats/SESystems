@@ -4,10 +4,12 @@
   <title>@yield('title')</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
-
-  <!-- Favicons -->
-  {{-- <link href="{{ asset('system/frontEnd/img/favicon.png')}}" rel="icon">
-  <link href="{{ asset('system/frontEnd/img/apple-touch-icon.png')}}" rel="apple-touch-icon"> --}}
+  <script>
+    window.history.forward();
+    function noBack(){
+        window.history.forward();
+    }
+  </script>
 
    <link href="{{ asset('system/Default/logo.png') }}" alt=""  rel="icon">
    <link href="{{ asset('system/Default/logo.png') }}" alt="" rel="apple-touch-icon">

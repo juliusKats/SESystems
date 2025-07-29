@@ -4,7 +4,7 @@ namespace Database\Seeders;
 use App\Models\Carders;
 use App\Models\CardMinistries;
 use App\Models\DocStatus;
-use App\Models\Entities;
+use App\Models\Services;
 use App\Models\GovEntities;
 use App\Models\ImageCategory;
 use App\Models\Institutions;
@@ -51,10 +51,10 @@ class DefaultSeeders extends Seeder
         $v1 = Version::create(['versionname' => 'Version 4', 'versionabbrev' => 'V.4']);
         $v1 = Version::create(['versionname' => 'Version 5', 'versionabbrev' => 'V.5']);
         //Entities
-        $entity1 = Entities::create(['eName' => 'Establishment']);
-        $entity2 = Entities::create(['eName' => 'Scheme Of Service']);
-        $entity3 = Entities::create(['eName' => 'Job Description']);
-        $entity4 = Entities::create(['eName' => 'RAPEX Documents']);
+        $entity1 = Services::create(['serviceName' => 'Establishment']);
+        $entity2 = Services::create(['serviceName' => 'Scheme Of Service']);
+        $entity3 = Services::create(['serviceName' => 'Job Description']);
+        $entity4 = Services::create(['serviceName' => 'RAPEX Documents']);
         //Default Months
         $month1  = YearMonths::create(['mName' => 'January']);
         $month2  = YearMonths::create(['mName' => 'February']);

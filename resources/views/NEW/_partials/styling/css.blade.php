@@ -1,7 +1,14 @@
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@yield('page_title')</title>
+<script type="text/javascript">
 
+    function disableBack(){
+        window.history.forward();
+    }
+    setTimeout("disableBack()",0);
+    window.onunload=function(){null}
+  </script>
   <meta name="csrf-token" content="{{ csrf_token() }}">
    <link rel="icon" href="{{ asset('system/Default/logo.png') }}" type="image/png" />
 
