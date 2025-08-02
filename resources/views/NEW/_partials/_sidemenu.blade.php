@@ -3,7 +3,7 @@
                     data-accordion="false">
                     <!-- DashBoard-->
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link  mynav">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p> DASHBOARD <i class="right fas fa-angle-left"></i>
                             </p>
@@ -36,7 +36,7 @@
                     @if (Auth::user()->role == 'superadmin' or Auth::user()->role == 'admin')
                         <!-- System Management -->
                         <li class="nav-item ">
-                            <a href="#" class="nav-link">
+                            <a href="#" class="nav-link  mynav">
                                 <i class="nav-icon fa fa-cog"></i>
                                 <p>SYSTEM SETTING <i class="right fas fa-angle-left"></i>
                                 </p>
@@ -69,7 +69,7 @@
                         </li>
                         <!-- Audit Log -->
                         <li class="nav-item ">
-                            <a href="#" class="nav-link">
+                            <a href="#" class="nav-link  mynav">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p> SYSTEM AUDITS <i class="right fas fa-angle-left"></i>
                                 </p>
@@ -92,7 +92,7 @@
                     @endif
                 @endauth
                 <li class="nav-item ">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link  mynav">
                         <i class="nav-icon fa fa-solid fa-folder-plus"></i>
                         <p>ESTABLISHMENT <i class="right fas fa-angle-left"></i>
                         </p>
@@ -113,7 +113,7 @@
                     </ul>
                 </li>
                 <li class="nav-item ">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link  mynav">
                         <i class="nav-icon fa fa-solid fa-folder-plus"></i>
                         <p>JOB DESCRIPTION<i class="right fas fa-angle-left"></i>
                         </p>
@@ -134,7 +134,7 @@
                     </ul>
                 </li>
                  <li class="nav-item ">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link  mynav">
                         <i class="nav-icon fa fa-solid fa-folder-plus"></i>
                         <p>SCHEMES OF SERVICE<i class="right fas fa-angle-left"></i>
                         </p>
@@ -156,7 +156,7 @@
                 </li>
 
                 <li class="nav-item ">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link  mynav">
                         <i class="nav-icon fa fa-solid fa-folder-plus"></i>
                         <p>RAPEX<i class="right fas fa-angle-left"></i>
                         </p>
@@ -178,7 +178,7 @@
                 </li>
 
                  <li class="nav-item ">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link  mynav">
                         <i class="nav-icon fa fa-solid fa-folder-plus"></i>
                         <p>SERVICE UGANDA<i class="right fas fa-angle-left"></i>
                         </p>
@@ -198,12 +198,6 @@
                         </li>
                     </ul>
                 </li>
-
-
-
-
-
-
 
                 </ul>
             </nav>
