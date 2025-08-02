@@ -20,3 +20,4 @@
 <script src="{{ asset('system/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 
  <script src="{{ asset('system/frontEnd/vendor/datatables/datatable.js')}}"></script>
+@yield('scripts')

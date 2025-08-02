@@ -4,7 +4,9 @@ namespace App\Http\Controllers\File;
 use App\Http\Controllers\Controller;
 use App\Mail\ContactFormMail;
 use App\Models\ContactUS;
+use App\Models\CountryCodes;
 use App\Models\EDBRTeam;
+use App\Models\Inquiries;
 use App\Models\JobDocuments;
 use App\Models\Questions;
 use App\Models\RapexDocuments;
@@ -20,18 +22,55 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
+use Twilio\Rest\Client;
+
+use Exception;
 use ZipArchive;
 
 class FrontEndController extends Controller
 {
+    public function UserInquiry(Request $request){
+        $data=$request->validate([
+        'fullname'=>'required|min:5',
+        'mobile'=>'required|numeric|min:10',
+        'email'=>'nullable|email',
+        'question'=>'required|min:10|max:200',
+        ]);
+        $inquiry = Inquiries::create([
+            'fullname'=>$request->fullname,
+            'telephone'=>$request->mobile,
+            'email'=> $request->email,
+            'inquiry'=>$request->question,
+        ]);
+        if($inquiry){
+            $sid = env('TWILIO_SID');
+            $token = env('TWILIO_TOKEN');
+            $fromNumber = env('TWILIO_FROM');
+            try {
+            $client = new Client($sid, $token);
+            $client->messages->create($inquiry->telephone, [
+                'from' => $fromNumber,
+                'body' => "SMS Sent Successfully."
+            ]);
+
+            // return 'SMS Sent Successfully.';
+             return redirect()->back()->with('success','You question has been sent successfully');
+        } catch (Exception $e) {
+            // return 'Error: ' . $e->getMessage();
+             return redirect()->back()->with('error',$e->getMessage());
+        }
+        }
+
+    }
 
     public function index()
     {
+        $country=CountryCodes::all();
         $services    = Services::all()->where('status', true);
         $teammembers = EDBRTeam::select('e_d_b_r_teams.id', 'users.sname', 'users.fname', 'users.oname', 'users.profile_photo_path', 'e_d_b_r_teams.title', 'e_d_b_r_teams.about', 'e_d_b_r_teams.twitter', 'e_d_b_r_teams.facebook', 'e_d_b_r_teams.instagram', 'e_d_b_r_teams.linkedin', 'e_d_b_r_teams.updated_at', 'e_d_b_r_teams.deleted_at')
             ->join('users', 'users.id', '=', 'e_d_b_r_teams.user_id')
             ->where('e_d_b_r_teams.status', true)->get();
-        return view('FileManager.FrontEnd.entryPage', compact('teammembers', 'services'));
+        return view('FileManager.FrontEnd.entryPage', compact('teammembers', 'services','country'));
     }
     public function contactus()
     {

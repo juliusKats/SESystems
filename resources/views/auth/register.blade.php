@@ -129,3 +129,29 @@
         </div>
     </div>
 @endsection
+@section('scripts')
+    <script>
+        $('#btnupload').on('click', function() {
+            $('#file-input').trigger('click');
+        })
+        const img = document.getElementById('file-input')
+
+        img.addEventListener('change', function() {
+            getImgData();
+        })
+
+        function getImgData() {
+            const files = img.files[0];
+            if (files) {
+                const fileReader = new FileReader();
+                fileReader.readAsDataURL(files);
+                fileReader.addEventListener('load', function() {
+                    // imgpreview.setAttribute('class','profile-user-img img-fluid img-circle')
+                    imgpreview.style.display = "block"
+                    imgpreview.innerHTML = '<img style="width:150px;height:150px;border-radius:100%" src="' + this
+                        .result + '" />';
+                })
+            }
+        }
+</script>
+@endsection

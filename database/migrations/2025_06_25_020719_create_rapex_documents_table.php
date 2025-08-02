@@ -18,11 +18,11 @@ return new class extends Migration
             $table->longText('file')->comment('Only Excel,PDF and Images');
             $table->longText('comment')->nullable()->comment('User Comment');
             $table->longText('zoomlink')->nullable()->comment('Virtual Meeting');
-
+            $table->boolean('Draft')->default(false);
             $table->timestamps();
-             $table->softDeletes();
+            $table->softDeletes();
             $table->string('DeletedBy',90)->nullable();
-             $table->string('RestoredBy',90)->nullable();
+            $table->string('RestoredBy',90)->nullable();
 
 
             $table->dateTime('UploadedOn')->useCurrent()->comment('Upload date');
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('cascade');
 
             $table->bigInteger("status")->unsigned()->default(2);
-             $table->foreign("status")->references("id")->on("doc_statuses")->onDelete("cascade");
+            $table->foreign("status")->references("id")->on("doc_statuses")->onDelete("cascade");
             $table->dateTime("DateOn")->nullable();
 
             $table->string("RejectedBy",50)->nullable();

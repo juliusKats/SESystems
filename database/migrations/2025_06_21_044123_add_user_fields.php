@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('is_admin')->default(false);
             $table->boolean('is_email_verified')->default(0);
-            $table->enum('role',['ps','superadmin', 'admin','user'])->default('user');
+            $table->enum('role',['ps','hod','superadmin', 'admin','user'])->default('user');
             $table->boolean('status')->default(false);
         });
     }

@@ -17,7 +17,9 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+    public function topFive(Request $request){
 
+    }
 
     public function EmailVerifyForm()
     {
@@ -155,7 +157,6 @@ class AuthController extends Controller
             // $user->email              = $request->email;
             $user->profile_photo_path = $filename;
             $finaluser                = $user->save();
-
             if ($finaluser) {
                 $path = $photo->move(public_path('storage/profile'), $filename);
             }
@@ -194,7 +195,6 @@ class AuthController extends Controller
                     $p = $active->id;
                     $p->delete();
                 }
-
             }
             // $session->delete();
             return redirect()->route('user-profile', $authuser)->with('success', 'Password updated Successfully');

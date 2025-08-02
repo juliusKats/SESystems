@@ -12,52 +12,57 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Validation\Rules\RequiredIf;
 
 class RapexController extends Controller
 {
     public function index(Request $request)
     {
         $allactive = DB::table('rapex_documents')->select
-        ('rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
+        ('rapex_documents.Draft', 'rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
             ->join('users', 'users.id', '=', 'rapex_documents.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
             ->where('rapex_documents.status', 3)
+            ->where('rapex_documents.Draft', false)
             ->get();
         $allpending = DB::table('rapex_documents')->select
-        ('rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
+        ('rapex_documents.Draft', 'rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
             ->join('users', 'users.id', '=', 'rapex_documents.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
             ->where('rapex_documents.status', 2)
+            ->where('rapex_documents.Draft', false)
             ->get();
 
         $allrejected = DB::table('rapex_documents')->select
-        ('rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
+        ('rapex_documents.Draft', 'rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
             ->join('users', 'users.id', '=', 'rapex_documents.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
             ->where('rapex_documents.status', 4)
+            ->where('rapex_documents.Draft', false)
             ->get();
 
         $alldeleted = RAPEXDocuments::onlyTrashed()->select('rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
             ->join('users', 'users.id', '=', 'rapex_documents.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
             ->where('rapex_documents.status', 5)
+            ->where('rapex_documents.Draft', false)
             ->get();
 
         $mypending = DB::table('rapex_documents')->select
-        ('rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
+        ('rapex_documents.Draft', 'rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
             ->join('users', 'users.id', '=', 'rapex_documents.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
             ->where('rapex_documents.UploadedBy', Auth::user()->id)
             ->where('rapex_documents.status', 2)
+            ->where('rapex_documents.Draft', false)
             ->get();
 
         $myrejected = DB::table('rapex_documents')->select
-        ('rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
+        ('rapex_documents.Draft', 'rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
             ->join('users', 'users.id', '=', 'rapex_documents.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
             ->where('rapex_documents.UploadedBy', Auth::user()->id)
             ->where('rapex_documents.status', 4)
+            ->where('rapex_documents.Draft', false)
             ->get();
 
         $mydeleted = RAPEXDocuments::onlyTrashed()->select
@@ -67,14 +72,22 @@ class RapexController extends Controller
             ->where('rapex_documents.UploadedBy', Auth::user()->id)
             ->where('rapex_documents.status', 5)
             ->get();
-        return view("FileManager.Rapex.index", compact('allactive', 'allpending', 'allrejected', 'alldeleted',
+
+        $mydrafts = DB::table('rapex_documents')->select
+        ('rapex_documents.Draft', 'rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
+            ->join('users', 'users.id', '=', 'rapex_documents.UploadedBy')
+            ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
+            ->where('rapex_documents.UploadedBy', Auth::user()->id)
+            ->where('rapex_documents.Draft', true)
+            ->get();
+        return view("FileManager.Rapex.index", compact('allactive', 'allpending', 'allrejected', 'alldeleted', 'mydrafts',
             'mypending', 'myrejected', 'mydeleted'));
     }
     public function create(Request $request)
     {
-        $entities = GovEntities::all();
+        $entities   = GovEntities::all();
         $categories = ImageCategory::all();
-        return view("FileManager.Rapex.add", compact("entities",'categories'));
+        return view("FileManager.Rapex.add", compact("entities", 'categories'));
 
     }
 
@@ -98,14 +111,14 @@ class RapexController extends Controller
             'entity.*'    => 'required',
             'institute.*' => 'required',
             'docs'        => 'required',
-            'docs.*'      => 'required|mimes:docx,doc,pdf,xls,xlsx|max:4094',
+            'docs.*'      => 'required|mimes:docx,doc,pdf,xls,xlsx,ppt,pps,pptx',
             'images'      => 'nullable',
             'images.*'    => 'nullable|mimes:png,jpg,jpg|max:4094',
             'link'        => 'nullable|url',
             'comment'     => 'string|required|min:5',
-            'video'=>'nullable|file|mimes:avi,divx,flv,m4v,mkv,mov,mp4,mpeg,mpg,ogm,ogv,ogx,rm,rmvb,smil,webm,wmv,xvid',
-            'categrory'=>'required_if:images,!=null|exists:image_categories,id',
-            'description'=>'required_if:images,!=null'
+            'video'       => 'nullable|file|mimes:avi,divx,flv,m4v,mkv,mov,mp4,mpeg,mpg,ogm,ogv,ogx,rm,rmvb,smil,webm,wmv,xvid',
+            'categrory'   => 'required_if:images,!=null|exists:image_categories,id',
+            'description' => 'required_if:images,!=null',
         ]);
         // dd($data);
 
@@ -161,6 +174,7 @@ class RapexController extends Controller
             $documentArray = implode(",", $docArray);
 
         }
+        // dd($documentArray);
         if ($request->hasFile('images')) {
             // $allowedextensions=['pdf','doc','docx','xls','xlsx','png','jpg','jpeg'];
             $img = $request->file('images');
@@ -175,36 +189,47 @@ class RapexController extends Controller
             $pictureArray = implode(",", $imgArray);
         }
 
-        if($request->hasFile('video')){
-            $video=$request->file('video');
-            $videoname = $video->getClientOriginalName();
-            $videoNewName =$year."_".$month."_".$videoname;
-            $videopath=$video->move(public_path('storage/Rapex/Video/'.$year."/".$month),$videoNewName);
+        if ($request->hasFile('video')) {
+            $video        = $request->file('video');
+            $videoname    = $video->getClientOriginalName();
+            $videoNewName = $year . "_" . $month . "_" . $videoname;
+            $videopath    = $video->move(public_path('storage/Rapex/Video/' . $year . "/" . $month), $videoNewName);
+        }
+        if ($request->save) {
+            $rpdoc = RapexDocuments::create([
+                'entity'      => $entityID,
+                'institution' => $instituteArray,
+                'file'        => $documentArray,
+                'comment'     => $rapexcomment,
+                'status'      => $status,
+                'zoomlink'    => $request->link,
+                'UploadedBy'  => Auth::user()->id,
+            ]);
+        } else {
+            $rpdoc = RapexDocuments::create([
+                'entity'      => $entityID,
+                'institution' => $instituteArray,
+                'file'        => $documentArray,
+                'comment'     => $rapexcomment,
+                'status'      => $status,
+                'Draft'       => true,
+                'zoomlink'    => $request->link,
+                'UploadedBy'  => Auth::user()->id,
+            ]);
+
         }
 
-        $rpdoc = RapexDocuments::create([
-            'entity'      => $entityID,
-            'institution' => $instituteArray,
-            'file'        => $documentArray,
-            'comment'     => $rapexcomment,
-            'status'=>$status,
-            'zoomlink'    => $request->link,
-            'UploadedBy'  => Auth::user()->id,
-        ]);
-        // dd($entity);
-
-        // if ($pictureArray != "" or $pictureArray != null) {
-         if ($request->hasFile('images')!=null && $rpdoc ) {
+        if ($request->hasFile('images') != null && $rpdoc) {
             RapexImages::create([
-                'uploadedby' => Auth::user()->id,
-                'rapex_id'   => $rpdoc->id,
-                'imagefiles' => $pictureArray,
-                'category_id'=>$request->category,
-                'Description'=>$request->description
+                'uploadedby'  => Auth::user()->id,
+                'rapex_id'    => $rpdoc->id,
+                'imagefiles'  => $pictureArray,
+                'category_id' => $request->category,
+                'Description' => $request->description,
             ]);
         }
 
-        if($request->video !=null && $rpdoc ){
+        if ($request->video != null && $rpdoc) {
             RapexVideo::create([
                 'uploadedby' => Auth::user()->id,
                 'rapex_id'   => $rpdoc->id,
@@ -334,17 +359,16 @@ class RapexController extends Controller
         $Rapex->forceDelete();
         return redirect()->route('rapex.file.list')->with('success', 'All Files Deleted Successfully');
     }
-public function ShowDetails(Request $request, $id)
+    public function ShowDetails(Request $request, $id)
     {
 
-       $file= RapexImages::select('rapex_images.id','rapex_images.imagefiles','rapex_images.rapex_id','rapex_documents.entity','rapex_documents.institution','rapex_documents.file','rapex_documents.comment','rapex_documents.zoomlink','users.fname','users.sname','users.oname')
-        ->join ('rapex_documents','rapex_documents.id' ,'=' , 'rapex_images.rapex_id')
-        ->join ('users','users.id','=','rapex_documents.UploadedBy')
-        ->where('rapex_images.rapex_id',$id)
-        ->get();
+        $file = RapexImages::select('rapex_images.id', 'rapex_images.imagefiles', 'rapex_images.rapex_id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'users.fname', 'users.sname', 'users.oname')
+            ->join('rapex_documents', 'rapex_documents.id', '=', 'rapex_images.rapex_id')
+            ->join('users', 'users.id', '=', 'rapex_documents.UploadedBy')
+            ->where('rapex_images.rapex_id', $id)
+            ->get();
 
-          return view('FileManager.Rapex.RapexDetailed', compact('file'));
-
+        return view('FileManager.Rapex.RapexDetailed', compact('file'));
 
     }
     public function Edit(Request $request, $id)

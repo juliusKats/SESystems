@@ -144,7 +144,8 @@
                             @enderror
                         </div>
                         <div class="form-group mt-2">
-                            <input type="submit" class="btn btn-primary" value="Upload">
+                             <input type="submit" class="btn btn-primary" value="Save" name="Upload">
+                            <input type="submit" class="btn btn-success float-right" value="Save Draft" name="draft">
                         </div>
                     </form>
                 </div>

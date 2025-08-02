@@ -71,5 +71,10 @@ $(function () {
         "responsive": true, "info": true, "lengthChange": true, "autoWidth": false
     }).buttons().container().appendTo('#establishment_wrapper .col-md-6:eq(0)');
 
+    $("#drafts").DataTable({
+        "responsive": true, "info": true, "lengthChange": true, "autoWidth": false
+    }).buttons().container().appendTo('#establishment_wrapper .col-md-6:eq(0)');
+
+
 });
-           
+

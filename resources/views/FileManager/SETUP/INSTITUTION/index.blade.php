@@ -2,7 +2,7 @@
 @section('page_title') Establishment @endsection
 @section('content')
 
- <div class="content-header">
+    <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home.dashboard')}}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home.dashboard') }}">Home</a></li>
                         <li class="breadcrumb-item active">Lines</li>
                     </ol>
                 </div>
@@ -22,36 +22,6 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-                  {{-- @if (session('success'))
-                    <div class="card card-success">
-                        <div class="card-header">
-                            <h3 class="card-title">{{ session('success') }}</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                @if (session('error'))
-                    <div class="card card-danger">
-                        <div class="card-header">
-                            <h3 class="card-title">{{ session('error') }}</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif --}}
                 <div class="card-header p-2">
                     <a href="#" class="btn btn-success float float-right">Add Institution</a>
                     <ul class="nav nav-pills">
@@ -67,8 +37,6 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card">
-
-
                                         <div class="card-body">
                                             <table id="rapex" class="table table-bordered table-striped table-hover">
                                                 <thead>
@@ -76,7 +44,6 @@
                                                         <th>#</th>
                                                         <th>Line Ministry</th>
                                                         <th>Institution</th>
-                                                        <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -89,26 +56,41 @@
                                                             </td>
                                                             <td>{{ $item->institution }}</td>
                                                             <td>
-                                                                @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    <form method="post"
-                                                                        action="{{ route('institute.activate', $item->id) }}">
-                                                                        @csrf
-                                                                        @method('PUT')
-                                                                        <input type="submit"
-                                                                            class="btn @if ($item->status == true) btn-success @else btn-danger @endif"
-                                                                            value="@if ($item->status == true) Approved @else Pending @endif">
-                                                                    </form>
-                                                                @else
-                                                                @endif
+                                                                <div class="dropdown mt-1 btn-sm">
+                                                                    <button class="btn btn-danger btn-sm dropdown-toggle"
+                                                                        href="#" role="button" data-toggle="dropdown"
+                                                                        arial-haspopup="true" arial-expanded="false">
+                                                                        Action
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <a href="#"
+                                                                            class="ml-4 btn btn-sm btn-primary mt-1">
+                                                                            Edit
+                                                                        </a>
+                                                                        @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
+                                                                            <form method="post"
+                                                                                action="{{ route('institute.activate', $item->id) }}">
+                                                                                @csrf
+                                                                                @method('PUT')
+                                                                                <input type="submit"
+                                                                                    class="btn mt-1 ml-4 btn-sm @if ($item->status == true) btn-success @else btn-danger @endif"
+                                                                                    value="@if ($item->status == true) Approved @else Pending @endif">
+                                                                            </form>
+                                                                        @endif
+                                                                        <a href="#"
+                                                                            class="ml-4 btn btn-sm btn-primary mt-1">
+                                                                            Delete
+                                                                        </a>
+
+                                                                    </div>
+                                                                </div>
                                                             </td>
-                                                            <td>Edit Delete</td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-                                    <!-- /.card -->
                                 </div>
 
                             </div>
@@ -128,7 +110,6 @@
                                                         <th>#</th>
                                                         <th>Line Ministry</th>
                                                         <th>Institution Name</th>
-                                                        <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -141,19 +122,34 @@
                                                             </td>
                                                             <td>{{ $item->institution }}</td>
                                                             <td>
-                                                                @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
-                                                                    <form method="post"
-                                                                        action="{{ route('institute.activate', $item->id) }}">
-                                                                        @csrf
-                                                                        @method('PUT')
-                                                                        <input type="submit"
-                                                                            class="btn @if ($item->status == true) btn-success @else btn-danger @endif"
-                                                                            value="@if ($item->status == true) Approved @else Pending @endif">
-                                                                    </form>
-                                                                @else
-                                                                @endif
+                                                                <div class="dropdown mt-1 btn-sm">
+                                                                    <button class="btn btn-danger btn-sm dropdown-toggle"
+                                                                        href="#" role="button" data-toggle="dropdown"
+                                                                        arial-haspopup="true" arial-expanded="false">
+                                                                        Action
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <a href="#"
+                                                                            class="ml-4 btn btn-sm btn-primary mt-1">
+                                                                            Edit
+                                                                        </a>
+                                                                        @if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin')
+                                                                            <form method="post"
+                                                                                action="{{ route('institute.activate', $item->id) }}">
+                                                                                @csrf
+                                                                                @method('PUT')
+                                                                                <input type="submit"
+                                                                                    class="btn mt-1 ml-4 btn-sm @if ($item->status == true) btn-success @else btn-danger @endif"
+                                                                                    value="@if ($item->status == true) Approved @else Pending @endif">
+                                                                            </form>
+                                                                        @endif
+                                                                        <a href="#"
+                                                                            class="ml-4 btn btn-sm btn-primary mt-1">
+                                                                            Delete
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
                                                             </td>
-                                                            <td>Edit Delete</td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>

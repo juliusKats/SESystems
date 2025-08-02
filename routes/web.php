@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard\UserDashboardController;
 use App\Http\Controllers\File\EmailController;
 use App\Http\Controllers\File\EstablishmentController;
 use App\Http\Controllers\File\FrontEndController;
+use App\Http\Controllers\File\InquiryController;
 use App\Http\Controllers\File\JobDescriptionController;
 use App\Http\Controllers\File\LineMinistryController;
 use App\Http\Controllers\File\RapexController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\UserAuth\AuthController;
 use App\Http\Middleware\AllowOnlyAdmin;
 use App\Models\Carders;
 use App\Models\CardMinistries;
+use App\Models\CountryCodes;
 use App\Models\EDBRTeam;
 use App\Models\GovEntities;
 use App\Models\Institutions;
@@ -29,12 +31,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use OwenIt\Auditing\Models\Audit;
 
+
 Route::get('/', function () {
+    $country     = CountryCodes::all();
     $services    = Services::all()->where('status', true);
     $teammembers = EDBRTeam::select('e_d_b_r_teams.id', 'users.sname', 'users.fname', 'users.oname', 'users.profile_photo_path', 'e_d_b_r_teams.title', 'e_d_b_r_teams.about', 'e_d_b_r_teams.twitter', 'e_d_b_r_teams.facebook', 'e_d_b_r_teams.instagram', 'e_d_b_r_teams.linkedin', 'e_d_b_r_teams.updated_at', 'e_d_b_r_teams.deleted_at')
         ->join('users', 'users.id', '=', 'e_d_b_r_teams.user_id')
         ->where('e_d_b_r_teams.status', true)->get();
-    return view('FileManager.FrontEnd.entryPage', compact('teammembers', 'services'));
+    return view('FileManager.FrontEnd.entryPage', compact('teammembers', 'services', 'country'));
 });
 Route::middleware([
     'auth:sanctum',
@@ -57,7 +61,6 @@ Route::prefix('user/authentication')->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::get('/enduser/register', 'Register')->name('front.user.register');
         Route::get('/enduser/login', 'Login')->name('front.user.login');
-
         Route::get('/forget/password', 'showForgetPasswordForm')->name('forget.password.get');
         Route::post('/forget-password', 'ForgetPassword')->name('forget.password.post');
         //   Route::get('/reset/password','showResetPasswordForm')->name('reset.password.get');
@@ -99,8 +102,7 @@ Route::prefix('ajax')->group(function () {
         Route::get('fetch/test/chat', 'TestingChart')->name('fetch-test');
         Route::get('fetch/multiple/institution', 'FetchMultipleInstitution')->name('fetch-multiple-institution');
         Route::get('fetch/carder', 'FetchCarder')->name('fetch-carder');
-        Route::get('fetch/ment', 'Fetchment')->name('fetch-ment');
-
+        Route::get('fetch/establishment', 'Fetchestablishment')->name('fetch-establishment');
     });
 });
 
@@ -128,7 +130,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('Line/Ministry/List', 'LineIndex')->name('line.ministy.list');
             Route::post('Line/Ministry/Save', 'LineStore')->name('line.ministry.save');
             Route::put('Line/Ministry/{id}/Activate', 'LineActivate')->name('line.activate');
-
             Route::get('Institution/Index', 'InstitutionIndex')->name('institution.list');
             Route::post('Institution/Save', 'InstitutionStore')->name('line.ministy.save');
             Route::put('Institution/{id}/Activate', 'InstituteActivate')->name('institute.activate');
@@ -136,8 +137,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         // file controller
         Route::controller(EstablishmentController::class)->group(function () {
             // Route::get('/dashboard', 'Dashboard')->name('dashboard');
-            Route::get('Manage/ment/File', 'index')->name('file.list');
-            Route::get('Upload/ment/file', 'create')->name('file.create');
+            Route::get('Manage/establishment/File', 'index')->name('file.list');
+            Route::get('Upload/establishment/file', 'create')->name('file.create');
             Route::post('file/store', 'store')->name('file.store');
             Route::put('file/{id}/approve', 'ApproveFile')->name('file.approve');
             Route::get('file/{id}/reject', 'RejectFile')->name('file.reject');
@@ -175,13 +176,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('scheme/upload/service', 'create')->name('scheme.service.upload');
             Route::post('scheme/store/service', 'store')->name('scheme.service.store');
 
-             Route::delete('scheme/temporary{id}/delete', 'SoftDelete')->name('scheme.soft.delete');
+            Route::delete('scheme/temporary{id}/delete', 'SoftDelete')->name('scheme.soft.delete');
             Route::post('scheme/restore/{id}/soft', 'Restore')->name('scheme.restore');
             Route::delete('scheme/{id}/delete/all/scheme/documents', 'deleteVote')->name('delete.schemes');
             Route::put('scheme/{id}/approve', 'ApproveFile')->name('scheme.approve');
             Route::get('scheme/{id}/reject', 'RejectFile')->name('scheme.reject');
             Route::put('scheme/{id}/reject', 'RejectSave')->name('scheme.reject.save');
-
 
         });
 
@@ -279,6 +279,7 @@ Route::get('new/admin', function () {
     );
 });
 Route::controller(FrontEndController::class)->group(function () {
+    Route::post('user/inquiry', 'UserInquiry')->name('user.inquiry');
     Route::get('/user/entry', 'index')->name('user.entry.page');
     Route::get('/user/contact/us', 'contactus')->name('user.entry.contact');
     Route::post('/contact/us/save/', 'ContactUsSave')->name('save.contact.us');
@@ -307,16 +308,24 @@ Route::controller(FrontEndController::class)->group(function () {
     Route::get('/download/{string}/attachement/file', 'downloadSUfile')->name('su.download.file');
     Route::get('/preview/{string}/attachement/pdf', 'previewSUPdf')->name('su.pdf.view');
 });
+Route::prefix('edbrs.com')->group(function () {
+    Route::controller(InquiryController::class)->group(function () {
+        Route::get('inquiry/list','messageList')->name('inquiry.list');
+        Route::get('inquiry/{id}/reply','ReplyInquiry')->name('inquiry.reply');
+        Route::put('inquiry/save/{id}/reply','store')->name('inquiry.store');
+        Route::delete('inquiry/{id}/archive','SoftDeleteInquiry')->name('inquiry.soft.delete');
+        Route::delete('inquiry/{id}/delete','DeleteInquiry')->name('inquiry.delete');
+    });
+});
 
 Route::prefix('edbrs.com')->group(function () {
     Route::controller(HomeController::class)->group(function () {
-
         Route::get('/index/home', 'index')->name('home.dashboard');
-
         Route::get('/system/faq', 'FrequentQuestions')->name('faq');
         Route::post('Ask/Your/Question', 'AskQuestion')->name('ask.question');
         Route::get('/contact/us', 'ContactUS')->name('contact-us');
 
 //  job.description.download
     });
+
 });

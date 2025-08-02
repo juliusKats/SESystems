@@ -10,7 +10,7 @@ Login
         </marquee>
     </div>
     <div class="page-title" data-aos="fade">
-        <div class="container text text-white">
+        <div class="container">
             <div class="row">
                 <div class="col-md-10">
                     <h1>Login</h1>
@@ -27,7 +27,7 @@ Login
         </div>
     </div>
 
-    
+
     <section id="faq-2" class="faq-2 section light-background"
         style="background-image: url('{{ asset('system/frontEnd/img/bg/bg-8.webp') }}')">
 

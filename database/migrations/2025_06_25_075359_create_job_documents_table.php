@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('job_documents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('carderId')->references('id')->on('carders')->nullable()->cascadeOnDelete();
-            $table->foreignId('versionId')->references('id')->on('versions')->nullable()->cascadeOnDelete();
+             $table->bigInteger('carderId')->unsigned();
+            $table->bigInteger('versionId')->unsigned()->nullable();
+            $table->boolean('Draft')->default(false);
             $table->string('CarderName', 200)->comment('Name Of Carder');
             $table->longText('WordFile')->comment('Word documment .doc,.docx');
             $table->enum('ext', ['pdf', 'docx', 'doc'])->comment('File extension');
@@ -28,9 +29,8 @@ return new class extends Migration
 
             $table->dateTime('UploadedOn')->useCurrent()->comment('Upload date');
             $table->bigInteger('UploadedBy')->unsigned();
-            $table->bigInteger('carder_id')->nullable()->unsigned();
-            $table->foreign('carder_id')->references('id')->on('card_ministries')->onDelete('cascade');
-
+            $table->foreign('carderId')->references('id')->on('carders')->nullable()->cascadeOnDelete();
+            $table->foreign('versionId')->references('id')->on('versions')->nullable()->cascadeOnDelete();
             $table->string('ApprovedBy', 40)->nullable();
             $table->string('UpdatedBy', 40)->nullable();
             $table->bigInteger('approved_by')->nullable()->unsigned();

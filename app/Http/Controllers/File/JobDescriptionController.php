@@ -15,48 +15,61 @@ class JobDescriptionController extends Controller
     public function index()
     {
         //
-        $allactives = JobDocuments::select('job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
+        $allactives = JobDocuments::select('job_documents.Draft','job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
             ->join('users', 'users.id', '=', 'job_documents.UploadedBy')
             ->where('job_documents.status', 3)
+            ->where('job_documents.Draft', false)
             ->orderBy("created_at", "desc")->get(); // Master Query
-        $allpending = JobDocuments::select('job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
+        $allpending = JobDocuments::select('job_documents.Draft','job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
             ->join('users', 'users.id', '=', 'job_documents.UploadedBy')
             ->where('job_documents.status', 2)
+            ->where('job_documents.Draft', false)
             ->orderBy("created_at", "desc")->get();
-        $allrejected = JobDocuments::select('job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
+        $allrejected = JobDocuments::select('job_documents.Draft','job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
             ->join('users', 'users.id', '=', 'job_documents.UploadedBy')
             ->where('job_documents.status', 4)
+            ->where('job_documents.Draft', false)
             ->orderBy("created_at", "desc")->get();
-        $alldeleted = JobDocuments::onlyTrashed()->select('job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
+        $alldeleted = JobDocuments::onlyTrashed()->select('job_documents.Draft','job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
             ->join('users', 'users.id', '=', 'job_documents.UploadedBy')
             ->where('job_documents.status', 5)
+            ->where('job_documents.Draft', false)
             ->orderBy("created_at", "desc")->get();
 
-        $mypending = JobDocuments::select('job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
+        $mypending = JobDocuments::select('job_documents.Draft','job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
             ->join('users', 'users.id', '=', 'job_documents.UploadedBy')
             ->where('job_documents.status', 2)
+            ->where('job_documents.Draft', false)
             ->where('job_documents.UploadedBy', Auth::user()->id)
             ->orderBy("created_at", "desc")->get();
-        $myrejected = JobDocuments::select('job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
+        $myrejected = JobDocuments::select('job_documents.Draft','job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
             ->join('users', 'users.id', '=', 'job_documents.UploadedBy')
             ->where('job_documents.UploadedBy', Auth::user()->id)
             ->where('job_documents.status', 4)
+            ->where('job_documents.Draft', false)
             ->orderBy("created_at", "desc")->get();
-        $mydeleted = JobDocuments::onlyTrashed()->select('job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
+        $mydeleted = JobDocuments::onlyTrashed()->select('job_documents.id', 'job_documents.Draft', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
             ->join('users', 'users.id', '=', 'job_documents.UploadedBy')
             ->where('job_documents.UploadedBy', Auth::user()->id)
             ->where('job_documents.status', 5)
+            ->where('job_documents.Draft', false)
+            ->orderBy("created_at", "desc")->get();
+
+        $mydrafts = JobDocuments::select('job_documents.Draft','job_documents.id', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy')
+            ->join('users', 'users.id', '=', 'job_documents.UploadedBy')
+            ->where('job_documents.UploadedBy', Auth::user()->id)
+            ->where('job_documents.Draft', true)
             ->orderBy("created_at", "desc")->get();
 
         return view("FileManager.JOBS.index",
-            compact("allactives", 'allpending', 'allrejected', 'alldeleted', 'mypending', 'myrejected', 'mydeleted'));
+            compact("allactives", 'allpending', 'allrejected', 'alldeleted', 'mypending', 'myrejected', 'mydeleted', 'mydrafts'));
     }
 
     public function create()
     {
-        $carders = CardMinistries::all();
-        $versions=Version::all();
-        return view("FileManager.JOBS.add", compact('carders','versions'));
+        $carders  = CardMinistries::all();
+        $versions = Version::all();
+        return view("FileManager.JOBS.add", compact('carders', 'versions'));
     }
 
     public function store(Request $request)
@@ -73,7 +86,7 @@ class JobDescriptionController extends Controller
             'fileupload.*' => 'mimes:doc,docx|max:4096',
             'pdf'          => 'required',
             'pdf.*'        => 'mimes:pdf|max:4096',
-            'version'=>'required|exists:versions,id'
+            'version'      => 'required|exists:versions,id',
 
         ]);
 
@@ -146,15 +159,34 @@ class JobDescriptionController extends Controller
         } else {
             $status = 2;
         }
-        // dd($status);
-        //Check if document witht the same version exists
-        $exists = JobDocuments::where('carderId',$request->ministry)->where('versionId',$request->version)->exists();
-        if($exists){
-            return redirect()->route('job.file.create')->with('warning','A version With the same version already exists');
-        }
-        else{
+        if ($request->save) {
+            // Check if document witht the same version exists
+            $exists = JobDocuments::where('carderId', $request->ministry)->where('versionId', $request->version)->exists();
+            if ($exists) {
+                return redirect()->route('job.file.create')->with('warning', 'A version With the same version already exists');
+            } else {
+                $job = JobDocuments::create([
+                    'carderId'   => $request->ministry,
+                    'CarderName' => $carderID,
+                    'WordFile'   => $pdfname,
+                    'ext'        => $ext,
+                    'PDFFile'    => $pspdfname,
+                    'status'     => $status,
+                    'ApprovedOn' => $request->approvaldate,
+                    'comment'    => $votecomment,
+                    'UploadedBy' => Auth::user()->id,
+                    'versionId'  => $request->version,
+                ]);
+            }
+
+            if ($job) {
+                return redirect()->route('job.file.list')->with('success', 'File Uploaded Successfully');
+            } else {
+                return redirect()->route('job.file.list')->with('error', 'File Uploaded Failed');
+            }
+        } else {
             $job = JobDocuments::create([
-                'carderId'  => $request->ministry,
+                'carderId'   => $request->ministry,
                 'CarderName' => $carderID,
                 'WordFile'   => $pdfname,
                 'ext'        => $ext,
@@ -163,14 +195,15 @@ class JobDescriptionController extends Controller
                 'ApprovedOn' => $request->approvaldate,
                 'comment'    => $votecomment,
                 'UploadedBy' => Auth::user()->id,
-                'versionId'  => $request->version,
+                'versionId'  => null,
+                'Draft'      => true,
             ]);
-        }
 
-        if ($job) {
-            return redirect()->route('job.file.list')->with('success', 'File Uploaded Successfully');
-        } else {
-            return redirect()->route('job.file.list')->with('error', 'File Uploaded Failed');
+            if ($job) {
+                return redirect()->route('job.file.list')->with('success', 'File Uploaded Successfully');
+            } else {
+                return redirect()->route('job.file.list')->with('error', 'File Uploaded Failed');
+            }
         }
     }
 

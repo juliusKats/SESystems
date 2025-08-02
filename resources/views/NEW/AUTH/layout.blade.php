@@ -38,7 +38,18 @@
 
 
     @yield('scripts')
-    <script>
+    {{-- <script>
+        const tabs = document.querySelectorAll('.nav-link');
+        const navItem = document.querySelectorAll('.nav-item');
+        tabs.forEach(
+            tab => { tab.addEventListener('click', () => {
+                // Remove 'active' class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                // Add 'active' class to the clicked tab
+                tab.classList.add('active');
+            });
+        });
+
         $(function() {
             var Toast = Swal.mixin({
                 toast: true,
@@ -81,7 +92,7 @@
                 toastr.info('{{ session('info') }}')
             @endif
         })
-    </script>
+    </script> --}}
 </body>
 
 </html>

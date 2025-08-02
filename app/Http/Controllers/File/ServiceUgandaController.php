@@ -22,12 +22,14 @@ class ServiceUgandaController extends Controller
             ->join('users', 'users.id', '=', 'service_uganda_centers.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'service_uganda_centers.status')
             ->where('service_uganda_centers.status', 3)
+            ->where('service_uganda_centers.Draft', false)
             ->get();
         $allpending = DB::table('service_uganda_centers')->select
         ('service_uganda_centers.id', 'service_uganda_centers.SUCenter', 'service_uganda_centers.file', 'service_uganda_centers.comment', 'service_uganda_centers.zoomlink', 'service_uganda_centers.updated_at', 'service_uganda_centers.created_at', 'service_uganda_centers.deleted_at', 'service_uganda_centers.DeletedBy', 'service_uganda_centers.RestoredBy', 'service_uganda_centers.UploadedOn', 'service_uganda_centers.UploadedBy', 'service_uganda_centers.ApprovedBy', 'service_uganda_centers.UpdatedBy', 'service_uganda_centers.approved_by', 'doc_statuses.statusName', 'service_uganda_centers.DateOn', 'service_uganda_centers.RejectedBy', 'service_uganda_centers.Reason', 'users.fname', 'users.oname', 'users.sname')
             ->join('users', 'users.id', '=', 'service_uganda_centers.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'service_uganda_centers.status')
             ->where('service_uganda_centers.status', 2)
+            ->where('service_uganda_centers.Draft', false)
             ->get();
 
         $allrejected = DB::table('service_uganda_centers')->select
@@ -35,6 +37,7 @@ class ServiceUgandaController extends Controller
             ->join('users', 'users.id', '=', 'service_uganda_centers.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'service_uganda_centers.status')
             ->where('service_uganda_centers.status', 4)
+            ->where('service_uganda_centers.Draft', false)
             ->get();
 
         $alldeleted = ServiceUgandaCenter::onlyTrashed()->select
@@ -42,12 +45,14 @@ class ServiceUgandaController extends Controller
             ->join('users', 'users.id', '=', 'service_uganda_centers.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'service_uganda_centers.status')
             ->where('service_uganda_centers.status', 5)
+            ->where('service_uganda_centers.Draft', false)
             ->get();
         $mypending = DB::table('service_uganda_centers')->select
         ('service_uganda_centers.id', 'service_uganda_centers.SUCenter', 'service_uganda_centers.file', 'service_uganda_centers.comment', 'service_uganda_centers.zoomlink', 'service_uganda_centers.updated_at', 'service_uganda_centers.created_at', 'service_uganda_centers.deleted_at', 'service_uganda_centers.DeletedBy', 'service_uganda_centers.RestoredBy', 'service_uganda_centers.UploadedOn', 'service_uganda_centers.UploadedBy', 'service_uganda_centers.ApprovedBy', 'service_uganda_centers.UpdatedBy', 'service_uganda_centers.approved_by', 'doc_statuses.statusName', 'service_uganda_centers.DateOn', 'service_uganda_centers.RejectedBy', 'service_uganda_centers.Reason', 'users.fname', 'users.oname', 'users.sname')
             ->join('users', 'users.id', '=', 'service_uganda_centers.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'service_uganda_centers.status')
             ->where('service_uganda_centers.status', 2)
+            ->where('service_uganda_centers.Draft', false)
             ->where('service_uganda_centers.UploadedBy', Auth::user()->id)
             ->get();
 
@@ -56,6 +61,7 @@ class ServiceUgandaController extends Controller
             ->join('users', 'users.id', '=', 'service_uganda_centers.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'service_uganda_centers.status')
             ->where('service_uganda_centers.status', 4)
+            ->where('service_uganda_centers.Draft', false)
             ->where('service_uganda_centers.UploadedBy', Auth::user()->id)
             ->get();
 
@@ -67,8 +73,16 @@ class ServiceUgandaController extends Controller
             ->where('service_uganda_centers.UploadedBy', Auth::user()->id)
             ->get();
 
+        $mydrafts = DB::table('service_uganda_centers')->select
+        ('service_uganda_centers.id', 'service_uganda_centers.SUCenter', 'service_uganda_centers.file', 'service_uganda_centers.comment', 'service_uganda_centers.zoomlink', 'service_uganda_centers.updated_at', 'service_uganda_centers.created_at', 'service_uganda_centers.deleted_at', 'service_uganda_centers.DeletedBy', 'service_uganda_centers.RestoredBy', 'service_uganda_centers.UploadedOn', 'service_uganda_centers.UploadedBy', 'service_uganda_centers.ApprovedBy', 'service_uganda_centers.UpdatedBy', 'service_uganda_centers.approved_by', 'doc_statuses.statusName', 'service_uganda_centers.DateOn', 'service_uganda_centers.RejectedBy', 'service_uganda_centers.Reason', 'users.fname', 'users.oname', 'users.sname')
+            ->join('users', 'users.id', '=', 'service_uganda_centers.UploadedBy')
+            ->join('doc_statuses', 'doc_statuses.id', '=', 'service_uganda_centers.status')
+            ->where('service_uganda_centers.Draft', true)
+            ->where('service_uganda_centers.UploadedBy', Auth::user()->id)
+            ->get();
+
         return view("FileManager.ServiceUg.index", compact('allactive', 'allpending', 'allrejected', 'alldeleted',
-            'mypending', 'myrejected', 'mydeleted'));
+            'mypending', 'myrejected', 'mydeleted', 'mydrafts'));
     }
     public function create(Request $request)
     {
@@ -77,7 +91,6 @@ class ServiceUgandaController extends Controller
         return view("FileManager.ServiceUg.add", compact("entities", 'categories'));
 
     }
-
     public function store(Request $request)
     {
         // dd($request->all());
@@ -124,16 +137,15 @@ class ServiceUgandaController extends Controller
             $image->setAttribute('src', $image_name);
 
         }
-        $rapexcomment   = $dom->saveHTML();
-        $entity         = $request->entity;
-        $institute      = $request->institute;
-        $entityID       = [];
+        $rapexcomment = $dom->saveHTML();
+        $entity       = $request->entity;
+        $institute    = $request->institute;
+        $entityID     = [];
 
         foreach ($entity as $key => $value) {
             $idArray[] = $value;
         }
         $entityID = implode(",", $idArray);
-
 
         $documentArray = [];
         $pictureArray  = [];
@@ -171,15 +183,28 @@ class ServiceUgandaController extends Controller
             $videoNewName = $year . "_" . $month . "_" . $videoname;
             $videopath    = $video->move(public_path('storage/Rapex/Video/' . $year . "/" . $month), $videoNewName);
         }
+        if ($request->save) {
 
-        $rpdoc = ServiceUgandaCenter::create([
-            'SUCenter'   => $entityID,
-            'file'       => $documentArray,
-            'comment'    => $rapexcomment,
-            'status'     => $status,
-            'zoomlink'   => $request->link,
-            'UploadedBy' => Auth::user()->id,
-        ]);
+            $rpdoc = ServiceUgandaCenter::create([
+                'SUCenter'   => $entityID,
+                'file'       => $documentArray,
+                'comment'    => $rapexcomment,
+                'status'     => $status,
+                'zoomlink'   => $request->link,
+                'UploadedBy' => Auth::user()->id,
+            ]);
+        } else {
+            $rpdoc = ServiceUgandaCenter::create([
+                'SUCenter'   => $entityID,
+                'file'       => $documentArray,
+                'comment'    => $rapexcomment,
+                'status'     => $status,
+                'zoomlink'   => $request->link,
+                'Draft'      => true,
+                'UploadedBy' => Auth::user()->id,
+            ]);
+
+        }
 
         // if ($pictureArray != "" or $pictureArray != null) {
         if ($request->hasFile('images') != null && $rpdoc) {

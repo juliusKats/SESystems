@@ -23,61 +23,75 @@ class EstablishmentController extends Controller
         return view("FileManager.ESTABLISHMENT.Dashboard", compact("user", ));
     }
 
-
     public function index()
     {
         //Deleted
-        $deleted = UserFiles::onlyTrashed()->select('user_files.id','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.Approve as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+        $deleted = UserFiles::onlyTrashed()->select('user_files.id', 'user_files.Draft','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.Approve as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
+            ->where('user_files.Draft',false)
             ->orderBy("user_files.deleted_at", "desc")->get();
         // Approved files
-        $files = UserFiles::select('user_files.id','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+        $files = UserFiles::select('user_files.id', 'user_files.Draft','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.status', 3)
+             ->where('user_files.Draft',false)
             ->orderBy("created_at", "desc")->get(); // Master Query
                                                 // Pending
-        $pending = UserFiles::select('user_files.status','user_files.id', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+        $pending = UserFiles::select('user_files.status', 'user_files.Draft', 'user_files.id', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.status', 2)
+             ->where('user_files.Draft',false)
             ->orderBy("created_at", "desc")->get();
         // my penfing
-        $mypending = UserFiles::select('user_files.id','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+        $mypending = UserFiles::select('user_files.id', 'user_files.Draft','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.status', 2)
+             ->where('user_files.Draft',false)
             ->where('user_files.UploadedBy', Auth::user()->id)
             ->orderBy("created_at", "desc")->get();
 
-        $rejected = UserFiles::select('user_files.id','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+        $rejected = UserFiles::select('user_files.id', 'user_files.Draft','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.status', 4)
+             ->where('user_files.Draft',false)
             ->orderBy("created_at", "desc")->get();
         // my penfing
-        $myrejected = UserFiles::select('user_files.status','user_files.status','user_files.id', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+        $myrejected = UserFiles::select('user_files.status', 'user_files.Draft', 'user_files.status', 'user_files.id', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.status', 4)
+             ->where('user_files.Draft',false)
             ->where('user_files.UploadedBy', Auth::user()->id)
             ->orderBy("created_at", "desc")->get();
 
-        $mydeleted = UserFiles::onlyTrashed()->select('user_files.id','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+        $mydrafts = UserFiles::select('user_files.status', 'user_files.Draft', 'user_files.status', 'user_files.id', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+            ->join('users', 'users.id', '=', 'user_files.UploadedBy')
+            ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
+            ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
+            ->where('user_files.Draft',true)
+            ->where('user_files.UploadedBy', Auth::user()->id)
+            ->orderBy("created_at", "desc")->get();
+
+
+        $mydeleted = UserFiles::onlyTrashed()->select('user_files.id', 'user_files.Draft','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.UploadedBy', Auth::user()->id)
             ->orderBy("user_files.deleted_at", "desc")->get();
 
-        return view("FileManager.ESTABLISHMENT.index", compact("files", 'pending', 'mypending', 'rejected', 'myrejected', 'deleted', 'mydeleted'));
+        return view("FileManager.ESTABLISHMENT.index", compact("files", 'pending', 'mypending', 'rejected', 'myrejected', 'deleted', 'mydeleted','mydrafts'));
 
     }
 
@@ -96,7 +110,6 @@ class EstablishmentController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin') {
             $status = 3;
         } else {
@@ -106,7 +119,6 @@ class EstablishmentController extends Controller
         $year  = date("Y");
         $month = date("M");
         $data  = $request->validate([
-            // 'filename'     => 'required|string|min:4',
             'votecode'     => 'required|string|exists:vote_details,id',
             'votename'     => 'required|string|min:2',
             'comment'      => 'required|string|min:3',
@@ -116,11 +128,73 @@ class EstablishmentController extends Controller
             'pdf.*'        => 'required|mimes:pdf|max:4096',
             'approvaldate' => 'required|date|before:today',
         ]);
-        $exist = UserFiles::where('VoteCode', '=', $request->votecode)->where('versionId', $request->version)->exists();
-        // dd($exist);
-        if ($exist) {
-            return back()->with('error', 'A vote with the selected version already exists');
+        if ($request->save) {
+            $exist = UserFiles::where('VoteCode', '=', $request->votecode)->where('versionId', $request->version)->exists();
+            if ($exist) {
+                return back()->with('error', 'A vote with the selected version already exists');
+            } else {
+                $votecomment = $request->comment;
+                $dom         = new \DomDocument();
+                $dom->loadHTML($request->comment, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                $imageFile = $dom->getElementsByTagName('imageFile');
+                foreach ($imageFile as $item => $image) {
+                    $data              = $image->getAttribute('src');
+                    list($type, $data) = explode(';', $data);
+                    list(, $data)      = explode(',', $data);
+                    $imgeData          = base64_decode($data);
+                    $image_name        = "/upload/" . time() . $item . '.png';
+                    $path              = public_path() . $image_name;
+                    file_put_contents($path, $imgeData);
+                    $image->removeAttribute('src');
+                    $image->setAttribute('src', $image_name);
+
+                }
+                $votecomment = $dom->saveHTML();
+
+                if ($request->file('excel') != null) {
+                    $Vfilename = $request->file('excel')->getClientOriginalName();
+                    $Vsize     = $request->file('excel')->getSize();
+                }
+                if ($request->file('pdf') != null) {
+                    $PSfilename = $request->file('pdf')->getClientOriginalName();
+                    $PSsize     = $request->file('pdf')->getSize();
+                }
+
+                $foldermonth = $year . "/" . $month;
+                $pdf         = "PSPDF";
+                $excel       = "Excel";
+                $pdfvote     = "Votes/" . $year . "/" . $month . "/" . $pdf;
+                $excelvote   = "Votes/" . $year . "/" . $month . "/" . $excel;
+
+                $date      = Carbon::now();
+                $date      = $date->format("D_d_M_Y_") . time() . "_";
+                $pfile     = $request->file("pdf");
+                $poriginal = $pfile->getClientOriginalName();
+                $pfname    = $date . $poriginal;
+                $ppath     = $pfile->move(public_path('storage/' . $pdfvote), $pfname);
+
+                $efile     = $request->file("excel");
+                $ext       = $efile->getClientOriginalExtension();
+                $eoriginal = $efile->getClientOriginalName();
+                $efname    = $date . $eoriginal;
+                $epath     = $efile->move(public_path('storage/' . $excelvote), $efname);
+
+                $file = UserFiles::create([
+                    'VoteCode'    => $request->votecode,
+                    'VoteName'    => $request->votename,
+                    'excelfile'   => $efname,
+                    'pdffile'     => $pfname,
+                    'versionname' => $request->version,
+                    'ApprovedOn'  => $request->approvaldate,
+                    'status'      => $status,
+                    'comment'     => $votecomment,
+                    'UploadedBy'  => Auth::user()->id,
+
+                ]);
+                return redirect()->route('file.list')->with('success', 'File Uploaded Successfully');
+            }
         } else {
+
             $votecomment = $request->comment;
             $dom         = new \DomDocument();
             $dom->loadHTML($request->comment, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
@@ -156,7 +230,6 @@ class EstablishmentController extends Controller
 
             $date = Carbon::now();
             $date = $date->format("D_d_M_Y_") . time() . "_";
-            // if($request->file('pdf')->isValid()){
             $pfile     = $request->file("pdf");
             $poriginal = $pfile->getClientOriginalName();
             $pfname    = $date . $poriginal;
@@ -173,14 +246,16 @@ class EstablishmentController extends Controller
                 'VoteName'    => $request->votename,
                 'excelfile'   => $efname,
                 'pdffile'     => $pfname,
-                'versionname' => $request->version,
+                'versionId' => null,
                 'ApprovedOn'  => $request->approvaldate,
-                'status'=>$status,
+                'status'      => $status,
                 'comment'     => $votecomment,
+                'Draft'=>true,
                 'UploadedBy'  => Auth::user()->id,
 
             ]);
             return redirect()->route('file.list')->with('success', 'File Uploaded Successfully');
+
         }
     }
     public function deleteVote(Request $request, $id)
@@ -323,14 +398,12 @@ class EstablishmentController extends Controller
         }
     }
 
-
-
     public function RejectFile(Request $request, $id)
     {
-        $file = UserFiles::select('user_files.id', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at as CrDate', 'user_files.updated_at as UpDate', 'user_files.UpdatedBy')
+        $file = UserFiles::select('user_files.id', 'user_files.Draft','vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at as CrDate', 'user_files.updated_at as UpDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
-            ->join('doc_statuses','doc_statuses.id','=','user_files.status')
+            ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.id', $id)
             ->orderBy("UpDate", "desc")->first();
         // dd($file);

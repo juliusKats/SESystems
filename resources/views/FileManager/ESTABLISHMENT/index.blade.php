@@ -32,6 +32,7 @@
                         <li class="nav-item"><a class="nav-link" href="#pending" data-toggle="tab">Pending</a></li>
                         <li class="nav-item"><a class="nav-link" href="#rejected" data-toggle="tab">Rejected</a></li>
                         <li class="nav-item"><a class="nav-link" href="#trashed" data-toggle="tab">Recycle Bin</a></li>
+                         <li class="nav-item"><a class="nav-link" href="#drafted" data-toggle="tab">Drafts</a></li>
                     </ul>
                 </div>
                 <div class="card-body">
@@ -59,7 +60,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-                                                            
+
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -137,7 +138,7 @@
                                                                                     class="ml-4 btn btn-sm btn-primary mt-1"><i
                                                                                         class="fa fa-edit"></i></a>
                                                                             @endif
-                                                                            
+
                                                                             <form method="post"
                                                                                 action="{{ route('file.approve', $item->id) }}">
                                                                                 @csrf
@@ -204,7 +205,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-                                                            
+
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -310,7 +311,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-                                                            
+
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -452,7 +453,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->ApprovedOn)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-                                                            
+
                                                             ?>
                                                             <tr>
                                                                 <td>
@@ -575,7 +576,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-                                                            
+
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -716,7 +717,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-                                                            
+
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -842,7 +843,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-                                                            
+
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -975,7 +976,7 @@
                                                             <?php
                                                             $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
                                                             $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
-                                                            
+
                                                             ?>
                                                             <tr>
                                                                 <td><a href="{{ route('vote.view', $item->id) }}"
@@ -1075,6 +1076,126 @@
                                 </div>
                             @endif
                         </div>
+                         <div class="tab-pane" id="drafted">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <table id="drafts"
+                                                    class="table table-bordered table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Vote Details</th>
+                                                            <th>Excel Name</th>
+                                                            <th>PDF Name</th>
+                                                            <th>PS Approved Date</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($mydrafts as $key => $item)
+                                                            <?php
+                                                            $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
+                                                            $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
+
+                                                            ?>
+                                                            <tr>
+                                                                <td><a href="{{ route('vote.view', $item->id) }}"
+                                                                        title="View vote">{{ $item->VCode }}
+                                                                        -{{ $item->VName }}</a>
+                                                                </td>
+                                                                <td>
+                                                                    @if ($item->EXCEL)
+                                                                        <?php
+                                                                        $Yr = explode('_', $item)[3];
+                                                                        $Month = explode('_', $item)[2];
+                                                                        $EXCELsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/Excel/' . $item->EXCEL));
+                                                                        $EXCELext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->EXCEL);
+                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        ?>
+
+                                                                        <a href="{{ route('preview.excel.file', $item->id) }}"
+                                                                            title="Preview {{ $item->EXCEL }}"
+                                                                            target="_blank">
+                                                                            <i style="color: green; font-size: 30px;"
+                                                                                class="fas fa-file-excel"></i>
+                                                                            {{ $finalEXCEL }}
+                                                                            &nbsp;&nbsp; -{{ $EXCELsize }}
+                                                                        </a>
+                                                                    @endif
+                                                                </td>
+
+                                                                <td>
+                                                                    @if ($item->PDF)
+                                                                        <?php
+                                                                        $Yr = explode('_', $item)[3];
+                                                                        $Month = explode('_', $item)[2];
+                                                                        $PDFsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
+                                                                        $PDFext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->PDF);
+                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        ?>
+
+                                                                        <a style="display: inline"
+                                                                            href="{{ route('preview.ps.file', $item->id) }}"
+                                                                            title="Preview {{ $item->pdfOriginal }}"
+                                                                            target="_blank">
+                                                                            <i style="color: red; font-size: 30px;"
+                                                                                class="far fa-file-pdf"></i>
+                                                                            {{ $finalPDF }} &nbsp;&nbsp;
+                                                                            -{{ $PDFsize }}
+                                                                        </a>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    {{ $psdate }}
+                                                                </td>
+                                                                <td>
+                                                                    <div class="dropdown mt-1 btn-sm">
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm dropdown-toggle"
+                                                                            href="#" role="button"
+                                                                            data-toggle="dropdown" arial-haspopup="true"
+                                                                            arial-expanded="false">
+                                                                            Action
+                                                                        </button>
+
+
+                                                                        <div class="dropdown-menu">
+                                                                            <form
+                                                                                action="{{ route('vote.restore', $item->id) }}"
+                                                                                method="post"
+                                                                                enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                <button
+                                                                                    class=" ml-4 btn btn-success btn-sm mt-2">
+                                                                                    <i
+                                                                                        class="fa fa-regular fa-recycle"></i>
+                                                                                </button>
+                                                                            </form>
+                                                                            <form
+                                                                                action="{{ route('delete.vote', $item->id) }}"
+                                                                                method="post"
+                                                                                enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button
+                                                                                    class=" ml-4 btn btn-danger btn-sm mt-2">
+                                                                                    <i class="fa fa-regular fa-trash"></i>
+                                                                                </button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1082,5 +1203,5 @@
     </section>
 @endsection
 @section('scripts')
-    
+
 @endsection

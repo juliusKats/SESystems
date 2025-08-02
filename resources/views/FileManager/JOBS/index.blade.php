@@ -29,6 +29,7 @@
                         <li class="nav-item"><a class="nav-link" href="#pending" data-toggle="tab">Pending</a></li>
                         <li class="nav-item"><a class="nav-link" href="#rejected" data-toggle="tab">Rejected</a></li>
                         <li class="nav-item"><a class="nav-link" href="#trashed" data-toggle="tab">Deleted</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#drafted" data-toggle="tab">Drafts</a></li>
                     </ul>
                 </div>
                 <div class="card-body">
@@ -1032,6 +1033,131 @@
                                     </div>
                                 </div>
                             @endif
+                        </div>
+                        <div class="tab-pane" id="drafted">
+                            <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <table id="drafts"
+                                                    class="table table-bordered table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Carder Name(s)</th>
+                                                            <th>File Attached</th>
+                                                            <th>PS PDF File</th>
+                                                            <th>PS Date</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($mydrafts as $key => $item)
+                                                            <?php
+                                                            $psdate = \Carbon\Carbon::parse($item->PSDate)->format('M d, Y');
+                                                            $upload = \Carbon\Carbon::parse($item->UploadDate)->format('M d, Y');
+                                                            $adminapproval = Carbon\Carbon::parse($item->ADMINApproval)->format('M d, Y');
+                                                            ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="#" title="View job description"
+                                                                        class="text-capitalize">
+                                                                        <?php $carders = explode(',', $item->CarderName);
+                                                                        ?>
+                                                                        @foreach ($carders as $carder)
+                                                                            <span>{{ $carder }}<br></span>
+                                                                        @endforeach
+                                                                </td>
+                                                                <td>
+                                                                    @if ($item->EXCEL)
+                                                                        <?php
+                                                                        $extname = $item->ext;
+                                                                        $Yr = explode('_', $item)[3];
+                                                                        $Month = explode('_', $item)[2];
+                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        if ($extname == 'pdf') {
+                                                                            $EXCELsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/JDPDF/' . $item->EXCEL));
+                                                                            $EXCELext = File::extension('storage/Jobs/' . $Yr . '/' . $Month . '/' . '/JDPDF' . $item->EXCEL);
+                                                                        } else {
+                                                                            $EXCELsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/JDDOC/' . $item->EXCEL));
+                                                                            $EXCELext = File::extension('storage/Jobs/' . $Yr . '/' . $Month . '/' . '/JDDOC' . $item->EXCEL);
+                                                                        }
+                                                                        ?>
+                                                                        <a href="#"
+                                                                            title="Preview {{ $item->finalEXCEL }}"
+                                                                            target="_blank">
+                                                                            @if ($item->ext == 'pdf')
+                                                                                <i style="color: red; font-size: 25px;"
+                                                                                    class="fas fa-file-pdf"></i>&nbsp;&nbsp;
+                                                                            @else
+                                                                                <i style="color: blue; font-size: 25px;"
+                                                                                    class="fas fa-file-word"></i>&nbsp;&nbsp;
+                                                                            @endif
+                                                                            {{ $finalEXCEL }}
+                                                                            &nbsp;&nbsp; -{{ $EXCELsize }}
+                                                                        </a>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if ($item->PDF)
+                                                                        <?php
+                                                                        $Yr = explode('_', $item)[3];
+                                                                        $Month = explode('_', $item)[2];
+                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $PDFsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
+
+                                                                        ?>
+                                                                        <a href="#"
+                                                                            title="Preview {{ $finalPDF }}"
+                                                                            target="_blank">
+                                                                            <i style="color: red; font-size: 30px;"
+                                                                                class="far fa-file-pdf"></i>&nbsp;&nbsp;{{ $finalPDF }}
+                                                                            &nbsp;&nbsp;
+                                                                            -{{ $PDFsize }}
+                                                                        </a>
+                                                                    @endif
+                                                                    <br>
+                                                                    Approved On: {{ $psdate }}
+                                                                </td>
+                                                                <td>
+                                                                    {{ $psdate }}
+                                                                </td>
+                                                                <td>
+                                                                    <div class="dropdown mt-1 btn-sm">
+                                                                        <button
+                                                                            class="btn btn-danger btn-sm dropdown-toggle"
+                                                                            href="#" role="button"
+                                                                            data-toggle="dropdown" arial-haspopup="true"
+                                                                            arial-expanded="false">
+                                                                            Action
+                                                                        </button>
+                                                                        <div class="dropdown-menu">
+                                                                            <form method="post"
+                                                                                action="{{ route('job.restore', $item->id) }}">
+                                                                                @csrf
+                                                                                <input type="submit"
+                                                                                    class="btn-restore btn btn-sm ml-4 mt-2 btn-default"
+                                                                                    value="Restore">
+                                                                            </form>
+
+                                                                            <form method="post"
+                                                                                action="{{ route('delete.jobs', $item->id) }}">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <input type="submit"
+                                                                                    class="btn-delete btn btn-danger btn-sm ml-4 mt-1"
+                                                                                    value="Permanent Delete">
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                </div>
                         </div>
                     </div>
                 </div>

@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    
+
     <section id="faq-2" class="faq-2 section light-background"
         style="background-image: url('{{ asset('system/frontEnd/img/bg/bg-8.webp') }}')">
 
@@ -44,16 +44,16 @@
 
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary">Resend Verification </button>
-                                        </div>>
+                                        </div>
                                     </form>
-                                   <div>
-                                        <a href="{{ route('profile.show') }}"  class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                   <div style="display: inline">
+                                        <a href="{{ route('user-profile', Auth::user()->id) }}"  class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                             Edit Profile
                                         </a>
 
-                                        <form method="POST" action="{{ route('logout') }}" class="inline">
+                                        <form method="POST" class="float float-right" action="{{ route('logout') }}" class="inline">
                                             @csrf
-                                            <button type="submit" class="btn-logout underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ms-2">
+                                            <button type="submit" class="btn-logout btn btn-danger underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ms-2">
                                                 {{ __('Log Out') }}
                                             </button>
                                         </form>

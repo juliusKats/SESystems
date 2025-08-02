@@ -17,14 +17,17 @@ class SchemeController extends Controller
         $allactives = ServiceScheme::select('service_schemes.id', 'service_schemes.CarderName', 'service_schemes.ext', 'service_schemes.comment as VComment', 'service_schemes.status', 'service_schemes.WordFile as EXCEL', 'service_schemes.PDFFile as PDF', 'service_schemes.ApprovedOn as PSDate', 'service_schemes.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'service_schemes.UploadedBy', 'service_schemes.ApprovedBy as UpprovedBy', 'service_schemes.UploadedOn as UploadDate', 'service_schemes.created_at', 'service_schemes.updated_at as UpdateDate', 'service_schemes.UpdatedBy', 'service_schemes.DeletedBy', 'service_schemes.RestoredBy')
             ->join('users', 'users.id', '=', 'service_schemes.UploadedBy')
             ->where('service_schemes.status', 3)
+            ->where('service_schemes.Draft', false)
             ->orderBy("created_at", "desc")->get();
         $allpending = ServiceScheme::select('service_schemes.id', 'service_schemes.CarderName', 'service_schemes.ext', 'service_schemes.comment as VComment', 'service_schemes.status', 'service_schemes.WordFile as EXCEL', 'service_schemes.PDFFile as PDF', 'service_schemes.ApprovedOn as PSDate', 'service_schemes.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'service_schemes.UploadedBy', 'service_schemes.ApprovedBy as UpprovedBy', 'service_schemes.UploadedOn as UploadDate', 'service_schemes.created_at', 'service_schemes.updated_at as UpdateDate', 'service_schemes.UpdatedBy', 'service_schemes.DeletedBy', 'service_schemes.RestoredBy')
             ->join('users', 'users.id', '=', 'service_schemes.UploadedBy')
             ->where('service_schemes.status', 2)
+            ->where('service_schemes.Draft', false)
             ->orderBy("created_at", "desc")->get();
         $allrejected = ServiceScheme::select('service_schemes.id', 'service_schemes.CarderName', 'service_schemes.ext', 'service_schemes.comment as VComment', 'service_schemes.status', 'service_schemes.WordFile as EXCEL', 'service_schemes.PDFFile as PDF', 'service_schemes.ApprovedOn as PSDate', 'service_schemes.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'service_schemes.UploadedBy', 'service_schemes.ApprovedBy as UpprovedBy', 'service_schemes.UploadedOn as UploadDate', 'service_schemes.created_at', 'service_schemes.updated_at as UpdateDate', 'service_schemes.UpdatedBy', 'service_schemes.DeletedBy', 'service_schemes.RestoredBy')
             ->join('users', 'users.id', '=', 'service_schemes.UploadedBy')
             ->where('service_schemes.status', 4)
+            ->where('service_schemes.Draft', false)
             ->orderBy("created_at", "desc")->get();
         $alldeleted = ServiceScheme::onlyTrashed()->select('service_schemes.id', 'service_schemes.CarderName', 'service_schemes.ext', 'service_schemes.comment as VComment', 'service_schemes.status', 'service_schemes.WordFile as EXCEL', 'service_schemes.PDFFile as PDF', 'service_schemes.ApprovedOn as PSDate', 'service_schemes.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'service_schemes.UploadedBy', 'service_schemes.ApprovedBy as UpprovedBy', 'service_schemes.UploadedOn as UploadDate', 'service_schemes.created_at', 'service_schemes.updated_at as UpdateDate', 'service_schemes.UpdatedBy', 'service_schemes.DeletedBy', 'service_schemes.RestoredBy')
             ->join('users', 'users.id', '=', 'service_schemes.UploadedBy')
@@ -34,28 +37,34 @@ class SchemeController extends Controller
         $mypending = ServiceScheme::select('service_schemes.id', 'service_schemes.CarderName', 'service_schemes.ext', 'service_schemes.comment as VComment', 'service_schemes.status', 'service_schemes.WordFile as EXCEL', 'service_schemes.PDFFile as PDF', 'service_schemes.ApprovedOn as PSDate', 'service_schemes.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'service_schemes.UploadedBy', 'service_schemes.ApprovedBy as UpprovedBy', 'service_schemes.UploadedOn as UploadDate', 'service_schemes.created_at', 'service_schemes.updated_at as UpdateDate', 'service_schemes.UpdatedBy', 'service_schemes.DeletedBy', 'service_schemes.RestoredBy')
             ->join('users', 'users.id', '=', 'service_schemes.UploadedBy')
             ->where('service_schemes.status', 2)
+            ->where('service_schemes.Draft', false)
             ->where('service_schemes.UploadedBy', Auth::user()->id)
             ->orderBy("created_at", "desc")->get();
         $myrejected = ServiceScheme::select('service_schemes.id', 'service_schemes.CarderName', 'service_schemes.ext', 'service_schemes.comment as VComment', 'service_schemes.status', 'service_schemes.WordFile as EXCEL', 'service_schemes.PDFFile as PDF', 'service_schemes.ApprovedOn as PSDate', 'service_schemes.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'service_schemes.UploadedBy', 'service_schemes.ApprovedBy as UpprovedBy', 'service_schemes.UploadedOn as UploadDate', 'service_schemes.created_at', 'service_schemes.updated_at as UpdateDate', 'service_schemes.UpdatedBy', 'service_schemes.DeletedBy', 'service_schemes.RestoredBy')
             ->join('users', 'users.id', '=', 'service_schemes.UploadedBy')
             ->where('service_schemes.UploadedBy', Auth::user()->id)
             ->where('service_schemes.status', 4)
+            ->where('service_schemes.Draft', false)
             ->orderBy("created_at", "desc")->get();
         $mydeleted = ServiceScheme::onlyTrashed()->select('service_schemes.id', 'service_schemes.CarderName', 'service_schemes.ext', 'service_schemes.comment as VComment', 'service_schemes.status', 'service_schemes.WordFile as EXCEL', 'service_schemes.PDFFile as PDF', 'service_schemes.ApprovedOn as PSDate', 'service_schemes.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'service_schemes.UploadedBy', 'service_schemes.ApprovedBy as UpprovedBy', 'service_schemes.UploadedOn as UploadDate', 'service_schemes.created_at', 'service_schemes.updated_at as UpdateDate', 'service_schemes.UpdatedBy', 'service_schemes.DeletedBy', 'service_schemes.RestoredBy')
             ->join('users', 'users.id', '=', 'service_schemes.UploadedBy')
             ->where('service_schemes.UploadedBy', Auth::user()->id)
             ->where('service_schemes.status', 5)
+            ->where('service_schemes.Draft', false)
             ->orderBy("created_at", "desc")->get();
-
+        $mydrafts = ServiceScheme::select('service_schemes.id', 'service_schemes.CarderName', 'service_schemes.ext', 'service_schemes.comment as VComment', 'service_schemes.status', 'service_schemes.WordFile as EXCEL', 'service_schemes.PDFFile as PDF', 'service_schemes.ApprovedOn as PSDate', 'service_schemes.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'service_schemes.UploadedBy', 'service_schemes.ApprovedBy as UpprovedBy', 'service_schemes.UploadedOn as UploadDate', 'service_schemes.created_at', 'service_schemes.updated_at as UpdateDate', 'service_schemes.UpdatedBy', 'service_schemes.DeletedBy', 'service_schemes.RestoredBy')
+            ->join('users', 'users.id', '=', 'service_schemes.UploadedBy')
+            ->where('service_schemes.Draft', true)
+            ->orderBy("created_at", "desc")->get();
         return view("FileManager.SCHEMES.index",
-            compact("allactives", 'allpending', 'allrejected', 'alldeleted', 'mypending', 'myrejected', 'mydeleted'));
+            compact("allactives", 'allpending', 'allrejected', 'alldeleted', 'mypending', 'myrejected', 'mydeleted', 'mydrafts'));
     }
 
     public function create()
     {
         $carders  = CardMinistries::all();
         $versions = Version::all();
-        return view("FileManager.Schemes.add", compact('carders','versions'));
+        return view("FileManager.Schemes.add", compact('carders', 'versions'));
     }
 
     public function store(Request $request)
@@ -82,7 +91,7 @@ class SchemeController extends Controller
             'fileupload.*' => 'required|mimes:docx,doc',
             'pdf'          => 'required',
             'pdf.*'        => 'mimes:pdf',
-            'version'=>'required|exists:versions,id'
+            'version'      => 'required|exists:versions,id',
         ]);
         $carderID = [];
         $cardes   = $request->cardername;
@@ -152,30 +161,55 @@ class SchemeController extends Controller
                 $epath2             = $uploadfile->move(public_path('storage/' . $jddocpath), $pdfname);
             }
         }
-         $exists = ServiceScheme::where('carderId',$request->ministry)->where('versionId',$request->version)->exists();
-        if($exists){
-            return redirect()->route('job.file.create')->with('warning','A document With the same version already exists');
-        }
-        else{
-        $scheme = ServiceScheme::create([
-            'carderId'  => $request->ministry,
-            'CarderName' => $carderID,
-            'WordFile'   => $pdfname,
-            'ext'        => $ext,
-            'PDFFile'    => $pspdfname,
-            'status'     => $status,
-            'ApprovedOn' => $request->approvaldate,
-            'comment'    => $schemecomment,
-            'UploadedBy' => Auth::user()->id,
-             'versionId'  => $request->version,
-        ]);
-    }
 
-        if ($scheme) {
-            return redirect()->route('scheme.service.list')->with('success', 'Scheme Of Service Document Uploaded Successfuly');
-        }
-        if ($scheme) {
-            return back()->with('error', 'Scheme Of Service Document Failed to Upload');
+        if ($request->save) {
+            $exists = ServiceScheme::where('carderId', $request->ministry)->where('versionId', $request->version)->exists();
+            if ($exists) {
+                return redirect()->route('job.file.create')->with('warning', 'A document With the same version already exists');
+            } else {
+                $scheme = ServiceScheme::create([
+                    'carderId'   => $request->ministry,
+                    'CarderName' => $carderID,
+                    'WordFile'   => $pdfname,
+                    'ext'        => $ext,
+                    'PDFFile'    => $pspdfname,
+                    'status'     => $status,
+                    'ApprovedOn' => $request->approvaldate,
+                    'comment'    => $schemecomment,
+                    'UploadedBy' => Auth::user()->id,
+                    'versionId'  => $request->version,
+                ]);
+            }
+
+            if ($scheme) {
+                return redirect()->route('scheme.service.list')->with('success', 'Scheme Of Service Document Uploaded Successfuly');
+            }
+            if ($scheme) {
+                return back()->with('error', 'Scheme Of Service Document Failed to Upload');
+            }
+
+        } else {
+            $scheme = ServiceScheme::create([
+                'carderId'   => $request->ministry,
+                'CarderName' => $carderID,
+                'WordFile'   => $pdfname,
+                'ext'        => $ext,
+                'PDFFile'    => $pspdfname,
+                'status'     => $status,
+                'ApprovedOn' => $request->approvaldate,
+                'comment'    => $schemecomment,
+                'UploadedBy' => Auth::user()->id,
+                'versionId'  => null,
+                'Draft'=>true
+            ]);
+
+            if ($scheme) {
+                return redirect()->route('scheme.service.list')->with('success', 'Scheme Of Service Document Uploaded Successfuly');
+            }
+            if ($scheme) {
+                return back()->with('error', 'Scheme Of Service Document Failed to Upload');
+            }
+
         }
     }
     public function SoftDelete(Request $request, $id)

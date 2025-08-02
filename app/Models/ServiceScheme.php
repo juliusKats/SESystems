@@ -11,7 +11,7 @@ class ServiceScheme extends Model implements AuditableContract
 {
      use SoftDeletes;
     use Auditable;
-    protected $fillable=['carderId','versionId','CarderName','WordFile','ext','PDFFile','PSApprovalDate','comment','UploadedBy','updated_at','UploadedOn','Approve','ApprovedOn','ApprovedBy','UpdatedBy','approved_by','rejected','RejectedOn','RejectedBy','Reason','DeletedBy','RestoredBy','carder_id','status'];
+    protected $fillable=['Draft','carderId','versionId','CarderName','WordFile','ext','PDFFile','PSApprovalDate','comment','UploadedBy','updated_at','UploadedOn','Approve','ApprovedOn','ApprovedBy','UpdatedBy','approved_by','rejected','RejectedOn','RejectedBy','Reason','DeletedBy','RestoredBy','carder_id','status'];
      protected $dates = ['deleted_at'];
 
 }

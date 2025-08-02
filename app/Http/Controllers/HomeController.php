@@ -29,8 +29,6 @@ class HomeController extends Controller
     {
         return view('FileManager.Home.contact_us');
     }
-
-
     public function index()
     {
         $yearz = "yearz";
