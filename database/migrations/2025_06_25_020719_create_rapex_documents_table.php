@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('rapex_documents', function (Blueprint $table) {
             $table->id();
+                $table->string('ticket')->unique();
             $table->longText('entity')->comment('Goverment Ministry Names');
             $table->longText('institution')->comment('Institution Name');
             $table->longText('file')->comment('Only Excel,PDF and Images');

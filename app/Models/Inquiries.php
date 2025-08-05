@@ -13,6 +13,6 @@ class Inquiries  extends Model implements AuditableContract
 {
     use SoftDeletes;
     use Auditable;
-    protected $fillable=['fullname','telephone','email','inquiry','reply','replied','repliedBy','repliedOn','status'];
+    protected $fillable=['fullname','telephone','email','inquiry','reply','replied','repliedBy','repliedOn','status','subject'];
     protected $dates    = ['deleted_at'];
 }

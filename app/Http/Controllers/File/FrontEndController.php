@@ -17,60 +17,102 @@ use App\Models\ServiceUgandaCenter;
 use App\Models\UserFiles;
 use App\Models\VoteDetails;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Twilio\Rest\Client;
-
-use Exception;
 use ZipArchive;
 
 class FrontEndController extends Controller
 {
-    public function UserInquiry(Request $request){
-        $data=$request->validate([
-        'fullname'=>'required|min:5',
-        'mobile'=>'required|numeric|min:10',
-        'email'=>'nullable|email',
-        'question'=>'required|min:10|max:200',
+    public function UserInquiry(Request $request)
+    {
+        $data = $request->validate([
+            'fullname' => 'required|min:5',
+            'mobile'   => 'required|numeric|min:10',
+            'email'    => 'nullable|email',
+            'subject'=>'required|min:5|max:50',
+            'question' => 'required|min:10|max:200',
         ]);
         $inquiry = Inquiries::create([
-            'fullname'=>$request->fullname,
-            'telephone'=>$request->mobile,
-            'email'=> $request->email,
-            'inquiry'=>$request->question,
+            'fullname'  => $request->fullname,
+            'telephone' => $request->mobile,
+            'email'     => $request->email,
+            'subject'=>$request->subject,
+            'inquiry'   => $request->question,
         ]);
-        if($inquiry){
-            $sid = env('TWILIO_SID');
-            $token = env('TWILIO_TOKEN');
-            $fromNumber = env('TWILIO_FROM');
-            try {
+        if ($inquiry and $request->email and $request->mobile) {
+            // sms parrt
+            $sid   = config('services.twilio.sid');
+            $token= config('services.twilio.token');
+            $fromNumber  = config('services.twilio.from');
+            $txt        = "Hello " . $request->fullname .
+                " Your Inquiry with subject '.$request->subject. ' Has been Recieved.
+                     We Shall Reply You Shortly.
+                     MINISTRY OF PUBLIC SERVICE ";
+//            dd($sid);
             $client = new Client($sid, $token);
             $client->messages->create($inquiry->telephone, [
                 'from' => $fromNumber,
-                'body' => "SMS Sent Successfully."
+                'body' => $txt,
             ]);
 
-            // return 'SMS Sent Successfully.';
-             return redirect()->back()->with('success','You question has been sent successfully');
-        } catch (Exception $e) {
-            // return 'Error: ' . $e->getMessage();
-             return redirect()->back()->with('error',$e->getMessage());
-        }
+            // send email
+            $email   = $request->email;
+            $subject = $request->subject;
+            Mail::raw($txt, function ($message) use ($email, $subject) {
+                $message->to($email)
+                    ->subject($subject);
+            });
+            return redirect()->back()->with('success', 'You question has been sent successfully');
+
+        } else if ($inquiry and $request->email) {
+            $email   = $request->email;
+            $subject = $request->subject;
+            $body    = 'Hello ' . $request->fullname .
+                ' Your Inquiry Has been Recieved. We Shall Reply You Shortly. Thank you For contacting us MINISTRY OF PUBLIC SERVICE ';
+            Mail::raw($body, function ($message) use ($email, $subject) {
+                $message->to($email)
+                    ->subject($subject);
+            });
+            return redirect()->back()->with('success', 'You question has been sent successfully');
+
+        } else if ($inquiry and $request->mobile) {
+            $sid        = env('TWILIO_ACCOUNT_SID');
+            $token      = env('TWILIO_AUTH_TOKEN');
+            $fromNumber = env('TWILIO_FROM_NUMBER');
+
+            try {
+                $client = new Client($sid, $token);
+                $client->messages->create($inquiry->telephone, [
+                    'from' => $fromNumber,
+                    'body' => "Hello " . $request->fullname .
+                    " Your Inquiry with subject '.$request->subject. ' Has been Recieved.
+                     We Shall Reply You Shortly.
+                     MINISTRY OF PUBLIC SERVICE ",
+                ]);
+
+                // return 'SMS Sent Successfully.';
+                return redirect()->back()->with('success', 'You question has been sent successfully');
+            } catch (Exception $e) {
+                // return 'Error: ' . $e->getMessage();
+                return redirect()->back()->with('error', $e->getMessage());
+            }
         }
 
     }
 
     public function index()
     {
-        $country=CountryCodes::all();
+        $country     = CountryCodes::all();
         $services    = Services::all()->where('status', true);
         $teammembers = EDBRTeam::select('e_d_b_r_teams.id', 'users.sname', 'users.fname', 'users.oname', 'users.profile_photo_path', 'e_d_b_r_teams.title', 'e_d_b_r_teams.about', 'e_d_b_r_teams.twitter', 'e_d_b_r_teams.facebook', 'e_d_b_r_teams.instagram', 'e_d_b_r_teams.linkedin', 'e_d_b_r_teams.updated_at', 'e_d_b_r_teams.deleted_at')
             ->join('users', 'users.id', '=', 'e_d_b_r_teams.user_id')
             ->where('e_d_b_r_teams.status', true)->get();
-        return view('FileManager.FrontEnd.entryPage', compact('teammembers', 'services','country'));
+        return view('FileManager.FrontEnd.entryPage', compact('teammembers', 'services', 'country'));
     }
     public function contactus()
     {
@@ -153,10 +195,17 @@ class FrontEndController extends Controller
     public function Establishment(Request $request)
     {
 
-        $files = UserFiles::select('user_files.id', 'vote_details.votecode', 'vote_details.VoteName', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.Approve', 'user_files.status', 'user_files.ApprovedOn', 'user_files.UploadedBy', 'user_files.ApprovedBy', 'user_files.UploadedOn', 'user_files.created_at', 'user_files.updated_at','versions.versionname')
+        $files = UserFiles::select('user_files.id', 'user_files.Draft', 'vote_details.votecode', 'user_files.VoteName', 'user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+            ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
-            ->join('versions', 'versions.id', '=', 'user_files.versionId')
-            ->where('user_files.status', 3)->get();
+            ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
+            ->where('user_files.status', 3)
+            ->where('user_files.Draft', false)
+            ->orderBy("created_at", "desc")->get(); 
+        // $files = UserFiles::select('user_files.id', 'vote_details.votecode', 'user_files.VoteName', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.Approve', 'user_files.status', 'user_files.ApprovedOn', 'user_files.UploadedBy', 'user_files.ApprovedBy', 'user_files.UploadedOn', 'user_files.created_at', 'user_files.updated_at', 'versions.versionname')
+        //     ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
+        //     ->join('versions', 'versions.id', '=', 'user_files.versionId')
+        //     ->where('user_files.status', 3)->get();
 
         return view('FileManager.FrontEnd.Pages.establishment', compact('files'));
     }
@@ -164,10 +213,10 @@ class FrontEndController extends Controller
     public function Jobs(Request $request)
     {
 
-        $allactives = JobDocuments::select('job_documents.id', 'card_ministries.carderName as ministry', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy','versions.versionname')
+        $allactives = JobDocuments::select('job_documents.id', 'card_ministries.carderName as ministry', 'job_documents.CarderName', 'job_documents.ext', 'job_documents.comment as VComment', 'job_documents.status', 'job_documents.WordFile as EXCEL', 'job_documents.PDFFile as PDF', 'job_documents.ApprovedOn as PSDate', 'job_documents.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'job_documents.UploadedBy', 'job_documents.ApprovedBy as UpprovedBy', 'job_documents.UploadedOn as UploadDate', 'job_documents.created_at', 'job_documents.updated_at as UpdateDate', 'job_documents.UpdatedBy', 'job_documents.DeletedBy', 'job_documents.RestoredBy', 'versions.versionname')
             ->join('users', 'users.id', '=', 'job_documents.UploadedBy')
             ->join('card_ministries', 'card_ministries.id', '=', 'job_documents.carderId')
-             ->join('versions', 'versions.id', '=', 'job_documents.versionId')
+            ->join('versions', 'versions.id', '=', 'job_documents.versionId')
             ->where('job_documents.status', 3)
             ->orderBy("created_at", "desc")->get();
         return view('FileManager.FrontEnd.Pages.jobs', compact('allactives'));
@@ -175,7 +224,7 @@ class FrontEndController extends Controller
     public function Schemes(Request $request)
     {
 
-        $allactives = ServiceScheme::select('service_schemes.id', 'card_ministries.carderName as ministry', 'service_schemes.CarderName', 'service_schemes.ext', 'service_schemes.comment as VComment', 'service_schemes.status', 'service_schemes.WordFile as EXCEL', 'service_schemes.PDFFile as PDF', 'service_schemes.ApprovedOn as PSDate', 'service_schemes.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'service_schemes.UploadedBy', 'service_schemes.ApprovedBy as UpprovedBy', 'service_schemes.UploadedOn as UploadDate', 'service_schemes.created_at', 'service_schemes.updated_at as UpdateDate', 'service_schemes.UpdatedBy', 'service_schemes.DeletedBy', 'service_schemes.RestoredBy','versions.versionname')
+        $allactives = ServiceScheme::select('service_schemes.id', 'card_ministries.carderName as ministry', 'service_schemes.CarderName', 'service_schemes.ext', 'service_schemes.comment as VComment', 'service_schemes.status', 'service_schemes.WordFile as EXCEL', 'service_schemes.PDFFile as PDF', 'service_schemes.ApprovedOn as PSDate', 'service_schemes.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'service_schemes.UploadedBy', 'service_schemes.ApprovedBy as UpprovedBy', 'service_schemes.UploadedOn as UploadDate', 'service_schemes.created_at', 'service_schemes.updated_at as UpdateDate', 'service_schemes.UpdatedBy', 'service_schemes.DeletedBy', 'service_schemes.RestoredBy', 'versions.versionname')
             ->join('users', 'users.id', '=', 'service_schemes.UploadedBy')
             ->join('card_ministries', 'card_ministries.id', '=', 'service_schemes.carderId')
             ->join('versions', 'versions.id', '=', 'service_schemes.versionId')
@@ -428,7 +477,7 @@ class FrontEndController extends Controller
         // dd($pdffile);
         $pdf   = explode('_', $pdffile);
         $month = $pdf[1];
-        $year  = $pdf[2];                                                       //file name in db
+        $year  = $pdf[2];                                               //file name in db
         $path  = "storage/SU/" . $year . "/" . $month . "/" . $pdffile; //path of pdf
         $file  = File::get($path);
         // dd($path);
@@ -437,5 +486,21 @@ class FrontEndController extends Controller
             'Content-Disposition' => 'inline;' . $pdffile,
         ]);
         return $response;
+    }
+
+    // Refrom
+    public function ReformIndex()
+    {
+        return view('FileManager.FrontEnd.pages.ReformIndex');
+    }
+    //productivivty
+    public function ProductivityIndex()
+    {
+        return view('FileManager.FrontEnd.pages.ProductivityIndex');
+    }
+    //reserch
+    public function ResearchIndex()
+    {
+        return view('FileManager.FrontEnd.pages.ResearchIndex');
     }
 }

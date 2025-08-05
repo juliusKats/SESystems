@@ -27,8 +27,14 @@ class EstablishmentSent extends Mailable
      */
     public function build()
     {
-       return $this->view('FileManager.Mails.Establishment.Recieve',compact('establishment'));
+       return $this->view('FileManager.Mails.Establishment.Recieve')->with([
+        'fname' => $this->establishment->fname,
+        'sname' => $this->establishment->sname,
+        'ticket' => $this->establishment->ticket,
+        'url' => route('file.activate', ['id' => $this->establishment->id]),
+       ]);
     }
+       
 
     /**
      * Get the attachments for the message.

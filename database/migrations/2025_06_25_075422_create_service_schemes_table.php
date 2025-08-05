@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('service_schemes', function (Blueprint $table) {
-            $table->id();
+            $table->id(); 
+            $table->string('ticket')->unique();
             $table->bigInteger('carderId')->unsigned();
             $table->bigInteger('versionId')->unsigned()->nullable();
             $table->boolean('Draft')->default(false);

@@ -186,7 +186,7 @@
                                                                                 @method('PUT')
                                                                                 <input type="submit"
                                                                                     class="btn-delete btn btn-sm ml-4 mt-2 btn-default"
-                                                                                    value="Delete">
+                                                                                    value="Trash">
                                                                             </form>
                                                                         @endif
 
@@ -362,7 +362,7 @@
                                                                                     @method('DELETE')
                                                                                     <input type="submit"
                                                                                         class="btn-delete btn btn-sm ml-4 mt-2 btn-default"
-                                                                                        value="Delete">
+                                                                                        value="Trash">
                                                                                 </form>
                                                                             @endif
                                                                         </div>
@@ -529,7 +529,7 @@
                                                                                         @method('PUT')
                                                                                         <input type="submit"
                                                                                             class="btn-delete btn btn-sm ml-4 mt-2 btn-default"
-                                                                                            value="Delete">
+                                                                                            value="Trash">
                                                                                     </form>
                                                                                 </div>
                                                                             @endif
@@ -707,7 +707,7 @@
                                                                                     @method('PUT')
                                                                                     <input type="submit"
                                                                                         class="btn-delete btn btn-sm ml-4 mt-2 btn-default"
-                                                                                        value="Delete">
+                                                                                        value="Trash">
                                                                                 </form>
                                                                             @endif
                                                                         </div>
@@ -874,7 +874,7 @@
                                                                                         @method('PUT')
                                                                                         <input type="submit"
                                                                                             class="btn-delete btn btn-sm ml-4 mt-2 btn-default"
-                                                                                            value="Delete">
+                                                                                            value="Trash">
                                                                                     </form>
                                                                                 </div>
                                                                             @endif
@@ -1037,7 +1037,7 @@
                                                                                 @method('PUT')
                                                                                 <input type="submit"
                                                                                     class="btn-delete btn btn-sm ml-4 mt-2 btn-default"
-                                                                                    value="Delete">
+                                                                                    value="Trash">
                                                                             </form>
                                                                         </div>
                                                                     </div>
@@ -1195,7 +1195,7 @@
                                                                                 @method('PUT')
                                                                                 <input type="submit"
                                                                                     class="btn btn-sm ml-4 mt-2 btn-default"
-                                                                                    value="Delete">
+                                                                                    value="Trash">
                                                                             </form>
                                                                         </div>
                                                                     </div>
@@ -1349,7 +1349,7 @@
                                                                             @method('PUT')
                                                                             <input type="submit"
                                                                                 class="btn btn-sm ml-4 mt-2 btn-default"
-                                                                                value="Delete">
+                                                                                value="Trash">
                                                                         </form>
                                                                     </div>
                                                                 </div>

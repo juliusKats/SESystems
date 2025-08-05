@@ -8,7 +8,10 @@ use App\Http\Controllers\File\FrontEndController;
 use App\Http\Controllers\File\InquiryController;
 use App\Http\Controllers\File\JobDescriptionController;
 use App\Http\Controllers\File\LineMinistryController;
+use App\Http\Controllers\File\ProductivityController;
 use App\Http\Controllers\File\RapexController;
+use App\Http\Controllers\File\ReformController;
+use App\Http\Controllers\File\ResearchController;
 use App\Http\Controllers\File\SchemeController;
 use App\Http\Controllers\File\ServiceUgandaController;
 use App\Http\Controllers\File\VoteController;
@@ -30,6 +33,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use OwenIt\Auditing\Models\Audit;
+
+
+
 
 
 Route::get('/', function () {
@@ -192,6 +198,21 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
         });
 
+        # Productivity
+         Route::controller(ProductivityController::class)->group(function () {
+            Route::get('Manage/Productivity/Files', 'index')->name('productivity.file.list');
+        });
+
+         # Research
+         Route::controller(ResearchController::class)->group(function () {
+            Route::get('Manage/Research/Files', 'index')->name('research.file.list');
+        });
+
+         # Research
+         Route::controller(ReformController::class)->group(function () {
+            Route::get('Manage/Reform/Files', 'index')->name('reform.file.list');
+        });
+
         #Dashboard
         Route::controller(UserDashboardController::class)->group(function () {
             Route::get('/user/dashboard', 'index')->name('user.dashboard');
@@ -213,7 +234,7 @@ Route::get('/trying', function () {
     // ->get();
     $user = User::selectRaw('DATE_FORMAT(created_at,"%M") as month,sum((status)=0) as Active,sum((status)=1) as Inactive ,DATE_FORMAT(created_at,"%Y-%m") as period')
         ->groupBy(groups: 'period')
-        ->groupBy('month')
+    ->groupBy('month')
         ->orderBy('period', 'asc')
         ->get();
     $data['periods']   = $user->pluck('period');
@@ -307,6 +328,14 @@ Route::controller(FrontEndController::class)->group(function () {
     Route::get('/download/{id}/attachement/zip', 'createZipSU')->name('create.su.zip');
     Route::get('/download/{string}/attachement/file', 'downloadSUfile')->name('su.download.file');
     Route::get('/preview/{string}/attachement/pdf', 'previewSUPdf')->name('su.pdf.view');
+
+     Route::get('Manage/Productivity/Files', 'ProductivityIndex')->name('user.productivity.documents');
+         Route::get('Manage/Research/Files', 'ResearchIndex')->name('user.research.documents');
+             Route::get('Manage/Reform/Files', 'ReformIndex')->name('user.reform.documents');
+
+
+
+
 });
 Route::prefix('edbrs.com')->group(function () {
     Route::controller(InquiryController::class)->group(function () {

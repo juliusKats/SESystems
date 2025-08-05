@@ -31,6 +31,19 @@
             <a href="@if (Auth::user() && Auth::user()->status == 1) {{ route('su.file.list') }}@else{{ route('user.serviceug.documents') }} @endif"
                 class="nav-link" style="color: white">Service Uganda</a>
         </li>
+         <li class="nav-item d-none d-sm-inline-block " style="color: white">
+            <a href="@if (Auth::user() && Auth::user()->status == 1) {{ route('productivity.file.list') }}@else{{ route('user.productivity.documents') }} @endif"
+                class="nav-link" style="color: white">Productivity</a>
+        </li>
+         <li class="nav-item d-none d-sm-inline-block " style="color: white">
+            <a href="@if (Auth::user() && Auth::user()->status == 1) {{ route('research.file.list') }}@else{{ route('user.research.documents') }} @endif"
+                class="nav-link" style="color: white">Research</a>
+        </li>
+         <li class="nav-item d-none d-sm-inline-block " style="color: white">
+            <a href="@if (Auth::user() && Auth::user()->status == 1) {{ route('reform.file.list') }}@else{{ route('user.reform.documents') }} @endif"
+                class="nav-link" style="color: white">Reforms</a>
+        </li>
+
          @if (!Auth::user())
 
         <li class="nav-item d-none d-sm-inline-block " style="color: white">
@@ -49,7 +62,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         @auth
-        
+
         <!-- Team Setting -->
             <li class="nav-item">
                 <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"

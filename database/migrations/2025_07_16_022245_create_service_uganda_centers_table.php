@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('service_uganda_centers', function (Blueprint $table) {
             $table->id();
+             $table->string('ticket')->unique();
             $table->longText('SUCenter')->comment('CenterName');
             $table->longText('file')->comment('Only Excel,PDF,Word and Images');
             $table->longText('comment')->nullable()->comment('User Comment');

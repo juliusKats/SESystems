@@ -17,6 +17,7 @@ return new class extends Migration
             // $table->string('dialingCode');
             $table->string('fullname');
             $table->string('telephone');
+             $table->string('subject');
             $table->string('email')->nullable();
             $table->string('inquiry');
             $table->string('reply')->nullable();

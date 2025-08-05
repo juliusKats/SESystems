@@ -37,5 +37,9 @@
   <link rel="stylesheet" href="{{ asset('system/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('system/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('system/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('system/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('system/plugins/toastr/toastr.min.css') }}">
 
 </head>

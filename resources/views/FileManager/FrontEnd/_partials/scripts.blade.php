@@ -9,10 +9,14 @@
   <script src="{{ asset('system/frontEnd/vendor/waypoints/noframework.waypoints.js')}}"></script>
   <script src="{{ asset('system/frontEnd/vendor/imagesloaded/imagesloaded.pkgd.min.js')}}"></script>
   <script src="{{ asset('system/frontEnd/vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
-
+ <!-- SweetAlert2 -->
+ <script src="{{ asset('system/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+ <!-- Toastr -->
+ <script src="{{ asset('system/plugins/toastr/toastr.min.js') }}"></script>
   <!-- Main JS File -->
   <script src="{{ asset('system/frontEnd/js/main.js')}}"></script>
     <script src="{{ asset('system/dist/js/adminlte.min.js')}}"></script>
+
 
 <!-- DataTables  & Plugins -->
 <script src="{{ asset('system/plugins/datatables/jquery.dataTables.min.js')}}"></script>
@@ -20,4 +24,5 @@
 <script src="{{ asset('system/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 
  <script src="{{ asset('system/frontEnd/vendor/datatables/datatable.js')}}"></script>
+ <script src="{{ asset('system/pagespecific/actionalerts.js') }}"></script>
 @yield('scripts')

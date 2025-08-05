@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('job_documents', function (Blueprint $table) {
             $table->id();
+            $table->string('ticket')->unique();
              $table->bigInteger('carderId')->unsigned();
             $table->bigInteger('versionId')->unsigned()->nullable();
             $table->boolean('Draft')->default(false);

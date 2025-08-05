@@ -14,31 +14,47 @@ class EstablishmentHodRecieved extends Mailable
     use Queueable, SerializesModels;
 
     /**
+     * The establishment instance.
+     *
+     * @var mixed
+     */
+    public $establishment;
+
+    /**
      * Create a new message instance.
+     *
+     * @param mixed $establishment
      */
-    public function __construct()
+    public function __construct($establishment)
     {
-        //
+        $this->establishment = $establishment;
     }
 
     /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'Establishment Hod Recieved',
-        );
-    }
 
-    /**
      * Get the message content definition.
      */
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'FileManager.Mails.Establishment.HodRecieved',
+            with: [
+                'fname' => $this->establishment->fname,
+                'sname' => $this->establishment->sname,
+                'ticket' => $this->establishment->ticket,
+                'url' => route('file.activate', ['id' => $this->establishment->id]),
+            ]
         );
+    }
+    public function build()
+    {
+        return $this->view('FileManager.Mails.Establishment.HodRecieved')->with([
+            'fname' => $this->establishment->fname,
+            'sname' => $this->establishment->sname,
+            'ticket' => $this->establishment->ticket,
+            'created_at' => $this->establishment->created_at,
+            'url' => route('file.activate', ['id' => $this->establishment->id]),
+        ]);
     }
 
     /**

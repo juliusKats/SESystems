@@ -12,13 +12,13 @@ use Illuminate\Queue\SerializesModels;
 class EstablishmentRejected extends Mailable
 {
     use Queueable, SerializesModels;
-
+        public $establishment;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($establishment)
     {
-        //
+        $this->establishment = $establishment;
     }
 
     /**

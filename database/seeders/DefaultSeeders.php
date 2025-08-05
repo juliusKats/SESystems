@@ -39,7 +39,7 @@ class DefaultSeeders extends Seeder
          $imgcat8 = ImageCategory::create(['Category' => 'Finance', 'status' => false]);
 
 
-        $status1 = DocStatus::create(['statusName' => 'None']);
+        $status7 = DocStatus::create(['statusName' => 'None']);
         $status1 = DocStatus::create(['statusName' => 'Pending']);
         $status2 = DocStatus::create(['statusName' => 'Active']);
         $status4 = DocStatus::create(['statusName' => 'Reject']);

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_files', function (Blueprint $table) {
             $table->id();
+             $table->string('ticket')->unique();
             $table->bigInteger('VoteCode')->unsigned();
             $table->string('VoteName', 50);
             $table->longText('comment')->nullable();

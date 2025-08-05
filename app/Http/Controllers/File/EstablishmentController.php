@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\File;
 
 use App\Http\Controllers\Controller;
@@ -6,64 +7,88 @@ use App\Http\Controllers\Controller;
 use App\Models\UserFiles;
 use App\Models\Version;
 use App\Models\VoteDetails;
+use App\Services\UniqueNumberGenerator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use App\Mail\Recieve;
+use App\Mail\EstablishmentSent;
+use App\Mail\EstablishmentHodReceived;
+use App\Mail\EstablishmentHodRecieved;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+
 
 class EstablishmentController extends Controller
 {
+    private function generateUniqueRandomNumber(string $columnName, int $length = 13): string
+    {
+        do {
+            // Generate a random string of specified length
+            //            $randomNumber = Str::random($length);
+            $randomNumber = mt_rand(1000000000000, 9999999999999);
+            $randomNumber = (string)$randomNumber; // Ensuring it is Sting;
+
+            // Check if the generated number already exists in the database
+            $exists = UserFiles::where($columnName, $randomNumber)->exists();
+        } while ($exists); // Loop until a unique number is found
+
+        return $randomNumber;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function Dashboard(Request $request)
     {
         $user = Auth::user();
-        return view("FileManager.ESTABLISHMENT.Dashboard", compact("user", ));
+        return view("FileManager.ESTABLISHMENT.Dashboard", compact("user",));
     }
 
     public function index()
     {
         //Deleted
-        $deleted = UserFiles::onlyTrashed()->select('user_files.id', 'user_files.Draft','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.Approve as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+        $deleted = UserFiles::onlyTrashed()->select('user_files.id', 'user_files.Draft', 'user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.Approve as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
-            ->where('user_files.Draft',false)
+            ->where('user_files.Draft', false)
             ->orderBy("user_files.deleted_at", "desc")->get();
         // Approved files
-        $files = UserFiles::select('user_files.id', 'user_files.Draft','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+        $files = UserFiles::select('user_files.id', 'user_files.Draft', 'user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.status', 3)
-             ->where('user_files.Draft',false)
+            ->where('user_files.Draft', false)
             ->orderBy("created_at", "desc")->get(); // Master Query
-                                                // Pending
+        // Pending
         $pending = UserFiles::select('user_files.status', 'user_files.Draft', 'user_files.id', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.status', 2)
-             ->where('user_files.Draft',false)
+            ->where('user_files.Draft', false)
             ->orderBy("created_at", "desc")->get();
         // my penfing
-        $mypending = UserFiles::select('user_files.id', 'user_files.Draft','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+        $mypending = UserFiles::select('user_files.id', 'user_files.Draft', 'user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.status', 2)
-             ->where('user_files.Draft',false)
+            ->where('user_files.Draft', false)
             ->where('user_files.UploadedBy', Auth::user()->id)
             ->orderBy("created_at", "desc")->get();
 
-        $rejected = UserFiles::select('user_files.id', 'user_files.Draft','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+        $rejected = UserFiles::select('user_files.id', 'user_files.Draft', 'user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.status', 4)
-             ->where('user_files.Draft',false)
+            ->where('user_files.Draft', false)
             ->orderBy("created_at", "desc")->get();
         // my penfing
         $myrejected = UserFiles::select('user_files.status', 'user_files.Draft', 'user_files.status', 'user_files.id', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
@@ -71,7 +96,7 @@ class EstablishmentController extends Controller
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.status', 4)
-             ->where('user_files.Draft',false)
+            ->where('user_files.Draft', false)
             ->where('user_files.UploadedBy', Auth::user()->id)
             ->orderBy("created_at", "desc")->get();
 
@@ -79,20 +104,19 @@ class EstablishmentController extends Controller
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
-            ->where('user_files.Draft',true)
+            ->where('user_files.Draft', true)
             ->where('user_files.UploadedBy', Auth::user()->id)
             ->orderBy("created_at", "desc")->get();
 
 
-        $mydeleted = UserFiles::onlyTrashed()->select('user_files.id', 'user_files.Draft','user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
+        $mydeleted = UserFiles::onlyTrashed()->select('user_files.id', 'user_files.Draft', 'user_files.status', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.ApprovedOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at', 'user_files.updated_at as UpdateDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
             ->where('user_files.UploadedBy', Auth::user()->id)
             ->orderBy("user_files.deleted_at", "desc")->get();
 
-        return view("FileManager.ESTABLISHMENT.index", compact("files", 'pending', 'mypending', 'rejected', 'myrejected', 'deleted', 'mydeleted','mydrafts'));
-
+        return view("FileManager.ESTABLISHMENT.index", compact("files", 'pending', 'mypending', 'rejected', 'myrejected', 'deleted', 'mydeleted', 'mydrafts'));
     }
 
     /**
@@ -110,6 +134,11 @@ class EstablishmentController extends Controller
      */
     public function store(Request $request)
     {
+        // Generate a unique random number for the 'your_column' column
+        $uniqueNumber = $this->generateUniqueRandomNumber('ticket', 13);
+
+
+
         if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin') {
             $status = 3;
         } else {
@@ -147,7 +176,6 @@ class EstablishmentController extends Controller
                     file_put_contents($path, $imgeData);
                     $image->removeAttribute('src');
                     $image->setAttribute('src', $image_name);
-
                 }
                 $votecomment = $dom->saveHTML();
 
@@ -188,9 +216,52 @@ class EstablishmentController extends Controller
                     'ApprovedOn'  => $request->approvaldate,
                     'status'      => $status,
                     'comment'     => $votecomment,
+                    'ticket' => $uniqueNumber,
                     'UploadedBy'  => Auth::user()->id,
 
                 ]);
+                $establishment = DB::table('user_files')->select('user_files.ticket', 'users.sname', 'users.fname', 'user_files.created_at','users.email')
+                ->join('users', 'users.id', '=', 'user_files.UploadedBy')
+                ->where('user_files.id', $file->id)
+                ->first();
+                // dd($establishment);
+
+                // copy to the Hod
+
+            $hodEmail = 'allan.tumuhimbise@publicservice.go.ug';
+             $sendermail =Auth::user()->email;
+
+            $subject = 'New Establishment Uploaded '.$file->ticket;
+            $data = [
+                'fname' => $establishment->fname,
+                'sname' => $establishment->sname,
+                'ticket' => $establishment->ticket,
+                'created_at' => $establishment->created_at,
+                'url'=> route('file.approve', $file->id),
+                'message' => 'Welcome to our service!'
+            ];
+
+            // Send email using a Blade view
+            Mail::send('FileManager.Mails.Establishment.Recieve', $data, function ($message) use ($hodEmail, $subject) {
+                $message->to($hodEmail)
+                    ->subject($subject);
+            });
+
+            //coppy to sender
+
+            $subject = 'Eatablishment with ticket Number'.$establishment->ticket .'has been sent';
+            $data = [
+                'fname' => $establishment->fname,
+                'sname' => $establishment->sname,
+                'ticket'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      => $establishment->ticket,
+                'created_at' => $establishment->created_at,
+                'message' => 'Welcome to our service!'
+            ];
+
+            // Send email using a Blade view
+            Mail::send('FileManager.Mails.Establishment.SenderCopy', $data, function ($message) use ($hodEmail, $subject) {
+                $message->to(Auth::user()->email)->subject($subject);
+            });
                 return redirect()->route('file.list')->with('success', 'File Uploaded Successfully');
             }
         } else {
@@ -209,7 +280,6 @@ class EstablishmentController extends Controller
                 file_put_contents($path, $imgeData);
                 $image->removeAttribute('src');
                 $image->setAttribute('src', $image_name);
-
             }
             $votecomment = $dom->saveHTML();
 
@@ -250,12 +320,13 @@ class EstablishmentController extends Controller
                 'ApprovedOn'  => $request->approvaldate,
                 'status'      => $status,
                 'comment'     => $votecomment,
-                'Draft'=>true,
+                'Draft' => true,
+                'ticket' => $uniqueNumber,
                 'UploadedBy'  => Auth::user()->id,
 
             ]);
-            return redirect()->route('file.list')->with('success', 'File Uploaded Successfully');
 
+            return redirect()->route('file.list')->with('success', 'File Uploaded Successfully');
         }
     }
     public function deleteVote(Request $request, $id)
@@ -285,7 +356,6 @@ class EstablishmentController extends Controller
 
         $userfile->forceDelete();
         return redirect()->route('file.list')->with('success', 'All Files Deleted Successfully');
-
     }
     public function deleteAll(Request $request, $id)
     {
@@ -325,7 +395,6 @@ class EstablishmentController extends Controller
         } else {
             return redirect()->route('file.list')->with('error', 'No Files Found');
         }
-
     }
     public function deletePDF(Request $request, $id)
     {
@@ -346,7 +415,6 @@ class EstablishmentController extends Controller
         } else {
             return redirect()->route('file.list')->with('error', 'PDF Not Found');
         }
-
     }
 
     public function deleteExcel(Request $request, $id)
@@ -366,7 +434,6 @@ class EstablishmentController extends Controller
         } else {
             return redirect()->route('file.list')->with('error', 'PDF Not Found');
         }
-
     }
 
     public function ApproveFile(Request $request, $id)
@@ -400,7 +467,7 @@ class EstablishmentController extends Controller
 
     public function RejectFile(Request $request, $id)
     {
-        $file = UserFiles::select('user_files.id', 'user_files.Draft','vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at as CrDate', 'user_files.updated_at as UpDate', 'user_files.UpdatedBy')
+        $file = UserFiles::select('user_files.id', 'user_files.Draft', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at as CrDate', 'user_files.updated_at as UpDate', 'user_files.UpdatedBy')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
@@ -408,7 +475,6 @@ class EstablishmentController extends Controller
             ->orderBy("UpDate", "desc")->first();
         // dd($file);
         return view('FileManager.Establishment.reject_vote', compact('file'));
-
     }
 
     public function RejectSave(Request $request, $id)
@@ -431,7 +497,6 @@ class EstablishmentController extends Controller
             file_put_contents($path, $imgeData);
             $image->removeAttribute('src');
             $image->setAttribute('src', $image_name);
-
         }
         $reason = $dom->saveHTML();
 
@@ -446,7 +511,6 @@ class EstablishmentController extends Controller
         } else {
             return redirect()->route('file.reject', $id)->with('error', 'Something Went Wrong');
         }
-
     }
     public function SoftDelete(Request $request, $id)
     {
@@ -454,7 +518,6 @@ class EstablishmentController extends Controller
         $file->status = null;
         $file->delete();
         return redirect()->route('file.list')->with('success', 'File moved to Bin successfully');
-
     }
 
     public function Restore($id)
@@ -463,6 +526,5 @@ class EstablishmentController extends Controller
         $vote->status = 2;
         $vote->restore();
         return redirect()->route('file.list')->with('success', 'File Restored successfully');
-
     }
 }

@@ -154,7 +154,7 @@
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
                                                                                     class="btn btn-danger btn-sm ml-4 mt-1 btn-softdelete"
-                                                                                    value="Delete">
+                                                                                    value="Trash">
                                                                             </form>
                                                                             @if ($item->status == 'Active' || $item->status == 'Pending')
                                                                                 <a href="{{ route('file.reject', $item->id) }}"
@@ -167,7 +167,7 @@
                                                                                 @method('DELETE')
                                                                                 <button
                                                                                     class="btn btn-danger btn-sm ml-4 mt-1 btn-delete">
-                                                                                    Permanent Delete
+                                                                                    Delete
                                                                                 </button>
                                                                             </form>
                                                                         </div>
@@ -403,7 +403,7 @@
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
                                                                                     class="btn btn-danger btn-softdelete btn-sm ml-4 mt-1"
-                                                                                    value="Delete">
+                                                                                    value="Trash">
                                                                             </form>
                                                                             @if ($item->status == 'Active' || $item->status == 'Pending')
                                                                                 <a href="{{ route('file.reject', $item->id) }}"
@@ -416,7 +416,7 @@
                                                                                 @method('DELETE')
                                                                                 <button
                                                                                     class="btn btn-danger btn-delete btn-sm ml-4 mt-1">
-                                                                                    Permanent Delete
+                                                                                    Delete
                                                                                 </button>
                                                                             </form>
                                                                         </div>
@@ -658,7 +658,7 @@
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
                                                                                     class="btn-softdelete btn btn-danger btn-sm ml-4 mt-1"
-                                                                                    value="Delete">
+                                                                                    value="Trash">
                                                                             </form>
                                                                             <form method="post"
                                                                                 action="{{ route('file.approve', $item->id) }}">
@@ -681,7 +681,7 @@
                                                                                 @method('DELETE')
                                                                                 <button
                                                                                     class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
-                                                                                    Permanent Delete
+                                                                                    Delete
                                                                                 </button>
                                                                             </form>
                                                                         </div>
@@ -790,7 +790,7 @@
                                                                                 @method('DELETE')
                                                                                 <input type="submit"
                                                                                     class="btn-softdelete btn btn-danger btn-sm ml-4 mt-1"
-                                                                                    value="Delete">
+                                                                                    value="Trash">
                                                                             </form>
                                                                             @if ($item->status == 'Active' || $item->status == 'Pending')
                                                                                 <a href="{{ route('file.reject', $item->id) }}"
@@ -803,7 +803,7 @@
                                                                                 @method('DELETE')
                                                                                 <button
                                                                                     class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
-                                                                                    Permanent Delete
+                                                                                    Delete
                                                                                 </button>
                                                                             </form>
                                                                         </div>

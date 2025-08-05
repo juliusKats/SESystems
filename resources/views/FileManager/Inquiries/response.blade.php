@@ -70,6 +70,17 @@
                                             </span>
                                         @enderror
                                     </div>
+                                    <div class="col-md-6">
+                                        <label>Subject</label>
+                                        <input type="text" class="form-control @error('subject') is-invalid @enderror"
+                                            readonly name="subject" minlength="5" maxlength="50"
+                                            value="{{ $inquiry->subject }}">
+                                        @error('subject')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="form-group mb-2">
                                     <label>Inquiry Message</label>
@@ -97,7 +108,7 @@
                                                 @if ($inquiry->email)
                                                     <label class="col-md-6"><input name="replyvia" required
                                                             style="width: 25px;height:25px" type="radio"
-                                                            value="mail">&nbsp;
+                                                            value="email">&nbsp;
                                                         &nbsp;Email</label>
                                                 @endif
                                             </div>
@@ -115,7 +126,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-primary" value="Reply">
+                                    <input id="btnsend" hidden type="submit" class="btn btn-primary" value="Reply">
                                     <a href={{ route('inquiry.list') }} class="btn btn-danger float-right">Cancel</a>
                                 </div>
                             </form>
@@ -132,8 +143,10 @@
 @section('scripts')
     <script>
         var replybox = document.getElementById('divresponse')
+        var btnsend = document.getElementById('btnsend')
         $('#lblsend').on('click', function() {
             replybox.removeAttribute('hidden', 'hidden');
+            btnsend.removeAttribute('hidden', 'hidden');
         })
     </script>
 @endsection

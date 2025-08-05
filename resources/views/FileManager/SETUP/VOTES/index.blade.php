@@ -99,7 +99,7 @@
                                                                                     <input style="display: inline"
                                                                                         type="submit"
                                                                                         class="btn btn-danger ml-4 btn-sm mt-1"
-                                                                                        value="Delete">
+                                                                                        value="Trash">
                                                                                 </form>
                                                                             </div>
                                                                         </div>
@@ -178,7 +178,7 @@
                                                                                     <input style="display: inline"
                                                                                         type="submit"
                                                                                         class="btn btn-danger ml-4 btn-sm mt-1"
-                                                                                        value="Delete">
+                                                                                        value="Trash">
                                                                                 </form>
                                                                             </div>
                                                                         </div>

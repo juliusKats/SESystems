@@ -27,7 +27,7 @@
                         </li>
                         <li class="nav-item"><a class="nav-link" href="#inactive" data-toggle="tab">Replied</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#trashed" data-toggle="tab">Deleted</a>
+                        <li class="nav-item"><a class="nav-link" href="#trashed" data-toggle="tab">Trash</a>
                         </li>
                     </ul>
                 </div>
@@ -45,7 +45,7 @@
                                                         <th>Sender</th>
                                                         <th>Telephone</th>
                                                         <th>Email</th>
-                                                        <th>Message</th>
+                                                        <th>Subject</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -58,7 +58,7 @@
                                                             </td>
                                                             <td>{{ $item->telephone }}</td>
                                                             <td>{{ $item->email }}</td>
-                                                            <td>{{ Str::words($item->inquiry, 15) }}</td>
+                                                            <td>{{ $item->subject }}</td>
                                                             <td>
                                                                 <div class="dropdown mt-1 btn-sm">
                                                                     <button class="btn btn-danger btn-sm dropdown-toggle"
@@ -69,12 +69,12 @@
                                                                     <div class="dropdown-menu">
                                                                        <a href="{{ route('inquiry.reply',$item->id) }}"
                                                                             class="ml-4 btn btn-sm btn-primary mt-1">
-                                                                            Reply
+                                                                            View
                                                                         </a>
                                                                         <form method="post" action="{{ route('inquiry.soft.delete',$item->id) }}">
                                                                             @csrf
                                                                             @method('DELETE')
-                                                                            <input type="submit" class="ml-4 mt-1 btn btn-softdelete btn-sm btn-warning" value="Archive">
+                                                                            <input type="submit" class="ml-4 mt-1 btn btn-softdelete btn-sm btn-warning" value="Trash">
                                                                         </form>
                                                                         <form method="post" action="{{ route('inquiry.delete',$item->id) }}">
                                                                             @csrf
@@ -109,7 +109,7 @@
                                                         <th>Sender</th>
                                                         <th>Telephone</th>
                                                         <th>Email</th>
-                                                        <th>Response</th>
+                                                        <th>Subject</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -122,7 +122,7 @@
                                                             </td>
                                                             <td>{{ $item->telephone }}</td>
                                                             <td>{{ $item->email }}</td>
-                                                            <td>{{ Str::words($item->reply, 15) }}</td>
+                                                            <td>{{ $item->subject }}</td>
                                                             <td>
                                                                 <div class="dropdown mt-1 btn-sm">
                                                                     <button class="btn btn-danger btn-sm dropdown-toggle"
@@ -168,7 +168,7 @@
                                                         <th>Sender</th>
                                                         <th>Telephone</th>
                                                         <th>Email</th>
-                                                        <th>Inquiry</th>
+                                                        <th>Subject</th>
                                                         <th>Reply</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -182,7 +182,7 @@
                                                             </td>
                                                             <td>{{ $item->telephone }}</td>
                                                             <td>{{ $item->email }}</td>
-                                                            <td>{{ Str::words($item->inquiry, 15) }}</td>
+                                                            <td>{{ $item->subjects }}</td>
                                                              <td>{{ Str::words($item->reply, 15) }}</td>
                                                             <td>
                                                                 <div class="dropdown mt-1 btn-sm">

@@ -12,7 +12,7 @@ class UserFiles extends Model  implements AuditableContract
     use Auditable;
 
     //
-    protected $fillable=['Draft','status','VoteCode','VoteName','comment','Approve','excelOriginal','excelfile','pdffile','pdfsize','psApprovedOn','ApprovedOn','UploadedBy','ApprovedBy','UploadedOn','updated_at','approved_by','versionId','DeletedBy','RestoredBy'] ;
+    protected $fillable=['ticket','Draft','status','VoteCode','VoteName','comment','Approve','excelOriginal','excelfile','pdffile','pdfsize','psApprovedOn','ApprovedOn','UploadedBy','ApprovedBy','UploadedOn','updated_at','approved_by','versionId','DeletedBy','RestoredBy'] ;
 
      protected $dates = ['deleted_at'];
 }
