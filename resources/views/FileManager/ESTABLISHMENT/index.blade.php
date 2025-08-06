@@ -133,6 +133,10 @@
                                                                             Action
                                                                         </button>
                                                                         <div class="dropdown-menu">
+                                                                             <a href="{{route('file.view', $item->id)}}"
+                                                                                    class="ml-4 btn btn-sm btn-primary mt-1"><i
+                                                                                        class="fa fa-eye"></i> View</a>
+                                                                                    </i></a>
                                                                             @if (Auth::user()->id == $item->UploadedBy)
                                                                                 <a href="#"
                                                                                     class="ml-4 btn btn-sm btn-primary mt-1"><i

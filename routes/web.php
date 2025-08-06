@@ -156,6 +156,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
             Route::delete('/temporary{id}/delete', 'SoftDelete')->name('soft.delete');
             Route::post('/restore/{id}/soft', 'Restore')->name('vote.restore');
+            Route::get('file/{id}/view', 'show')->name('file.view');
 
         });
         Route::controller(JobDescriptionController::class)->group(function () {

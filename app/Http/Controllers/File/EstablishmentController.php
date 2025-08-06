@@ -4,6 +4,12 @@ namespace App\Http\Controllers\File;
 
 use App\Http\Controllers\Controller;
 // use Faker\Core\File;
+use App\Mail\EstablishmentHodReceived;
+use App\Mail\EstablishmentHodRecieved;
+use App\Mail\EstablishmentSent;
+use App\Mail\Recieve;
+use App\Models\DocStatus;
+use App\Models\DocStatuses;
 use App\Models\UserFiles;
 use App\Models\Version;
 use App\Models\VoteDetails;
@@ -11,15 +17,11 @@ use App\Services\UniqueNumberGenerator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use App\Mail\Recieve;
-use App\Mail\EstablishmentSent;
-use App\Mail\EstablishmentHodReceived;
-use App\Mail\EstablishmentHodRecieved;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 
 class EstablishmentController extends Controller
@@ -141,8 +143,14 @@ class EstablishmentController extends Controller
 
         if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin') {
             $status = 3;
+            $approved_by = Auth::user()->id;
+            $ApprovedBy = Auth::user()->fname . " " . Auth::user()->sname . " " . Auth::user()->oname;
+            $dateon = Carbon::now();
         } else {
             $status = 2;
+            $approved_by = null;
+            $ApprovedBy = null;
+            $dateon = null;
         }
 
         $year  = date("Y");
@@ -212,56 +220,60 @@ class EstablishmentController extends Controller
                     'VoteName'    => $request->votename,
                     'excelfile'   => $efname,
                     'pdffile'     => $pfname,
-                    'versionname' => $request->version,
+                    'versionId' => $request->version,
                     'ApprovedOn'  => $request->approvaldate,
                     'status'      => $status,
                     'comment'     => $votecomment,
                     'ticket' => $uniqueNumber,
                     'UploadedBy'  => Auth::user()->id,
+                    'ApprovedBy' => $ApprovedBy,
+                    'approved_by' => $approved_by,
+                    'DateOn' => $dateon
+
 
                 ]);
-                $establishment = DB::table('user_files')->select('user_files.ticket', 'users.sname', 'users.fname', 'user_files.created_at','users.email')
-                ->join('users', 'users.id', '=', 'user_files.UploadedBy')
-                ->where('user_files.id', $file->id)
-                ->first();
+                $establishment = DB::table('user_files')->select('user_files.ticket', 'users.sname', 'users.fname', 'user_files.created_at', 'users.email')
+                    ->join('users', 'users.id', '=', 'user_files.UploadedBy')
+                    ->where('user_files.id', $file->id)
+                    ->first();
                 // dd($establishment);
 
                 // copy to the Hod
 
-            $hodEmail = 'allan.tumuhimbise@publicservice.go.ug';
-             $sendermail =Auth::user()->email;
+                $hodEmail = 'allan.tumuhimbise@publicservice.go.ug';
+                $sendermail = Auth::user()->email;
 
-            $subject = 'New Establishment Uploaded '.$file->ticket;
-            $data = [
-                'fname' => $establishment->fname,
-                'sname' => $establishment->sname,
-                'ticket' => $establishment->ticket,
-                'created_at' => $establishment->created_at,
-                'url'=> route('file.approve', $file->id),
-                'message' => 'Welcome to our service!'
-            ];
+                $subject = 'New Establishment Uploaded ' . $file->ticket;
+                $data = [
+                    'fname' => $establishment->fname,
+                    'sname' => $establishment->sname,
+                    'ticket' => $establishment->ticket,
+                    'created_at' => $establishment->created_at,
+                    'url' => route('file.approve', $file->id),
+                    'message' => 'Welcome to our service!'
+                ];
 
-            // Send email using a Blade view
-            Mail::send('FileManager.Mails.Establishment.Recieve', $data, function ($message) use ($hodEmail, $subject) {
-                $message->to($hodEmail)
-                    ->subject($subject);
-            });
+                // Send email using a Blade view
+                Mail::send('FileManager.Mails.Establishment.Recieve', $data, function ($message) use ($hodEmail, $subject) {
+                    $message->to($hodEmail)
+                        ->subject($subject);
+                });
 
-            //coppy to sender
+                //coppy to sender
 
-            $subject = 'Eatablishment with ticket Number'.$establishment->ticket .'has been sent';
-            $data = [
-                'fname' => $establishment->fname,
-                'sname' => $establishment->sname,
-                'ticket'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      => $establishment->ticket,
-                'created_at' => $establishment->created_at,
-                'message' => 'Welcome to our service!'
-            ];
+                $subject = 'Eatablishment with ticket Number' . $establishment->ticket . 'has been sent';
+                $data = [
+                    'fname' => $establishment->fname,
+                    'sname' => $establishment->sname,
+                    'ticket'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      => $establishment->ticket,
+                    'created_at' => $establishment->created_at,
+                    'message' => 'Welcome to our service!'
+                ];
 
-            // Send email using a Blade view
-            Mail::send('FileManager.Mails.Establishment.SenderCopy', $data, function ($message) use ($hodEmail, $subject) {
-                $message->to(Auth::user()->email)->subject($subject);
-            });
+                // Send email using a Blade view
+                Mail::send('FileManager.Mails.Establishment.SenderCopy', $data, function ($message) use ($hodEmail, $subject) {
+                    $message->to(Auth::user()->email)->subject($subject);
+                });
                 return redirect()->route('file.list')->with('success', 'File Uploaded Successfully');
             }
         } else {
@@ -526,5 +538,20 @@ class EstablishmentController extends Controller
         $vote->status = 2;
         $vote->restore();
         return redirect()->route('file.list')->with('success', 'File Restored successfully');
+    }
+
+    public function show(Request $request, $id)
+    {
+        $votes = VoteDetails::all();
+        $status = DocStatus::all();
+        $versions = Version::all();
+        $file = UserFiles::select('user_files.id', 'user_files.Draft', 'user_files.VoteCode as VCode', 'user_files.ticket', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'user_files.status as State', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at as CrDate', 'user_files.updated_at as UpDate', 'user_files.UpdatedBy', 'users.fname', 'users.sname', 'users.oname', 'user_files.versionId', 'user_files.ticket','user_files.Reason', 'versions.versionName')
+            ->join('users', 'users.id', '=', 'user_files.UploadedBy')
+            ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
+            ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
+            ->join('versions', 'versions.id', '=', 'user_files.versionId')
+            ->where('user_files.id', $id)->first();
+        // dd($file);
+        return view('FileManager.ESTABLISHMENT.view', compact('file', 'votes', 'versions', 'status'));
     }
 }

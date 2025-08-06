@@ -2,6 +2,8 @@ $(function () {
     // Summernote
     $('#summernote').summernote()
     $('#summernote2').summernote()
+    $('#summernote3').summernote("disable")
+    $('#summernote4').summernote("disable")
     //Initialize Select2 Elements
     $('.select2').select2()
 
