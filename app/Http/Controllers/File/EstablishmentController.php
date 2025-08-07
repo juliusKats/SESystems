@@ -554,4 +554,26 @@ class EstablishmentController extends Controller
         // dd($file);
         return view('FileManager.ESTABLISHMENT.view', compact('file', 'votes', 'versions', 'status'));
     }
+
+    public function update(Request $request, $id){
+        $establishment=UserFiles::firstOrFail($id);
+        $originalpdf=$establishment->pdffile;
+        $originalexcel=$establishment->excelfile;
+        // validate
+         $data  = $request->validate([
+            'votecode'     => 'required|string|exists:vote_details,id',
+            'votename'     => 'required|string|min:2',
+            'comment'      => 'required|string|min:3',
+            'excel'        => 'required|file|mimes:xlsx,xls|max:4096',
+            'version'      => 'required|exists:versions,id',
+            'pdf'          => 'required',
+            'pdf.*'        => 'required|mimes:pdf|max:4096',
+            'approvaldate' => 'required|date|before:today',
+        ]);
+
+
+
+
+
+    }
 }

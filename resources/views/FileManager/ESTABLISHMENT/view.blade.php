@@ -26,9 +26,14 @@
              </div>
              <div class="section-body">
                  <div class="card-header">
+                    <a href="{{ route('file.list') }}" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back to List</a>
+
+                     @auth
                      <span class="float float-right" style="display: flex">
+
+                        @if(Auth::user()->id == $file->UploadedBy)
                          {{-- only by owner --}}
-                         <button class="btn btn-sm btn-primary"> <i class="fa fa-edit"></i> Edit </button>
+                         <button id="headerEdit" class="btn btn-sm btn-primary"> <i class="fa fa-edit"></i> Edit </button>
                          {{--  only admin and owner --}}
                          <form method="post" action="{{ route('soft.delete', $file->id) }}">
                              @csrf
@@ -47,6 +52,8 @@
                                  Delete
                              </button>
                          </form>
+                         @endif
+                         @if (Auth::user()->role == 'admin'||Auth::user()->role == 'superadmin'||Auth::user()->role == 'hod')
                          {{-- only admin --}}
                          <form method="post" action="{{ route('file.approve', $file->id) }}">
                              @csrf
@@ -56,10 +63,12 @@
                                  <i class="fa fa-check-circle"></i> Approve</button>
                          </form>
 
-                         @if ($file->status == 'Active' || $file->status == 'Pending')
-                             <button class="ml-4 mt-1 btn btn-warning btn-sm"><i class="fa fa-ban"></i> Reject</button>
+                         {{-- @if ($file->status == 'Active' || $file->status == 'Pending') --}}
+                         <button id="headerReject" class="ml-4 mt-1 btn btn-warning btn-sm"><i class="fa fa-ban"></i> Reject</button>
+                         {{-- @endif --}}
                          @endif
                      </span>
+                     @endauth
                  </div>
                  <div class="card-body">
                      @if (session('success'))
@@ -102,14 +111,16 @@
                                  </div>
                                  <div class="card-body">
 
-                                     <form>
+                                     <form method="post" action="{{ route('file.update', $file->id) }}" enctype="multipart/form-data">
+                                        @method('PUT')
+                                        @csrf
                                          <div class="form-group mb-1 row">
                                              <label class="col-md-3">Ticket</label>
                                              <div class="col-md-9">
                                                  <input id="ticket"
                                                      class="form-control  @error('ticket') is-invalid @enderror" required
                                                      name="ticket" minlength="13" maxlength="13"
-                                                     value="{{ $file->ticket }}">
+                                                     value="{{ $file->ticket }}" readonly>
                                                  @error('ticket')
                                                      <span class="invalid-feedback" role="alert">
                                                          <strong>{{ $message }}</strong>
@@ -122,7 +133,7 @@
                                              <div class="col-md-9">
                                                  <select id="votecode"
                                                      class="select2 form-control  @error('votecode') is-invalid @enderror"
-                                                     required name="votecode">
+                                                     required name="votecode" disabled>
                                                      <option>Select Vote</option>
                                                      @foreach ($votes as $key => $item)
                                                          <option value="{{ $item->id }}"
@@ -151,38 +162,60 @@
                                                  @enderror
                                              </div>
                                          </div>
-                                         <div class="form-group row mb-1">
-                                             <label class="col-md-3">Excel File </label>
-                                             <div class="col-md-9">
-                                                 <input required name="excel" type="file"
-                                                     class="form-control @error('excel') is-invalid @enderror"
-                                                     accept=".xlsx,.xls" value="{{ $file->EXCEL }}">
-                                                 @error('excel')
-                                                     <span class="invalid-feedback" role="alert">
-                                                         <strong>{{ $message }}</strong>
-                                                     </span>
-                                                 @enderror
+                                         <div id="filedisplay">
+                                             <div class="form-group row mb-1 ">
+                                                 <label class="col-md-3">Excel</label>
+                                                 <div class="col-md-9" style="display: flex; align-items: center;">
+                                                     <a href="#"><i class="fa fa-file-excel"
+                                                             style="color: green; font-size:30px;"></i>
+                                                         &nbsp; &nbsp;<span
+                                                             style="font-size: 26px;">{{ $finalEXCEL }}</span></a>
+                                                 </div>
+                                             </div>
+                                             <div class="form-group row mb-1 ">
+                                                 <label class="col-md-3">PDF File</label>
+                                                 <div class="col-md-9" style="display: flex; align-items: center;">
+                                                     <a href="#"><i class="fa fa-file-pdf"
+                                                             style="color: red; font-size:30px;"></i>
+                                                         &nbsp; &nbsp;<span
+                                                             style="font-size: 26px;">{{ $finalEXCEL }}</span></a>
+                                                 </div>
                                              </div>
                                          </div>
-                                         <div class="form-group row mb-1">
-                                             <label class="col-md-3">PDF File </label>
-                                             <div class="col-md-9">
-                                                 <input required name="pdf" type="file"
-                                                     class="form-control @error('pdf')is-invalid @enderror" accept=".pdf"
-                                                     value="{{ $file->PDF }}">
-                                                 @error('pdf')
-                                                     <span class="invalid-feedback" role="alert">
-                                                         <strong>{{ $message }}</strong>
-                                                     </span>
-                                                 @enderror
+                                         <div id="fileselector">
+                                             <div class="form-group row mb-1">
+                                                 <label class="col-md-3">Excel File </label>
+                                                 <div class="col-md-9">
+                                                     <input required name="excel" type="file"
+                                                         class="form-control @error('excel') is-invalid @enderror"
+                                                         accept=".xlsx,.xls" value="{{ $file->EXCEL }}">
+                                                     @error('excel')
+                                                         <span class="invalid-feedback" role="alert">
+                                                             <strong>{{ $message }}</strong>
+                                                         </span>
+                                                     @enderror
+                                                 </div>
+                                             </div>
+                                             <div class="form-group row mb-1">
+                                                 <label class="col-md-3">PDF File </label>
+                                                 <div class="col-md-9">
+                                                     <input required name="pdf" type="file"
+                                                         class="form-control @error('pdf')is-invalid @enderror"
+                                                         accept=".pdf" value="{{ $file->PDF }}">
+                                                     @error('pdf')
+                                                         <span class="invalid-feedback" role="alert">
+                                                             <strong>{{ $message }}</strong>
+                                                         </span>
+                                                     @enderror
+                                                 </div>
                                              </div>
                                          </div>
                                          <div class="form-group row mb-1">
                                              <label class="col-md-3">PS Approved On </label>
                                              <div class="col-md-9">
-                                                 <input required name="approvaldate" type="date"
+                                                 <input id="psdate" required name="approvaldate" type="date"
                                                      class="form-control @error('approvaldate')is-invalid @enderror"
-                                                     value="{{ $file->PSDate }}">
+                                                     value="{{ $file->PSDate }}" readonly>
                                                  @error('approvaldate')
                                                      <span class="invalid-feedback" role="alert">
                                                          <strong>{{ $message }}</strong>
@@ -191,9 +224,10 @@
                                              </div>
                                          </div>
                                          <div class="form-group row mb-1">
-                                             <label class="col-md-3">Document Version </label>
+                                             <label class="col-md-3">Version </label>
                                              <div class="col-md-9">
-                                                 <select name="version" class="form-control select2" required>
+                                                 <select id="version" name="version" class="form-control select2"
+                                                     required disabled>
                                                      <option>Select Version</option>
                                                      @foreach ($versions as $item)
                                                          <option value="{{ $item->id }}"
@@ -212,99 +246,75 @@
                                          </div>
                                          <div class="form-group mb-1">
                                              <label>Comment </label>
-                                             <textarea name="comment" id="summernote3" disabled
-                                                 class="summernote3 readonly @error('comment')is-invalid @enderror">{{ $file->VComment }}</textarea>
+                                             <textarea name="comment" id="sumz" disabled
+                                                 class="form-control readonly @error('comment')is-invalid @enderror">{{ $file->VComment }}</textarea>
                                              @error('comment')
                                                  <span class="invalid-feedback" role="alert">
                                                      <strong>{{ $message }}</strong>
                                                  </span>
                                              @enderror
                                          </div>
-                                         <div class="form-group row mb-1">
-                                             <div class="col-md-6">
-                                                 <div class="form-group mb-1">
-                                                     <label>Uploaded By </label>
-                                                     <input type="text" name="uploadedby"
-                                                         class="form-control @error('uploadedby')is-invalid @enderror"
-                                                         value="{{ $file->sname }} {{ $file->fname }} {{ $file->oname }}">
-                                                     @error('uploadedby')
+                                         <div id="uploaderinfo">
+                                             <div class="form-group row mb-1">
+                                                 <div class="col-md-6">
+                                                     <div class="form-group mb-1">
+                                                         <label>Uploaded By </label>
+                                                         <input type="text" name="uploadedby"
+                                                             class="form-control @error('uploadedby')is-invalid @enderror"
+                                                             value="{{ $file->sname }} {{ $file->fname }} {{ $file->oname }}"
+                                                             readonly>
+                                                         @error('uploadedby')
+                                                             <span class="invalid-feedback" role="alert">
+                                                                 <strong>{{ $message }}</strong>
+                                                             </span>
+                                                         @enderror
+                                                     </div>
+                                                 </div>
+                                                 <div class="col-md-6">
+                                                     <div class="form-group mb-1">
+                                                         <label>Uploaded On </label>
+                                                         <input type="date" name="uploadedOn"
+                                                             class="form-control @error('uploadedon')is-invalid @enderror"
+                                                             value="{{ $file->UploadDate }}" readonly>
+                                                         @error('uploadedOn')
+                                                             <span class="invalid-feedback" role="alert">
+                                                                 <strong>{{ $message }}</strong>
+                                                             </span>
+                                                         @enderror
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="form-group row mb-1">
+                                                 <label class="col-md-3">Status</label>
+                                                 <div class="col-md-9">
+                                                     <select id="status"
+                                                         class="select2 form-control  @error('status') is-invalid @enderror"
+                                                         required name="status" disabled>
+                                                         <option>Select status</option>
+                                                         @foreach ($status as $key => $item)
+                                                             <option value="{{ $item->id }}"
+                                                                 @if ($file->State == $item->id) selected @endif>
+                                                                 {{ $item->statusName }}
+                                                             </option>
+                                                         @endforeach
+                                                     </select>
+                                                     @error('status')
                                                          <span class="invalid-feedback" role="alert">
                                                              <strong>{{ $message }}</strong>
                                                          </span>
                                                      @enderror
                                                  </div>
-                                             </div>
-                                             <div class="col-md-6">
-                                                 <div class="form-group mb-1">
-                                                     <label>Uploaded On </label>
-                                                     <input type="date" name="uploadedOn"
-                                                         class="form-control @error('uploadedon')is-invalid @enderror"
-                                                         value="{{ $file->UploadDate }}">
-                                                     @error('uploadedOn')
-                                                         <span class="invalid-feedback" role="alert">
-                                                             <strong>{{ $message }}</strong>
-                                                         </span>
-                                                     @enderror
-                                                 </div>
-                                             </div>
-                                         </div>
-                                         <div class="form-group row mb-1">
-                                             <label class="col-md-3">Status</label>
-                                             <div class="col-md-9">
-                                                 <select id="status"
-                                                     class="select2 form-control  @error('status') is-invalid @enderror"
-                                                     required name="status">
-                                                     <option>Select status</option>
-                                                     @foreach ($status as $key => $item)
-                                                         <option value="{{ $item->id }}"
-                                                             @if ($file->State == $item->id) selected @endif>
-                                                             {{ $item->statusName }}
-                                                         </option>
-                                                     @endforeach
-                                                 </select>
-                                                 @error('votecode')
-                                                     <span class="invalid-feedback" role="alert">
-                                                         <strong>{{ $message }}</strong>
-                                                     </span>
-                                                 @enderror
                                              </div>
                                          </div>
 
                                          <div id="userAction" class="form-group mt-2">
-                                             <button class="btn btn-outline-primary ">Cancel</button>
-                                             <button class="btn  btn-outline-success float float-right">Update</button>
+                                             <button id="btnCancelUser" type="reset" class="btn btn-outline-primary ">Cancel</button>
+                                             <button type="submit" class="btn  btn-outline-success float float-right">Update</button>
                                          </div>
                                      </form>
 
                                  </div>
                              </div>
-
-
-                             {{-- User Activivties
-                                     <hr>
-
-                                     <div class="form-group row">
-                                         <label class="col-sm-3">Vote Code</label>
-                                         <div class="col-mb-9">
-                                             <select id="votecode"
-                                                 class="form-control select2 @error('votecode') is-invalid @enderror"
-                                                 required name="votecode">
-                                                 <option>Select Vote</option>
-                                                 @foreach ($votes as $key => $item)
-                                                     <option value="{{ $item->id }}"
-                                                         @if (old('votecode') == $item->id) selected @endif>
-                                                         {{ $item->votecode }} - {{ $item->votename }}
-                                                     </option>
-                                                 @endforeach
-                                             </select>
-                                             @error('votecode')
-                                                 <span class="invalid-feedback" role="alert">
-                                                     <strong>{{ $message }}</strong>
-                                                 </span>
-                                             @enderror
-                                         </div>
-                                     </div> --}}
-
                          </div>
                          <div class="col-md-6">
                              <div class="card">
@@ -319,7 +329,7 @@
                                                  <div class="col-md-6">
                                                      <div class="form-group mb-1">
                                                          <label>Approved By </label>
-                                                         <input type="text" name="uploadedby"
+                                                         <input readonly type="text" name="uploadedby"
                                                              class="form-control @error('uploadedby')is-invalid @enderror"
                                                              value="{{ $file->sname }} {{ $file->fname }} {{ $file->oname }}">
                                                          @error('uploadedby')
@@ -332,7 +342,7 @@
                                                  <div class="col-md-6">
                                                      <div class="form-group mb-1">
                                                          <label>Approved On </label>
-                                                         <input type="date" name="uploadedOn"
+                                                         <input readonly type="date" name="uploadedOn"
                                                              class="form-control @error('uploadedon')is-invalid @enderror"
                                                              value="{{ $file->UploadDate }}">
                                                          @error('uploadedOn')
@@ -349,7 +359,7 @@
                                                  <div class="col-md-6">
                                                      <div class="form-group mb-1">
                                                          <label>Deleted By </label>
-                                                         <input type="text" name="uploadedby"
+                                                         <input readonly type="text" name="uploadedby"
                                                              class="form-control @error('uploadedby')is-invalid @enderror"
                                                              value="{{ $file->sname }} {{ $file->fname }} {{ $file->oname }}">
                                                          @error('uploadedby')
@@ -362,7 +372,7 @@
                                                  <div class="col-md-6">
                                                      <div class="form-group mb-1">
                                                          <label>Deleted On </label>
-                                                         <input type="date" name="uploadedOn"
+                                                         <input readonly type="date" name="uploadedOn"
                                                              class="form-control @error('uploadedon')is-invalid @enderror"
                                                              value="{{ $file->UploadDate }}">
                                                          @error('uploadedOn')
@@ -379,7 +389,7 @@
                                                  <div class="col-md-6">
                                                      <div class="form-group mb-1">
                                                          <label>Restored By </label>
-                                                         <input type="text" name="uploadedby"
+                                                         <input readonly type="text" name="uploadedby"
                                                              class="form-control @error('uploadedby')is-invalid @enderror"
                                                              value="{{ $file->sname }} {{ $file->fname }} {{ $file->oname }}">
                                                          @error('uploadedby')
@@ -392,7 +402,7 @@
                                                  <div class="col-md-6">
                                                      <div class="form-group mb-1">
                                                          <label>Restored On </label>
-                                                         <input type="date" name="uploadedOn"
+                                                         <input readonly type="date" name="uploadedOn"
                                                              class="form-control @error('uploadedon')is-invalid @enderror"
                                                              value="{{ $file->UploadDate }}">
                                                          @error('uploadedOn')
@@ -409,7 +419,7 @@
                                                  <div class="col-md-6">
                                                      <div class="form-group mb-1">
                                                          <label>Rejected By </label>
-                                                         <input type="text" name="uploadedby"
+                                                         <input  readonly type="text" name="uploadedby"
                                                              class="form-control @error('uploadedby')is-invalid @enderror"
                                                              value="{{ $file->sname }} {{ $file->fname }} {{ $file->oname }}">
                                                          @error('uploadedby')
@@ -422,7 +432,7 @@
                                                  <div class="col-md-6">
                                                      <div class="form-group mb-1">
                                                          <label>Rejected On </label>
-                                                         <input type="date" name="uploadedOn"
+                                                         <input readonly type="date" name="uploadedOn"
                                                              class="form-control @error('uploadedon')is-invalid @enderror"
                                                              value="{{ $file->UploadDate }}">
                                                          @error('uploadedOn')
@@ -441,175 +451,24 @@
                                              </div>
                                          @endif
                                          <div id="adminAction">
-                                            <div class="form-group">
+                                             <div class="form-group">
                                                  <label>Reason</label>
-                                                 <textarea id="summernote" class="form-control summernote-simple">
-                                                {{ $file->Reason }}
+                                                 <textarea id="rejection" class="form-control summernote-simple" name='reason'>
                                             </textarea>
                                              </div>
                                              <div class="form-group mt-1">
-                                                 <button class="btn btn-outline-primary ">Cancel</button>
-                                                 <button class="btn  btn-outline-success float float-right">Reject</button>
+                                                 <button id="btnCancelAdmin" type="reset" class="btn btn-outline-primary ">Cancel</button>
+                                                 <button type="submit" class="btn  btn-outline-success float float-right">Reject</button>
                                              </div>
                                          </div>
 
                                      </form>
-
-
-
-
-
                                      {{-- reason --}}
 
                                  </div>
                              </div>
-                             {{-- Admin Activities<hr>
-                                    <div class="form-group row">
-                                         <label class="col-sm-3">Vote Code</label>
-                                         <div class="col-mb-9">
-                                             <select id="votecode"
-                                                 class="form-control select2 @error('votecode') is-invalid @enderror"
-                                                 required name="votecode">
-                                                 <option>Select Vote</option>
-                                                 @foreach ($votes as $key => $item)
-                                                     <option value="{{ $item->id }}"
-                                                         @if (old('votecode') == $item->id) selected @endif>
-                                                         {{ $item->votecode }} - {{ $item->votename }}
-                                                     </option>
-                                                 @endforeach
-                                             </select>
-                                             @error('votecode')
-                                                 <span class="invalid-feedback" role="alert">
-                                                     <strong>{{ $message }}</strong>
-                                                 </span>
-                                             @enderror
-                                         </div>
-                                     </div>
-                                  --}}
                          </div>
                      </div>
-
-                     {{-- </div> --}}
-
-
-                     {{-- <div class="row">
-                         <div class="col-md-4">
-                             <div class="form-group">
-                                 <label>Vote</label>
-                                 <input type="text" value="{{ $file->VCode }} - {{ $file->VName }}" readonly
-                                     class="form-control">
-                             </div>
-                         </div>
-                         <div class="col-md-4">
-                             <label>UPLOADED BY</label>
-                             <input type="text" value="{{ $file->Name }}" readonly class="form-control">
-                         </div>
-                         <div class="col-md-4">
-                             <label>UPLOADED ON</label>
-                             <input type="text" value="{{ $uploaddate }}" readonly class="form-control">
-                         </div>
-
-                     </div>
-                     <div class="row">
-                         <div class="col-md-4">
-                             <div class="form-group">
-                                 <div><label> Uploaded Files</label></div>
-                                 <div>
-                                     <a href="{{ route('preview.ps.file', $file->id) }}" title="Preview {{ $file->PDF }}"
-                                         style="font-size: 20px;" target="_blank">
-                                         <i style="color: red; font-size: 30px;" class="fas fa-file-excel"></i>
-                                         {{ $finalPDF }}
-                                         &nbsp;&nbsp; -{{ $PDFsize }}
-                                     </a>
-                                 </div>
-
-                                 <div>
-                                     <a href="{{ route('preview.excel.file', $file->id) }}"
-                                         title="Preview {{ $finalEXCEL }}" style="font-size: 20px;" target="_blank">
-                                         <i style="color: green; font-size: 30px;" class="fas fa-file-excel"></i>
-                                         {{ $finalEXCEL }}
-                                         &nbsp;&nbsp; -{{ $EXCELsize }}
-                                     </a>
-                                 </div>
-
-                             </div>
-                             <div class="form-group">
-                                 <label>PS Vote Approval Date</label>
-                                 <input type="text" value="{{ $psdate }}" readonly class="form-control">
-                             </div>
-                         </div>
-                         <div class="col-md-4">
-
-                         </div>
-                         <div class="col-md-4">
-                             <div class="row">
-                                 <div class="col-md-4">
-                                     <div class="form-group">
-                                         <div><label>Status</label></div>
-                                         <div>
-                                             @if ($file->status == 'Active')
-                                                 <buton class="btn btn-success">Activated </buton>
-                                             @else
-                                                 @if ($createdate == $update)
-                                                     <buton class="btn btn-warning">Pending </buton>
-                                                 @else
-                                                     <buton class="btn btn-success">Deactivated </buton>
-                                                 @endif
-                                             @endif
-                                         </div>
-                                     </div>
-                                 </div>
-                                 <div class="col-md-8">
-                                     <div class="form-group">
-                                         <label>
-                                             @if ($file->status == 'Active')
-                                                 Activated On
-                                             @elseif($file->status == 'Reject')
-                                                 Rejected On
-                                             @else
-                                                 Deactivated On
-                                             @endif
-                                         </label>
-                                         <input type="text" value="{{ $update }}" readonly class="form-control">
-                                     </div>
-                                 </div>
-                             </div>
-
-                             <div class="form-group">
-                                 <label>
-                                     @if ($file->status == 'Active')
-                                         Activated By
-                                     @elseif($file->status == 'Reject')
-                                         Rejected By
-                                     @else
-                                         Deactivated By
-                                     @endif
-                                 </label>
-                                 <input type="text" value="{{ $file->UpprovedBy }}" readonly class="form-control">
-                             </div>
-
-                         </div>
-                     </div>
-                     <div class="row">
-                         <div class="col-md-12">
-                             <form method="post" action="{{ route('file.reject.save', $file->id) }}">
-                                 @csrf
-                                 @method('PUT')
-                                 <div class="form-group">
-                                     <label>Rejection Reason</label>
-                                     <textarea name="reason" id="summernote" class="summernote @error('reason')is-invalid @enderror">{{ old('comment') }}</textarea>
-                                     @error('reason')
-                                         <span class="invalid-feedback" role="alert">
-                                             <strong>{{ $message }}</strong>
-                                         </span>
-                                     @enderror
-                                 </div>
-                                 <div class="form-group">
-                                     <input type="submit" class="btn btn-danger" value="Reject">
-                                 </div>
-                             </form>
-                         </div>
-                     </div> --}}
                  </div>
              </div>
          </section>
@@ -617,6 +476,75 @@
  @endsection
  @section('scripts')
      <script>
+         // varibale declaration
+         var userAction = document.getElementById('userAction');
+         var adminAction = document.getElementById('adminAction');
+         var votecode = document.getElementById('votecode');
+         var filedisplay = document.getElementById('filedisplay');
+         var fileselector = document.getElementById('fileselector');
+         var psdate = document.getElementById('psdate');
+         var version = document.getElementById('version');
+         var uploaderinfo = document.getElementById('uploaderinfo');
+            var summernote3= document.getElementById('sumz');
+         // initially hide the userAction and adminAction sections
+         userAction.style.display = 'none';
+         adminAction.style.display = 'none';
+         adminAction.style.display = 'none';
+         $('#sumz').summernote('disable', true);
+
+
+
+
+
+
+         // show the userAction and adminAction sections when the header edit button is clicked
+         // header edit button
+         document.getElementById('headerEdit').addEventListener('click', function() {
+             //  Show the userAction and adminAction sections
+             userAction.style.display = 'block';
+             fileselector.style.display = 'block';
+             filedisplay.style.display = 'none';
+             uploaderinfo.style.display = 'none';
+             votecode.removeAttribute('disabled');
+             psdate.removeAttribute('readonly');
+             version.removeAttribute('disabled');
+              $('#sumz').summernote('enable', true);
+         })
+         // user action cancel button
+         document.getElementById('btnCancelUser').addEventListener('click', function() {
+             // Hide the userAction and adminAction sections
+             userAction.style.display = 'none';
+             fileselector.style.display = 'none';
+             filedisplay.style.display = 'block';
+             uploaderinfo.style.display = 'block';
+             votecode.setAttribute('disabled', true);
+             psdate.setAttribute('readonly', true);
+             version.setAttribute('disabled', true);
+              $('#sumz').summernote('disable', true);
+         })
+         // admin action reject button
+            document.getElementById('headerReject').addEventListener('click', function() {
+                // Show the adminAction section
+                adminAction.style.display = 'block';
+                $('#rejection').summernote({
+                    height: 200,
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['height', ['height']]
+                    ]
+                });
+
+            })
+            // admin action cancel button
+            document.getElementById('btnCancelAdmin').addEventListener('click', function() {
+                // Hide the adminAction section
+                adminAction.style.display = 'none';
+            });
+
          var votename = document.getElementById('votename')
          $('#votecode').on('change', function() {
              var VoteId = $(this).val()

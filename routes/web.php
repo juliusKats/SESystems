@@ -157,6 +157,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::delete('/temporary{id}/delete', 'SoftDelete')->name('soft.delete');
             Route::post('/restore/{id}/soft', 'Restore')->name('vote.restore');
             Route::get('file/{id}/view', 'show')->name('file.view');
+            Route::put('file/update/{id}/establish','update')->name('file.update');
+
 
         });
         Route::controller(JobDescriptionController::class)->group(function () {
@@ -176,6 +178,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('Manage/RAPEX/Files', 'index')->name('rapex.file.list');
             Route::get('rapex/create', 'create')->name('rapex.file.create');
             Route::post('rapex/store', 'store')->name('rapex.file.store');
+            Route::get('rapex/{id}/view', 'show')->name('rapex.file.show');
 
         });
         Route::controller(SchemeController::class)->group(function () {

@@ -122,13 +122,13 @@
                                                                                 ?>
                                                                                 @if ($ext == 'xls' or $ext == 'xlsx')
                                                                                     <i style="color: green; font-size: 20px;"
-                                                                                        class="fas fa-file-word"></i>
+                                                                                        class="fas fa-file-excel"></i>
                                                                                 @elseif ($ext == 'doc' or $ext == 'docx')
                                                                                     <i style="color: blue; font-size: 20px;"
                                                                                         class="fas fa-file-word"></i>
                                                                                 @elseif ($ext == 'pps' or $ext == 'ppt' or $ext == 'pptx')
                                                                                     <i style="color: rgb(231, 99, 99); font-size: 20px;"
-                                                                                        class="fas fa-file-word"></i>
+                                                                                        class="fas fa-file-powerpoint"></i>
                                                                                 @else
                                                                                     <i style="color: red; font-size: 20px;"
                                                                                         class="far fa-file-pdf"></i>
@@ -158,7 +158,7 @@
                                                                     </button>
                                                                     <div class="dropdown-menu">
                                                                         <div>
-                                                                            <a href="#"
+                                                                            <a href="{{route('rapex.file.show', $item->id)}}"
                                                                                 class="ml-4 btn btn-sm btn-primary mt-1">
                                                                                 <i class="fa fa-eye"></i>
                                                                             </a>
