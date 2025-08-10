@@ -464,10 +464,10 @@ class RapexController extends Controller
             ->where('rapex_documents.id', $id)
             ->first();
 
-            $images= RapexImages::select('rapex_images.id', 'rapex_images.imagefiles', 'rapex_images.rapex_id')
+            $images= RapexImages::select('rapex_images.id', 'rapex_images.imagefiles')
                 ->join('rapex_documents', 'rapex_documents.id', '=', 'rapex_images.rapex_id')
                 ->where('rapex_images.rapex_id', $id)
-            ->first();
+            ->get();
 
             $files= RapexFiles::select('rapex_files.id', 'rapex_files.files', 'rapex_files.rapex_id', 'rapex_documents.id as RapexID')
                 ->join('rapex_documents', 'rapex_documents.id', '=', 'rapex_files.rapex_id')

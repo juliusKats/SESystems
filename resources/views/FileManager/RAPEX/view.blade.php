@@ -111,38 +111,7 @@
                                                     readonly>
                                             </div>
                                         </div>
-                                        <div class="col-12">
-                                            <?php
-                                            $active = explode(',', $images->imagefiles)[0];
-                                            $pics = explode(',', $images->imagefiles);
-                                            ?>
-                                            <img src="{{ asset('storage/gallery/RAPEX/' . $active) }}" class="product-image"
-                                                alt="Product Image" style="width: 250px;height: 200px;">
-                                        </div>
 
-                                        <div class="col-12 product-image-thumbs">
-                                            <?php
-                                            $active = explode(',', $images->imagefiles)[0];
-                                            $pics = explode(',', $images->imagefiles);
-                                            ?>
-
-
-                                            <div class="product-image-thumb active">
-                                                <img src="{{ asset('storage/gallery/RAPEX/' . $active) }}"
-                                                    alt="Product Image">
-                                            </div>
-                                            @foreach ($pics as $image)
-                                                <?php
-                                                $text = explode('_RAPEX_', $image)[1];
-                                                ?>
-
-                                                <div class="product-image-thumb">
-                                                    {{-- <span style="display: flex">X</span><br>÷\ --}}
-                                                    <img src="{{ asset('storage/gallery/RAPEX/' . $image) }}"
-                                                        alt="{{ $text }}">
-                                                </div>
-                                            @endforeach
-                                        </div>
 
                                     </div>
                                 </div>
@@ -412,22 +381,23 @@
 
                                         @foreach ($images as $image)
                                             <div class="col-sm-3 card" style="padding: 5px;">
-                                                {{-- <span style="display: flex">X</span><br>÷\ --}}
+
+
+
                                                 <?php
-                                                $text = explode('_RAPEX_', $image)[1];
+                                                $text = explode('_RAPEX_', $image->imagefiles)[1];
                                                 ?>
-                                                <a href="{{ asset('storage/gallery/RAPEX/' . $image) }}?text={{ $text }}"
+                                                <a href="{{ asset('storage/gallery/RAPEX/' . $image->imagefiles) }}?text={{ $text }}"
                                                     data-toggle="lightbox" data-title="{{ $text }}"
                                                     data-gallery="gallery">
-                                                    <img src="{{ asset('storage/gallery/RAPEX/' . $image) }}"
+                                                    <img src="{{ asset('storage/gallery/RAPEX/' . $image->imagefiles) }}"
                                                         class="img-fluid mb-2" alt="{{ $text }}"
                                                         style="width:250px;height:250px;" />
                                                 </a>
                                                 <form style="display: inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <input type="hidden" name="image" value="{{ $image }}">
-                                                    <input type="hidden" name="file_id" value="{{ $images->id }}">
+
                                                     <buton type="submit"class="btnimage btn btn-danger"
                                                         style="position: absolute;top: 80%;left: 80%;">
                                                         <i class="fa fa-times-circle"></i>
