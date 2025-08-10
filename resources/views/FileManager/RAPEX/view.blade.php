@@ -397,6 +397,8 @@
                                                 <form style="display: inline">
                                                     @csrf
                                                     @method('DELETE')
+                                                    <input type="hidden" name="image_id"
+                                                        value="{{ $image->id }}">
 
                                                     <buton type="submit"class="btnimage btn btn-danger"
                                                         style="position: absolute;top: 80%;left: 80%;">
@@ -440,10 +442,13 @@
         })
         //variable declaraion
         $('.btnimage').on('click', function() {
+            var imageId = $(this).closest('.card').find('input').value;
             var image = $(this).closest('.card').find('img').attr('src');
             var text = $(this).closest('.card').find('img').attr('alt');
             console.log(image);
             console.log(text);
+            alert(imageId)
+
 
 
         })
