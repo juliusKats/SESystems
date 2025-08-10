@@ -104,13 +104,46 @@
                                             <label>Comment</label>
                                             <textarea id="summernote3">{{ $file->comment }}</textarea>
                                         </div>
-                                        <div class="form-group mb-1">
+                                        <div class="form-group row mb-1">
                                             <label class="col-md-3">Zoom Link</label>
                                             <div class="col-md-9">
                                                 <input type="text" value="{{ $file->zoomlink }}" class="form-control"
                                                     readonly>
                                             </div>
                                         </div>
+                                        <div class="col-12">
+                                            <?php
+                                            $active = explode(',', $images->imagefiles)[0];
+                                            $pics = explode(',', $images->imagefiles);
+                                            ?>
+                                            <img src="{{ asset('storage/gallery/RAPEX/' . $active) }}" class="product-image"
+                                                alt="Product Image" style="width: 250px;height: 200px;">
+                                        </div>
+
+                                        <div class="col-12 product-image-thumbs">
+                                            <?php
+                                            $active = explode(',', $images->imagefiles)[0];
+                                            $pics = explode(',', $images->imagefiles);
+                                            ?>
+
+
+                                            <div class="product-image-thumb active">
+                                                <img src="{{ asset('storage/gallery/RAPEX/' . $active) }}"
+                                                    alt="Product Image">
+                                            </div>
+                                            @foreach ($pics as $image)
+                                                <?php
+                                                $text = explode('_RAPEX_', $image)[1];
+                                                ?>
+
+                                                <div class="product-image-thumb">
+                                                    {{-- <span style="display: flex">X</span><br>÷\ --}}
+                                                    <img src="{{ asset('storage/gallery/RAPEX/' . $image) }}"
+                                                        alt="{{ $text }}">
+                                                </div>
+                                            @endforeach
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -352,10 +385,12 @@
                                         <div class="info-box-content">
                                             <span class="info-box-text">{{ $finalfile }}</span>
                                             <span class="info-box-number">{{ $size }}
-                                                <span  id="rapexaction" class="float-right" >
-                                                    <a href="#" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                                                <span id="rapexaction" class="float-right">
+                                                    <a href="#" class="btn btn-success btn-sm"><i
+                                                            class="fas fa-eye"></i></a>
                                                     <form style="display:inline">
-                                                        <button type="submit"  class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                                        <button type="submit" class="btn btn-sm btn-danger"><i
+                                                                class="fas fa-trash"></i></button>
                                                     </form>
                                                 </span>
                                             </span>
@@ -366,7 +401,6 @@
                         @endforeach
                     </div>
                     {{-- image wrapper --}}
-
                     @if ($images)
                         <div class="col-12">
                             <div class="card card-primary">
@@ -379,7 +413,8 @@
                                         $pics = explode(',', $images->imagefiles);
                                         ?>
                                         @foreach ($pics as $image)
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3 card" style="padding: 5px;">
+                                                {{-- <span style="display: flex">X</span><br>÷\ --}}
                                                 <?php
                                                 $text = explode('_RAPEX_', $image)[1];
                                                 ?>
@@ -390,6 +425,18 @@
                                                         class="img-fluid mb-2" alt="{{ $text }}"
                                                         style="width:250px;height:250px;" />
                                                 </a>
+                                                <form style="display: inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <input type="hidden" name="image" value="{{ $image }}">
+                                                    <input type="hidden" name="file_id" value="{{ $images->id }}">
+                                                    <buton type="submit"class="btnimage btn btn-danger"
+                                                        style="position: absolute;top: 80%;left: 80%;">
+                                                        <i class="fa fa-times-circle"></i>
+                                                    </button>
+
+                                                </form>
+
                                             </div>
                                         @endforeach
                                     </div>
@@ -404,22 +451,47 @@
 @endsection
 @section('scripts')
     <script>
-        //initial
-        var rapexaction = document.getElementById('rapexaction')
-        rapexaction.style.display ="none"
+        $('#comment').summernote();
+        // variable declaration
+        var fileinfo = document.getElementById('fileinfo');
+        var editsection = document.getElementById('editsection');
+        var fileinfo = document.getElementById('fileinfo');
+        var editsection = document.getElementById('editsection');
+        var rapexaction = document.getElementById('rapexaction');
+
+
+        //initialization
+        editsection.style.display = "none";
+        rapexaction.style.display = "none";
+
+
+
+        $('#headerEdit').on('click', function() {
+            editsection.style.display = "block";
+            fileinfo.style.display = "none";
+        })
+        //variable declaraion
+        $('.btnimage').on('click', function() {
+            var image = $(this).closest('.card').find('img').attr('src');
+            var text = $(this).closest('.card').find('img').attr('alt');
+            console.log(image);
+            console.log(text);
+
+
+        })
+
         $('.rapexfile').on('click', function() {
             alert('stop')
         })
     </script>
     <script>
-        $('#comment').summernote();
-        // variable declaration
-        var fileinfo = document.getElementById('fileinfo')
-        var editsection = document.getElementById('editsection')
-        //initialization
-
-        $('#headerEdit').on('click', function() {
-            alert('i am clicked')
+        $(document).ready(function() {
+            $('.product-image-thumb').on('click', function() {
+                var $image_element = $(this).find('img')
+                $('.product-image').prop('src', $image_element.attr('src'))
+                $('.product-image-thumb.active').removeClass('active')
+                $(this).addClass('active')
+            })
         })
     </script>
     <script>

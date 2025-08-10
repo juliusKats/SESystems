@@ -254,13 +254,24 @@ class RapexController extends Controller
         }
 
         if ($request->hasFile('images') != null && $rpdoc) {
-            RapexImages::create([
+            // RapexImages::create([
+            //     'uploadedby'  => Auth::user()->id,
+            //     'rapex_id'    => $rpdoc->id,
+            //     'imagefiles'  => $pictureArray,
+            //     'category_id' => $request->category,
+            //     'Description' => $request->description,
+            // ]);
+            $images=explode(',',$pictureArray);
+            foreach($images as $image){
+                RapexImages::create([
                 'uploadedby'  => Auth::user()->id,
                 'rapex_id'    => $rpdoc->id,
-                'imagefiles'  => $pictureArray,
+                'imagefiles'  => $image,
                 'category_id' => $request->category,
                 'Description' => $request->description,
             ]);
+
+            }
         }
 
         if ($request->video != null && $rpdoc) {

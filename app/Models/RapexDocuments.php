@@ -14,4 +14,38 @@ class RapexDocuments extends Model implements AuditableContract
     use Auditable;
     protected $fillable =  ['ticket','Draft','entity','institution','file','comment','zoomlink', 'updated_at','UploadedOn','UploadedBy','Approve','ApprovedOn','ApprovedBy','approved_by','DeletedBy','RestoredBy','status'];
     protected $dates = ['deleted_at'];
+
+
+
+
+    // public function setEntityAttribute($value)
+
+    // {
+    //     $this->attributes['entity'] = json_encode($value);
+
+    // }
+
+
+    // public function getEntityAttribute($value)
+
+    // {
+
+    //     return $this->attributes['entity'] = json_decode($value);
+    // }
+
+    // public function setInstituteAttribute($value)
+
+    // {
+
+    //     $this->attributes['institution'] = json_encode($value);
+
+    // }
+
+
+    // public function getinstituteAttribute($value)
+
+    // {
+
+    //     return $this->attributes['institution'] = json_decode($value);
+    // }
 }

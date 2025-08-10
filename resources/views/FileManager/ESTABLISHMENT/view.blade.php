@@ -11,15 +11,15 @@
              $createdate = \Carbon\Carbon::parse($file->CrDate)->format('d/m/Y');
              $update = \Carbon\Carbon::parse($file->UpDate)->format('M d, Y');
              $admindate = \Carbon\Carbon::parse($file->ADMINApproval)->format('M d, Y');
-
+             
              $Yr = explode('_', $file)[3];
              $Month = explode('_', $file)[2];
              $PDFsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/PSPDF/' . $file->PDF));
              $finalPDF = explode('_', $file->PDF)[5];
-
+             
              $EXCELsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/Excel/' . $file->EXCEL));
              $finalEXCEL = explode('_', $file->EXCEL)[5];
-
+             
              ?>
              <div class="section-header">
                  <h1>Viewing Details of {{ $file->VCode }} - {{ $file->VName }}</h1>
@@ -74,17 +74,17 @@
                      @endauth
                  </div>
                  <div class="card-body">
-                      @if ($errors->any())
-                    <div>
-                        <div class="font-medium text-red-600">{{ __('Whoops! Something went wrong.') }}</div>
+                     @if ($errors->any())
+                         <div>
+                             <div class="font-medium text-red-600">{{ __('Whoops! Something went wrong.') }}</div>
 
-                        <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                             <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                                 @foreach ($errors->all() as $error)
+                                     <li>{{ $error }}</li>
+                                 @endforeach
+                             </ul>
+                         </div>
+                     @endif
 
                      {{-- <div class="row"> --}}
 
@@ -185,7 +185,7 @@
                                              <div class="form-group row mb-1">
                                                  <label class="col-md-3">PDF File </label>
                                                  <div class="col-md-9">
-                                                     <input  name="pdf" type="file"
+                                                     <input name="pdf" type="file"
                                                          class="form-control @error('pdf')is-invalid @enderror"
                                                          accept=".pdf" value="{{ $file->PDF }}">
                                                      @error('pdf')
@@ -231,17 +231,17 @@
                                              </div>
                                          </div>
                                          @if ($file->SUPPORT)
-                                           <?php
+                                             <?php
                                              $uploaddate = \Carbon\Carbon::parse($file->UploadDate)->format('M d, Y');
                                              $psdate = \Carbon\Carbon::parse($file->PSDate)->format('d/m/YY');
                                              $createdate = \Carbon\Carbon::parse($file->CrDate)->format('d/m/Y');
                                              $update = \Carbon\Carbon::parse($file->UpDate)->format('M d, Y');
                                              $admindate = \Carbon\Carbon::parse($file->ADMINApproval)->format('M d, Y');
-
+                                             
                                              $Yr = explode('_', $file)[3];
                                              $Month = explode('_', $file)[2];
                                              $SFSize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/SFiles/' . $file->SUPPORT));
-                                             $ext=File::extension('storage/Votes/' . $Yr . '/' . $Month . '/SFiles/' . $file->SUPPORT);
+                                             $ext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/SFiles/' . $file->SUPPORT);
                                              $SFFile = explode('_', $file->SUPPORT)[5];
                                              ?>
                                              <div id="sfdisplay">
@@ -249,15 +249,16 @@
                                                      <label class="col-md-3">Support File</label>
                                                      <div class="col-md-9" style="display: flex; align-items: center;">
                                                          <a href="#">
-                                                            @if($ext == 'pdf')
-                                                                <i class="fa fa-file-pdf"
-                                                                    style="color: red; font-size:30px;"></i>
-                                                            @elseif($ext == 'doc' || $ext == 'docx')
-                                                                <i class="fa fa-file-word"
-                                                                    style="color: blue; font-size:30px;"></i>
-                                                                    @endif
+                                                             @if ($ext == 'pdf')
+                                                                 <i class="fa fa-file-pdf"
+                                                                     style="color: red; font-size:30px;"></i>
+                                                             @elseif($ext == 'doc' || $ext == 'docx')
+                                                                 <i class="fa fa-file-word"
+                                                                     style="color: blue; font-size:30px;"></i>
+                                                             @endif
                                                              &nbsp; &nbsp;<span
-                                                                 style="font-size: 26px;">{{ $SFFile }}</span></a>
+                                                                 style="font-size: 26px;">{{ $SFFile }}</span>
+                                                         </a>
                                                      </div>
                                                  </div>
                                              </div>
@@ -268,7 +269,7 @@
                                                  <label class="col-md-3">Support File</label>
                                                  <div class="col-md-9">
                                                      <input type="file" name="sfile" class="form-control"
-                                                         value="{{ $file->SFile }}" >
+                                                         value="{{ $file->SFile }}">
                                                      @error('sfile')
                                                          <span class="invalid-feedback" role="alert">
                                                              <strong>{{ $message }}</strong>
@@ -278,21 +279,13 @@
                                              </div>
                                          </div>
                                          <div class="form-group mb-1">
-                                            <label>Comment </label>
-                                    <textarea name="comment" id="sumz" class="summernote @error('comment')is-invalid @enderror">{!! $file->VComment !!}</textarea>
-                                    @error('comment')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                             {{-- <label>Comment </label>
-                                              <input type="text" />
-                                             <textarea name="comments" id="sumz" class="form-control  @error('comments')is-invalid @enderror" disabled >{!! $file->VComment !!}</textarea>
-                                             @error('comments')
+                                             <label>Comment </label>
+                                             <textarea name="comment" id="sumz" class="summernote @error('comment')is-invalid @enderror">{!! $file->VComment !!}</textarea>
+                                             @error('comment')
                                                  <span class="invalid-feedback" role="alert">
                                                      <strong>{{ $message }}</strong>
                                                  </span>
-                                             @enderror --}}
+                                             @enderror
                                          </div>
                                          <div id="uploaderinfo">
                                              <div class="form-group row mb-1">
@@ -550,7 +543,7 @@
              //  Show the userAction and adminAction sections
              userAction.style.display = 'block';
              fileselector.style.display = 'block';
-              sfileselect.style.display = 'block';
+             sfileselect.style.display = 'block';
              uploaderinfo.style.display = 'none';
              votecode.removeAttribute('disabled');
              psdate.removeAttribute('readonly');
