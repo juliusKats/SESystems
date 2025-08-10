@@ -410,7 +410,7 @@
                                 <div class="card-body">
                                     <div class="row">
 
-                                        @foreach ($images $image)
+                                        @foreach ($images as $image)
                                             <div class="col-sm-3 card" style="padding: 5px;">
                                                 {{-- <span style="display: flex">X</span><br>÷\ --}}
                                                 <?php
