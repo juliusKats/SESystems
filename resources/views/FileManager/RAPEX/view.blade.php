@@ -409,15 +409,11 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <?php
-                                        $pics = explode(',', $images->imagefiles);
-                                        ?>
-                                        @foreach ($pics as $image)
+
+                                        @foreach ($images as $image)
                                             <div class="col-sm-3 card" style="padding: 5px;">
                                                 {{-- <span style="display: flex">X</span><br>÷\ --}}
-                                                <?php
-                                                $text = explode('_RAPEX_', $image)[1];
-                                                ?>
+
                                                 <a href="{{ asset('storage/gallery/RAPEX/' . $image) }}?text={{ $text }}"
                                                     data-toggle="lightbox" data-title="{{ $text }}"
                                                     data-gallery="gallery">
