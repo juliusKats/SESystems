@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\GovEntities;
 use App\Models\ImageCategory;
 use App\Models\RapexDocuments;
+use App\Models\RapexFiles;
 use App\Models\RapexImages;
 use App\Models\RapexVideo;
 use Carbon\Carbon;
@@ -193,7 +194,8 @@ class RapexController extends Controller
             $documentArray = implode(",", $docArray);
 
         }
-        // dd($documentArray);
+
+
         if ($request->hasFile('images')) {
             // $allowedextensions=['pdf','doc','docx','xls','xlsx','png','jpg','jpeg'];
             $img = $request->file('images');
@@ -225,6 +227,17 @@ class RapexController extends Controller
                 'zoomlink'    => $request->link,
                 'UploadedBy'  => Auth::user()->id,
             ]);
+
+            $files=explode(',',$documentArray);
+            foreach($files as $file){
+                RapexFiles::create([
+                    'uploadedby'=>Auth::user()->id,
+                    'rapex_id'=>$rpdoc->id,
+                    'files'=>$file
+                ]);
+
+            }
+
         } else {
             $rpdoc = RapexDocuments::create([
                 'ticket'      => $uniqueNumber,
@@ -439,13 +452,18 @@ class RapexController extends Controller
             ->join('doc_statuses', 'doc_statuses.id','=','rapex_documents.status')
             ->where('rapex_documents.id', $id)
             ->first();
+
             $images= RapexImages::select('rapex_images.id', 'rapex_images.imagefiles', 'rapex_images.rapex_id')
                 ->join('rapex_documents', 'rapex_documents.id', '=', 'rapex_images.rapex_id')
                 ->where('rapex_images.rapex_id', $id)
             ->first();
 
+            $files= RapexFiles::select('rapex_files.id', 'rapex_files.files', 'rapex_files.rapex_id', 'rapex_documents.id as RapexID')
+                ->join('rapex_documents', 'rapex_documents.id', '=', 'rapex_files.rapex_id')
+                ->where('rapex_files.rapex_id', $id)->get();
 
-        return view('FileManager.Rapex.view', compact('file','images','categories','linemin'));
+
+        return view('FileManager.Rapex.view', compact('file','images','categories','linemin','files'));
 
     }
     public function Edit(Request $request, $id)

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light" id="navmenu">
+<nav class="navbar navbar-expand-lg navbar-light" id="navmenu" style="background-color: #76a1ea;">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img src="{{asset('system/Default/syslog.webp')}}" alt="" width="300" height="120" class="d-inline-block align-text-top">

@@ -47,8 +47,6 @@
                     @endforeach
                 @endif
 
-
-
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data" action="{{ route('rapex.file.store') }}">
                         @csrf

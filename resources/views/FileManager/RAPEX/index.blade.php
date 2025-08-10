@@ -110,16 +110,24 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="card-body">
-                                                                        @if ($item->file != '' or ($item->file = null))
-                                                                            @foreach (explode(',', $item->file) as $file)
-                                                                                <?php
-                                                                                $Yr = explode('_', $file)[2];
-                                                                                $Month = explode('_', $file)[1];
-                                                                                $size = Number::fileSize(File::size('storage/Rapex/' . $Yr . '/' . $Month . '/' . $file));
-                                                                                $ext = File::extension('storage/Rapex/' . $Yr . '/' . $Month . '/' . $file);
-                                                                                $finalfile = explode('_', $file)[4];
 
-                                                                                ?>
+
+                                                                        {{-- @if ($item->file != '' or $item->file = null) --}}
+                                                                        @if ($item->file)
+
+
+                                                                             @foreach (explode(',', $item->file) as $filename)
+
+                                                                                <?php
+                                                                                $Yr = explode('_', $filename)[2];
+                                                                                $Month = explode('_', $filename)[1];
+                                                                                $size = Number::fileSize( File::size('storage/Rapex/' . $Yr . '/' . $Month . '/' . $filename)
+                                                                                );
+                                                                                // $size=File::size('storage/Rapex/' . $Yr . '/' . $Month . '/' . $filename);
+                                                                                $ext = File::extension('storage/Rapex/' . $Yr . '/' . $Month . '/,' . $filename);
+                                                                                $finalfile = explode('_', $filename)[4];
+                                                                                 ?>
+
                                                                                 @if ($ext == 'xls' or $ext == 'xlsx')
                                                                                     <i style="color: green; font-size: 20px;"
                                                                                         class="fas fa-file-excel"></i>
@@ -137,7 +145,9 @@
                                                                                 </a><span class="float float-right">
                                                                                     {{ $size }}</span> <br>
                                                                             @endforeach
+
                                                                         @endif
+
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -203,7 +213,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="pending">
+
+                        {{-- <div class="tab-pane" id="pending">
                             @if (Auth::user()->role == 'superadmin' || Auth::user()->role == 'admin' || Auth::user()->role == 'ps')
                                 <div class="row">
                                     <div class="col-12">
@@ -1362,7 +1373,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

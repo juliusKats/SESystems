@@ -137,7 +137,8 @@
                                                                                     class="ml-4 btn btn-sm btn-primary mt-1"><i
                                                                                         class="fa fa-eye"></i> View</a>
                                                                                     </i></a>
-                                                                            @if (Auth::user()->id == $item->UploadedBy)
+
+                                                                            {{-- @if (Auth::user()->id == $item->UploadedBy)
                                                                                 <a href="#"
                                                                                     class="ml-4 btn btn-sm btn-primary mt-1"><i
                                                                                         class="fa fa-edit"></i></a>
@@ -173,7 +174,7 @@
                                                                                     class="btn btn-danger btn-sm ml-4 mt-1 btn-delete">
                                                                                     Delete
                                                                                 </button>
-                                                                            </form>
+                                                                            </form> --}}
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -386,7 +387,11 @@
                                                                             Action
                                                                         </button>
                                                                         <div class="dropdown-menu">
-                                                                            @if (Auth::user()->id == $item->UploadedBy)
+                                                                            <a href="{{route('file.view', $item->id)}}"
+                                                                                    class="ml-4 btn btn-sm btn-primary mt-1"><i
+                                                                                        class="fa fa-eye"></i> View</a>
+                                                                                    </i></a>
+                                                                            {{-- @if (Auth::user()->id == $item->UploadedBy)
                                                                                 <a href="#"
                                                                                     class="ml-4 btn btn-sm btn-outline-primary mt-1"><i
                                                                                         class="fa fa-edit"></i></a>
@@ -422,7 +427,8 @@
                                                                                     class="btn btn-danger btn-delete btn-sm ml-4 mt-1">
                                                                                     Delete
                                                                                 </button>
-                                                                            </form>
+                                                                            </form> --}}
+
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -519,7 +525,12 @@
                                                                             Action
                                                                         </button>
                                                                         <div class="dropdown-menu">
-                                                                            @if (Auth::user()->id == $item->UploadedBy)
+                                                                            <a href="{{route('file.view', $item->id)}}"
+                                                                                    class="ml-4 btn btn-sm btn-primary mt-1"><i
+                                                                                        class="fa fa-eye"></i> View</a>
+                                                                                    </i></a>
+
+                                                                            {{-- @if (Auth::user()->id == $item->UploadedBy)
                                                                                 <a href="#"
                                                                                     class="ml-4 btn btn-sm btn-primary mt-1"><i
                                                                                         class="fa fa-edit"></i></a>
@@ -542,7 +553,7 @@
                                                                                     class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
                                                                                     Delete
                                                                                 </button>
-                                                                            </form>
+                                                                            </form> --}}
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -651,7 +662,12 @@
                                                                             Action
                                                                         </button>
                                                                         <div class="dropdown-menu">
-                                                                            @if (Auth::user()->id == $item->UploadedBy)
+                                                                            <a href="{{route('file.view', $item->id)}}"
+                                                                                    class="ml-4 btn btn-sm btn-primary mt-1"><i
+                                                                                        class="fa fa-eye"></i> View</a>
+                                                                                    </i></a>
+
+                                                                            {{-- @if (Auth::user()->id == $item->UploadedBy)
                                                                                 <a href="#"
                                                                                     class="ml-4 btn btn-sm btn-primary mt-1"><i
                                                                                         class="fa fa-edit"></i></a>
@@ -687,7 +703,7 @@
                                                                                     class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
                                                                                     Delete
                                                                                 </button>
-                                                                            </form>
+                                                                            </form> --}}
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -783,7 +799,12 @@
                                                                             Action
                                                                         </button>
                                                                         <div class="dropdown-menu">
-                                                                            @if (Auth::user()->id == $item->UploadedBy)
+                                                                            <a href="{{route('file.view', $item->id)}}"
+                                                                                    class="ml-4 btn btn-sm btn-primary mt-1"><i
+                                                                                        class="fa fa-eye"></i> View</a>
+                                                                                    </i></a>
+
+                                                                            {{-- @if (Auth::user()->id == $item->UploadedBy)
                                                                                 <a href="#"
                                                                                     class="ml-4 btn btn-sm btn-primary mt-1"><i
                                                                                         class="fa fa-edit"></i></a>
@@ -809,7 +830,7 @@
                                                                                     class="btn-delete btn btn-danger btn-sm ml-4 mt-1">
                                                                                     Delete
                                                                                 </button>
-                                                                            </form>
+                                                                            </form> --}}
                                                                         </div>
                                                                     </div>
                                                                 </td>
@@ -920,8 +941,12 @@
                                                                                 Action
                                                                             </button>
 
-
                                                                             <div class="dropdown-menu">
+                                                                                <a href="{{route('file.view', $item->id)}}"
+                                                                                    class="ml-4 btn btn-sm btn-primary mt-1"><i
+                                                                                        class="fa fa-eye"></i> View</a>
+                                                                                    </i></a>
+{{--
                                                                                 <form
                                                                                     action="{{ route('vote.restore', $item->id) }}"
                                                                                     method="post"
@@ -944,7 +969,7 @@
                                                                                         <i
                                                                                             class="fa fa-regular fa-trash"></i>
                                                                                     </button>
-                                                                                </form>
+                                                                                </form> --}}
                                                                             </div>
                                                                         </div>
                                                                     @endif
@@ -1044,7 +1069,11 @@
 
 
                                                                         <div class="dropdown-menu">
-                                                                            <form
+                                                                            <a href="{{route('file.view', $item->id)}}"
+                                                                                    class="ml-4 btn btn-sm btn-primary mt-1"><i
+                                                                                        class="fa fa-eye"></i> View</a>
+                                                                                    </i></a>
+                                                                            {{-- <form
                                                                                 action="{{ route('vote.restore', $item->id) }}"
                                                                                 method="post"
                                                                                 enctype="multipart/form-data">
@@ -1065,7 +1094,7 @@
                                                                                     class=" ml-4 btn btn-danger btn-sm mt-2">
                                                                                     <i class="fa fa-regular fa-trash"></i>
                                                                                 </button>
-                                                                            </form>
+                                                                            </form> --}}
                                                                         </div>
                                                                     </div>
                                                                 </td>

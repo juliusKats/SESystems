@@ -152,7 +152,7 @@ class EstablishmentController extends Controller
             $ApprovedBy = null;
             $dateon = null;
         }
-
+        $sforiginalname = null;
         $year  = date("Y");
         $month = date("M");
         $data  = $request->validate([
@@ -164,6 +164,8 @@ class EstablishmentController extends Controller
             'pdf'          => 'required',
             'pdf.*'        => 'required|mimes:pdf|max:4096',
             'approvaldate' => 'required|date|before:today',
+            'sf' => 'required',
+            'sfile' => 'required_if:sf,Yes|mimes:docx,doc,pdf'
         ]);
         if ($request->save) {
             $exist = UserFiles::where('VoteCode', '=', $request->votecode)->where('versionId', $request->version)->exists();
@@ -187,20 +189,15 @@ class EstablishmentController extends Controller
                 }
                 $votecomment = $dom->saveHTML();
 
-                if ($request->file('excel') != null) {
-                    $Vfilename = $request->file('excel')->getClientOriginalName();
-                    $Vsize     = $request->file('excel')->getSize();
-                }
-                if ($request->file('pdf') != null) {
-                    $PSfilename = $request->file('pdf')->getClientOriginalName();
-                    $PSsize     = $request->file('pdf')->getSize();
-                }
+
 
                 $foldermonth = $year . "/" . $month;
                 $pdf         = "PSPDF";
                 $excel       = "Excel";
+                $sfiles = "SFiles";
                 $pdfvote     = "Votes/" . $year . "/" . $month . "/" . $pdf;
                 $excelvote   = "Votes/" . $year . "/" . $month . "/" . $excel;
+                $suport = "Votes/" . $year . "/" . $month . "/" . $sfiles;
 
                 $date      = Carbon::now();
                 $date      = $date->format("D_d_M_Y_") . time() . "_";
@@ -215,6 +212,12 @@ class EstablishmentController extends Controller
                 $efname    = $date . $eoriginal;
                 $epath     = $efile->move(public_path('storage/' . $excelvote), $efname);
 
+                if ($request->hasFile('sfile')) {
+                    $sfname = $request->file('sfile');
+                    $orignalSFName = $sfname->getClientOriginalName();
+                    $sforiginalname = $date . $orignalSFName;
+                    $sfpath = $sfname->move(public_path('storage/' . $suport), $sforiginalname);
+                }
                 $file = UserFiles::create([
                     'VoteCode'    => $request->votecode,
                     'VoteName'    => $request->votename,
@@ -224,6 +227,7 @@ class EstablishmentController extends Controller
                     'ApprovedOn'  => $request->approvaldate,
                     'status'      => $status,
                     'comment'     => $votecomment,
+                    'supportfile' => $sforiginalname,
                     'ticket' => $uniqueNumber,
                     'UploadedBy'  => Auth::user()->id,
                     'ApprovedBy' => $ApprovedBy,
@@ -237,7 +241,7 @@ class EstablishmentController extends Controller
                     ->where('user_files.id', $file->id)
                     ->first();
                 // dd($establishment);
-
+                $ticket = $establishment->ticket;
                 // copy to the Hod
 
                 $hodEmail = 'allan.tumuhimbise@publicservice.go.ug';
@@ -247,7 +251,7 @@ class EstablishmentController extends Controller
                 $data = [
                     'fname' => $establishment->fname,
                     'sname' => $establishment->sname,
-                    'ticket' => $establishment->ticket,
+                    'ticket' => $ticket,
                     'created_at' => $establishment->created_at,
                     'url' => route('file.approve', $file->id),
                     'message' => 'Welcome to our service!'
@@ -265,8 +269,9 @@ class EstablishmentController extends Controller
                 $data = [
                     'fname' => $establishment->fname,
                     'sname' => $establishment->sname,
-                    'ticket'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      => $establishment->ticket,
+                    'ticket' => $ticket,
                     'created_at' => $establishment->created_at,
+                    'url' => route('file.approve', $file->id),
                     'message' => 'Welcome to our service!'
                 ];
 
@@ -545,7 +550,7 @@ class EstablishmentController extends Controller
         $votes = VoteDetails::all();
         $status = DocStatus::all();
         $versions = Version::all();
-        $file = UserFiles::select('user_files.id', 'user_files.Draft', 'user_files.VoteCode as VCode', 'user_files.ticket', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'user_files.status as State', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at as CrDate', 'user_files.updated_at as UpDate', 'user_files.UpdatedBy', 'users.fname', 'users.sname', 'users.oname', 'user_files.versionId', 'user_files.ticket','user_files.Reason', 'versions.versionName')
+        $file = UserFiles::select('user_files.id', 'user_files.Draft', 'user_files.VoteCode as VCode', 'user_files.ticket', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'user_files.status as State', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.supportfile as SUPPORT', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at as CrDate', 'user_files.updated_at as UpDate', 'user_files.UpdatedBy', 'users.fname', 'users.sname', 'users.oname', 'user_files.versionId', 'user_files.ticket', 'user_files.Reason', 'versions.versionName')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
@@ -555,25 +560,170 @@ class EstablishmentController extends Controller
         return view('FileManager.ESTABLISHMENT.view', compact('file', 'votes', 'versions', 'status'));
     }
 
-    public function update(Request $request, $id){
-        $establishment=UserFiles::firstOrFail($id);
-        $originalpdf=$establishment->pdffile;
-        $originalexcel=$establishment->excelfile;
-        // validate
-         $data  = $request->validate([
+    // public function update(Request $request, $id)
+    // {
+
+    //     $establishment = UserFiles::findOrFail($id);
+    //     $existpdf = $establishment->pdffile;
+    //     $existexcel = $establishment->excelfile;
+    //     $existsf = $establishment->supportfile;
+    //     $exitcoment = $establishment->comment;
+    //     $existvcode = $establishment->VoteCode;
+    //     $existversion = $establishment->version;
+    //     // validate
+    //     // if ($request->votecode != $existvcode or $request->version != $existversion or $request->votename != $establishment->VoteName or $request->comment != $exitcoment )
+    //     //     {
+    //     //     $data = $request->validate([
+    //     //         'votecode' => 'required|string|exists:vote_details,id',
+    //     //         'votename' => 'required|string|min:2',
+    //     //         'version' => 'required|exists:versions,id',
+    //     //     ]);
+    //     //     $exists = UserFiles::where('VoteCode', $request->votecode)
+    //     //         ->where('versionId', $request->version)->exists();
+    //     //     if ($exists == false) {
+    //     //         $establishment->VoteCode = $request->votecode;
+    //     //         $establishment->VoteName = $request->votename;
+    //     //         $establishment->versionId = $request->version;
+    //     //         $establishment->save();
+    //     //         return redirect()->route('file.list')->with('success', 'File has been updated successfully');
+    //     //     } else {
+    //     //         return redirect()->route('file.list')->with('error', 'File with the selected version already exists');
+    //     //     }
+    //     // } else {
+    //     //     return redirect()->route('file.list')->with('success', 'No changes made to the vote code or version');
+    //     // }
+
+    //     if ($request->pdf != null and $request->votecode == $existvcode and $request->version == $existversion) {
+    //         $year  = date("Y");
+    //         $month = date("M");
+    //         $pdf         = "PSPDF";
+    //         $pdfvote     = "Votes/" . $year . "/" . $month . "/" . $pdf;
+    //         $date      = Carbon::now();
+    //         $datef      = $date->format("D_d_M_Y_") . time() . "_";
+
+
+    //         $pfile = $request->file('pdf');
+    //         $poriginal = $pfile->getClientOriginalName();
+    //         $pfname = $datef . $poriginal;
+
+    //         dd($poriginal);
+
+
+
+    //         $establishment->pdffile = $pfname;
+    //         $nav = $establishment->save();
+
+
+
+    //             $ppath = $pfile->move(public_path('storage/' . $pdfvote), $pfname);
+    //             File::delete(public_path('storage/' . $pdfvote . '/' . $existpdf));
+    //             return redirect()->route('file.list')->with('success', 'Vote with ticket number ' . $establishment->ticket . 'has been Successfully Updated');
+
+    //     }
+
+    //     // if ($request->votename != $existvotename) {
+    //     //     $request->validate([
+
+
+    //     //
+    // }
+    public function update(Request $request, $id)
+    {
+        $establishment = UserFiles::findOrFail($id);
+        $pdfyear  = explode('_', $establishment)[3];
+        $pdfmonth = explode('_', $establishment)[2];
+        $date      = Carbon::now();
+        $date      = $date->format("D_d_M_Y_") . time() . "_";
+        $year  = date("Y");
+        $month = date("M");
+        $data  = $request->validate([
             'votecode'     => 'required|string|exists:vote_details,id',
             'votename'     => 'required|string|min:2',
             'comment'      => 'required|string|min:3',
-            'excel'        => 'required|file|mimes:xlsx,xls|max:4096',
+            // 'excel'        => 'required|file|mimes:xlsx,xls|max:4096',
             'version'      => 'required|exists:versions,id',
-            'pdf'          => 'required',
-            'pdf.*'        => 'required|mimes:pdf|max:4096',
+            // 'pdf'          => 'required',
+            // 'pdf.*'        => 'required|mimes:pdf|max:4096',
             'approvaldate' => 'required|date|before:today',
+            // 'sf' => 'required',
+            // 'sfile' => 'required_if:sf,Yes|mimes:docx,doc,pdf'
         ]);
+        // dd($data);
+        $votecomment = $request->comment;
+        $dom         = new \DomDocument();
+        $dom->loadHTML($request->comment, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $imageFile = $dom->getElementsByTagName('imageFile');
+        foreach ($imageFile as $item => $image) {
+            $data              = $image->getAttribute('src');
+            list($type, $data) = explode(';', $data);
+            list(, $data)      = explode(',', $data);
+            $imgeData          = base64_decode($data);
+            $image_name        = "/upload/" . time() . $item . '.png';
+            $path              = public_path() . $image_name;
+            file_put_contents($path, $imgeData);
+            $image->removeAttribute('src');
+            $image->setAttribute('src', $image_name);
+        }
+        $votecomment = $dom->saveHTML();
 
 
+        $pdf         = "PSPDF";
+        $excel       = "Excel";
+        $sfiles = "SFiles";
+        $pdfvote     = "Votes/" . $year . "/" . $month . "/" . $pdf;
+        $excelvote   = "Votes/" . $year . "/" . $month . "/" . $excel;
+        $suport = "Votes/" . $year . "/" . $month . "/" . $sfiles;
 
+        if ($request->hasFile('sfile')) {
 
-
+            $sfname = $request->file('sfile');
+            $orignalSFName = $sfname->getClientOriginalName();
+            $sforiginalname = $date . $orignalSFName;
+            $sfpath = $sfname->move(public_path('storage/' . $suport), $sforiginalname);
+            if ($establishment->supportfile) {
+                $sfpath  = "Votes/" . $pdfyear . "/" . $pdfmonth . "/SFiles/" . $establishment->supportfile;
+                File::delete(public_path('storage/' . $sfpath));
+            }
+        } else {
+            $sforiginalname = $establishment->sfile;
+        }
+        if ($request->hasFile('pdf')) {
+            $pfile     = $request->file("pdf");
+            $poriginal = $pfile->getClientOriginalName();
+            $pfname    = $date . $poriginal;
+            $ppath     = $pfile->move(public_path('storage/' . $pdfvote), $pfname);
+            if ($establishment->pdffile) {
+                $pdfpath  = "Votes/" . $pdfyear . "/" . $pdfmonth . "/PSPDF/" . $establishment->pdffile;
+                File::delete(public_path('storage/' . $pdfpath));
+            }
+        } else {
+            $pfname = $establishment->pdffile;
+        }
+        if ($request->hasFile('excel')) {
+            $efile     = $request->file("excel");
+            $eoriginal = $efile->getClientOriginalName();
+            $efname    = $date . $eoriginal;
+            $epath     = $efile->move(public_path('storage/' . $excelvote), $efname);
+            if ($establishment->excelfile) {
+                $excelpath  = "Votes/" . $pdfyear . "/" . $pdfmonth . "/EXCEL/" . $establishment->excelfile;
+                File::delete(public_path('storage/' . $excelpath));
+            }
+        } else {
+            $efname = $establishment->excelfile;
+        }
+        // dd($efname);
+        //  $file = UserFiles::update([
+        $establishment->VoteCode = $request->votecode;
+        $establishment->VoteName = $request->votename;
+        $establishment->excelfile = $efname;
+        $establishment->pdffile = $pfname;
+        $establishment->versionId = $request->version;
+        $establishment->ApprovedOn = $request->approvaldate;
+        $establishment->comment = $votecomment;
+        $establishment->supportfile = $sforiginalname;
+        $establishment->updated_at = Carbon::now();
+        $establishment->save();
+        // ]);
+        return redirect()->route('file.list')->with('success', 'Vote with ticket number ' . $establishment->ticket . 'has been Successfully Updated');
     }
 }

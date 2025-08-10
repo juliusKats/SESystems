@@ -3,7 +3,6 @@
     Establishment
 @endsection
 @section('content')
-
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -24,6 +23,17 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
+                    @if ($errors->any())
+                    <div>
+                        <div class="font-medium text-red-600">{{ __('Whoops! Something went wrong.') }}</div>
+
+                        <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                     <form method="post" enctype="multipart/form-data" action="{{ route('file.store') }}">
                         @csrf
                         <div class="row">
@@ -37,7 +47,7 @@
                                         @foreach ($votes as $key => $item)
                                             <option value="{{ $item->id }}"
                                                 @if (old('votecode') == $item->id) selected @endif>
-                                                {{ $item->votecode }}  - {{ $item->votename }}
+                                                {{ $item->votecode }} - {{ $item->votename }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -98,7 +108,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-2">
-                                    <label>PS Approved On </label>
+                                    <label>Ammendment Date </label>
                                     <input required name="approvaldate" type="date"
                                         class="form-control @error('approvaldate')is-invalid @enderror"
                                         value="{{ old('approvaldate') }}">
@@ -114,8 +124,8 @@
                                     <label>Document Version </label>
                                     <select name="version" class="form-control select2" required>
                                         <option>Select Version</option>
-                                        @foreach ($versions as $item )
-                                          <option value="{{ $item->id }}">{{ $item->versionname }}</option>
+                                        @foreach ($versions as $item)
+                                            <option value="{{ $item->id }}">{{ $item->versionname }}</option>
                                         @endforeach
                                     </select>
 
@@ -127,14 +137,36 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group mb-2">
-                            <label>Comment </label>
-                            <textarea name="comment" id="summernote" class="summernote @error('comment')is-invalid @enderror">{{ old('comment') }}</textarea>
-                            @error('comment')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-2">
+                                    <label>Do you have Suport files?</label>
+                                    <span class="float-right mr-5" style="display:inline">
+                                        <label><input id="sfyes" type="radio" value="Yes" name="sf" required style="width: 20px;height:20px"> &nbsp;YES</label>
+                                        <label><input id="sfno" type="radio" value="No" name="sf" style="width: 20px;height:20px" required> &nbsp;NO</label>
+                                    </span>
+                                </div>
+                                <div class="form-group" id="sfselect">
+                                    <label>Support Files</label>
+                                    <input type="file" name="sfile" class="form-control @error('sfile') is-invalid @enderror " accept=".pdf,.doc,.docx">
+                                    @error('sfile')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-2">
+                                    <label>Comment </label>
+                                    <textarea name="comment" id="summernote" class="summernote @error('comment')is-invalid @enderror">{{ old('comment') }}</textarea>
+                                    @error('comment')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group mt-2">
                             <input type="submit" class="btn btn-primary" value="Save" name="save">
@@ -146,11 +178,21 @@
         </div>
 
     </section>
-
 @endsection
 
 @section('scripts')
     <script>
+        // initioalization
+        var sfselect = document.getElementById('sfselect');
+        sfselect.style.display ="none";
+        $('#sfyes').on('click',function(){
+            sfselect.style.display="block";
+            sfselect.setAttribute('required','required')
+        });
+        $('#sfno').on('click',function(){
+            sfselect.style.display="none";
+            sfselect.removeAttribute('required','required')
+        });
         var votename = document.getElementById('votename')
         $('#votecode').on('change', function() {
             var VoteId = $(this).val()

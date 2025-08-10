@@ -220,7 +220,7 @@
                                                 <label>Comment </label>
                                                 <textarea id="comment" name="comment" class="form-control @error('comment')is-invalid @enderror">
                                                     hh
-                                                {{ $file->comment}}
+                                                {{ $file->comment }}
                                                 </textarea>
                                                 @error('comment')
                                                     <span class="invalid-feedback" role="alert">
@@ -310,7 +310,7 @@
                                                     value="Save Draft" name="draft">
                                             </div>
                                         </form>
-                                       
+
                                     </div>
                                 </div>
                             </div>
@@ -326,19 +326,17 @@
                     </div>
                     {{-- file wrapper --}}
                     <div class="row">
-                        <?php
-                        $files = explode(',', $file->file);
-                        ?>
-                        @foreach ($files as $filename)
+                        @foreach ($files as $filex)
                             <?php
-                            $Yr = explode('_', $filename)[2];
-                            $Month = explode('_', $filename)[1];
-                            $size = Number::fileSize(File::size('storage/Rapex/' . $Yr . '/' . $Month . '/' . $filename));
-                            $ext = File::extension('storage/Rapex/' . $Yr . '/' . $Month . '/' . $filename);
-                            $finalfile = explode('_', $filename)[4];
+                            $filed = $filex->files;
+                            $Yr = explode('_', $filed)[2];
+                            $Month = explode('_', $filed)[1];
+                            $size = Number::fileSize(File::size('storage/Rapex/' . $Yr . '/' . $Month . '/' . $filed));
+                            $ext = File::extension('storage/Rapex/' . $Yr . '/' . $Month . '/' . $filed);
+                            $finalfile = explode('_', $filed)[4];
                             ?>
                             <div class="col-md-3 col-sm-6 col-12">
-                                <a href="#">
+                                <span href="#" class="rapexfile">
                                     <div class="info-box">
                                         @if ($ext == 'xls' || $ext == 'xlsx')
                                             <span class="info-box-icon bg-success"><i
@@ -353,10 +351,17 @@
                                         @endif
                                         <div class="info-box-content">
                                             <span class="info-box-text">{{ $finalfile }}</span>
-                                            <span class="info-box-number">{{ $size }}</span>
+                                            <span class="info-box-number">{{ $size }}
+                                                <span  id="rapexaction" class="float-right" >
+                                                    <a href="#" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                                                    <form style="display:inline">
+                                                        <button type="submit"  class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                                    </form>
+                                                </span>
+                                            </span>
                                         </div>
                                     </div>
-                                </a>
+                                </span>
                             </div>
                         @endforeach
                     </div>
@@ -399,6 +404,14 @@
 @endsection
 @section('scripts')
     <script>
+        //initial
+        var rapexaction = document.getElementById('rapexaction')
+        rapexaction.style.display ="none"
+        $('.rapexfile').on('click', function() {
+            alert('stop')
+        })
+    </script>
+    <script>
         $('#comment').summernote();
         // variable declaration
         var fileinfo = document.getElementById('fileinfo')
@@ -427,6 +440,7 @@
             var fileInput = document.getElementById('customFileInput')
             fileInput.click()
         }
+
         function openCustomImageInput() {
             var fileInput = document.getElementById('customImageInput')
             fileInput.click()
@@ -468,6 +482,7 @@
                 selectedImagesList.appendChild(listImages)
             }
         }
+
         function createDeleteHandler(file, listItem) {
             return function() {
                 var index = selectedFiles.indexOf(file);
