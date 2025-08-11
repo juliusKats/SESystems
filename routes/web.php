@@ -179,6 +179,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('rapex/create', 'create')->name('rapex.file.create');
             Route::post('rapex/store', 'store')->name('rapex.file.store');
             Route::get('rapex/{id}/view', 'show')->name('rapex.file.show');
+            Route::delete('rapex/image/delete','deleteImages')->name('delete.selected.images');
 
         });
         Route::controller(SchemeController::class)->group(function () {

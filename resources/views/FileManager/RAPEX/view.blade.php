@@ -370,20 +370,35 @@
                         @endforeach
                     </div>
                     {{-- image wrapper --}}
-                    @if ($images)
+                    @if (count($images) > 0)
                         <div class="col-12">
                             <div class="card card-primary">
                                 <div class="card-header">
                                     <h4 class="card-title">Images</h4>
+                                    <span class="float-right" style="margin-right: auto;">
+                                        <label>
+                                            <input id="mastercheck" style="width: 20px; height:20px" type="checkbox"
+                                                value="All">
+                                            Select All
+                                        </label>
+                                        {{-- <form method="post" style="display: inline" action="{{ route('delete.selected.images') }}">
+                                            @csrf
+                                            @method('DELETE') --}}
+                                        <button type="submit" class="btn btn-sm btn-danger" id="DelAllImg" disabled>
+                                            Delete
+                                        </button>
+                                        {{-- </form> --}}
+                                    </span>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
 
+                                    <div class="row">
                                         @foreach ($images as $image)
                                             <div class="col-sm-3 card" style="padding: 5px;">
-
-
-
+                                                <span class="float-right" style="right:80%"> <label><input
+                                                            class="imagecheck" type="checkbox" name="images[]"
+                                                            value="{{ $image->id }}"> <i
+                                                            class="fa fa-times-circle"></i></label></span>
                                                 <?php
                                                 $text = explode('_RAPEX_', $image->imagefiles)[1];
                                                 ?>
@@ -397,13 +412,12 @@
                                                 <form style="display: inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <input type="hidden" name="image_id"
-                                                        value="{{ $image->id }}">
+                                                    <input type="hidden" name="image_id" value="{{ $image->id }}">
 
                                                     <buton type="submit"class="btnimage btn btn-danger"
                                                         style="position: absolute;top: 80%;left: 80%;">
                                                         <i class="fa fa-times-circle"></i>
-                                                    </button>
+                                                        </button>
 
                                                 </form>
 
@@ -421,42 +435,122 @@
 @endsection
 @section('scripts')
     <script>
-        $('#comment').summernote();
-        // variable declaration
-        var fileinfo = document.getElementById('fileinfo');
-        var editsection = document.getElementById('editsection');
-        var fileinfo = document.getElementById('fileinfo');
-        var editsection = document.getElementById('editsection');
-        var rapexaction = document.getElementById('rapexaction');
+        $(document).ready(function() {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+            const deleteallimages = document.getElementById('DelAllImg')
+            // const mastercheck = document.getElementById('mastercheck');
+            // const individualcheck = document.querySelectorAll('.imagecheck')
+            // const ismasterchecked = mastercheck.checked
+            var imgchecks = document.getElementsByClassName('imagecheck');
+
+            $('#mastercheck').on('click', function() {
+                //if master checked
+                $('input:checkbox[name="images[]"]').prop('checked', this.checked)
+                toggleDelete()
+            });
+            // check individual checkbox
+            $('input:checkbox[name="images[]"]').on('click', function() {
+                toggleDelete()
+            })
 
 
-        //initialization
-        editsection.style.display = "none";
-        rapexaction.style.display = "none";
+            function toggleDelete() {
+                if ($('input:checkbox[name="images[]"]:checked').length > 0) {
 
+                    $('#DelAllImg').prop('disabled', false)
+                } else {
+                    // $('#DelAllImg').removeAtrribute('hidden','hidden')
+                    $('#DelAllImg').prop('disabled', true)
+                }
+            }
+            // initialize state of button #
+            toggleDelete();
 
+            $('#DelAllImg').on('click', function() {
+                var selectedIds = [];
+                $('input:checkbox[name="images[]"]:checked').each(function() {
+                    selectedIds.push($(this).val());
+                });
 
-        $('#headerEdit').on('click', function() {
-            editsection.style.display = "block";
-            fileinfo.style.display = "none";
-        })
-        //variable declaraion
-        $('.btnimage').on('click', function() {
-            var imageId = $(this).closest('.card').find('input').value;
-            var image = $(this).closest('.card').find('img').attr('src');
-            var text = $(this).closest('.card').find('img').attr('alt');
-            console.log(image);
-            console.log(text);
-            alert(imageId)
+                Swal.fire({
+                    title: "Do you want to Delete Selected Photos?",
+                    text: "This action is irreversible",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Delete",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route('delete.selected.images') }}',
+                            type: 'DELETE', // Use DELETE method for semantic correctness
+                            data: {
+                                _token: '{{ csrf_token() }}', // Laravel CSRF token
+                                item_ids: selectedIds
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    //  toastr.success(response.success)
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Image Deletion',
+                                        text: response.success,
+                                        timer: 2500
+                                    })
+                                    window.location.href = response.url;
+                                }
+                            }
 
+                        })
 
+                    }
 
-        })
+                })
+            })
 
-        $('.rapexfile').on('click', function() {
-            alert('stop')
+            $('#comment').summernote();
+            // variable declaration
+            var fileinfo = document.getElementById('fileinfo');
+            var editsection = document.getElementById('editsection');
+            var fileinfo = document.getElementById('fileinfo');
+            var editsection = document.getElementById('editsection');
+            var rapexaction = document.getElementById('rapexaction');
+
+            //initialization
+            editsection.style.display = "none";
+            rapexaction.style.display = "none";
+
+            $('#headerEdit').on('click', function() {
+                editsection.style.display = "block";
+                fileinfo.style.display = "none";
+                imgchecks.setAttribute('hidden', 'hidden')
+                for (var i = 0; i < imgchecks.length; i++) {
+                    const checkbox = imgchecks[i];
+                        checkbox.setAttribute("hidden", "hidden");
+                }
+
+            })
+            //variable declaraion
+            $('.btnimage').on('click', function() {
+                var imageId = $(this).closest('.card').find('input').value;
+                var image = $(this).closest('.card').find('img').attr('src');
+                var text = $(this).closest('.card').find('img').attr('alt');
+                console.log(image);
+                console.log(text);
+                alert(imageId)
+            })
+
+            $('.rapexfile').on('click', function() {
+                alert('stop')
+            })
+
         })
     </script>
+    <script></script>
     <script>
         $(document).ready(function() {
             $('.product-image-thumb').on('click', function() {

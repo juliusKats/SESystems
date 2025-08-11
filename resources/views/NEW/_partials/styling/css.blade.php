@@ -40,6 +40,8 @@
   <link rel="stylesheet" href="{{ asset('system/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
   <!-- Toastr -->
   <link rel="stylesheet" href="{{ asset('system/plugins/toastr/toastr.min.css') }}">
+   <!-- dropzonejs -->
+  <link rel="stylesheet" href="{{ asset('system/plugins/dropzone/min/dropzone.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('system/dist/css/adminlte.min.css')}}">
    <link rel="stylesheet" href="{{ asset('system/pagespecific/body.css')}}">

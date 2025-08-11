@@ -46,7 +46,8 @@
 <script src="{{ asset('system/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <!-- Toastr -->
 <script src="{{ asset('system/plugins/toastr/toastr.min.js') }}"></script>
-
+<!-- dropzonejs -->
+<script src="{{ asset('system/plugins/dropzone/min/dropzone.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('system/dist/js/adminlte.min.js') }}"></script>
 <!-- Page Specific -->

@@ -25,14 +25,14 @@ class RapexController extends Controller
             ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
             ->where('rapex_documents.status', 3)
             ->where('rapex_documents.Draft', false)
-            ->orderBy('rapex_documents.created_at','desc')->get();
+            ->orderBy('rapex_documents.created_at', 'desc')->get();
         $allpending = DB::table('rapex_documents')->select
         ('rapex_documents.Draft', 'rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
             ->join('users', 'users.id', '=', 'rapex_documents.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
             ->where('rapex_documents.status', 2)
             ->where('rapex_documents.Draft', false)
-            ->orderBy('rapex_documents.created_at','desc')->get();
+            ->orderBy('rapex_documents.created_at', 'desc')->get();
 
         $allrejected = DB::table('rapex_documents')->select
         ('rapex_documents.Draft', 'rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
@@ -40,14 +40,14 @@ class RapexController extends Controller
             ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
             ->where('rapex_documents.status', 4)
             ->where('rapex_documents.Draft', false)
-            ->orderBy('rapex_documents.created_at','desc')->get();
+            ->orderBy('rapex_documents.created_at', 'desc')->get();
 
         $alldeleted = RAPEXDocuments::onlyTrashed()->select('rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
             ->join('users', 'users.id', '=', 'rapex_documents.UploadedBy')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
             ->where('rapex_documents.status', 5)
             ->where('rapex_documents.Draft', false)
-            ->orderBy('rapex_documents.created_at','desc')->get();
+            ->orderBy('rapex_documents.created_at', 'desc')->get();
 
         $mypending = DB::table('rapex_documents')->select
         ('rapex_documents.Draft', 'rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
@@ -56,7 +56,7 @@ class RapexController extends Controller
             ->where('rapex_documents.UploadedBy', Auth::user()->id)
             ->where('rapex_documents.status', 2)
             ->where('rapex_documents.Draft', false)
-            ->orderBy('rapex_documents.created_at','desc')->get();
+            ->orderBy('rapex_documents.created_at', 'desc')->get();
 
         $myrejected = DB::table('rapex_documents')->select
         ('rapex_documents.Draft', 'rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
@@ -65,7 +65,7 @@ class RapexController extends Controller
             ->where('rapex_documents.UploadedBy', Auth::user()->id)
             ->where('rapex_documents.status', 4)
             ->where('rapex_documents.Draft', false)
-            ->orderBy('rapex_documents.created_at','desc')->get();
+            ->orderBy('rapex_documents.created_at', 'desc')->get();
 
         $mydeleted = RAPEXDocuments::onlyTrashed()->select
         ('rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
@@ -73,7 +73,7 @@ class RapexController extends Controller
             ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
             ->where('rapex_documents.UploadedBy', Auth::user()->id)
             ->where('rapex_documents.status', 5)
-            ->orderBy('rapex_documents.created_at','desc')->get();
+            ->orderBy('rapex_documents.created_at', 'desc')->get();
 
         $mydrafts = DB::table('rapex_documents')->select
         ('rapex_documents.Draft', 'rapex_documents.id', 'rapex_documents.entity', 'rapex_documents.institution', 'rapex_documents.file', 'rapex_documents.comment', 'rapex_documents.zoomlink', 'rapex_documents.updated_at', 'rapex_documents.created_at', 'rapex_documents.deleted_at', 'rapex_documents.DeletedBy', 'rapex_documents.RestoredBy', 'rapex_documents.UploadedOn', 'rapex_documents.UploadedBy', 'rapex_documents.ApprovedBy', 'rapex_documents.UpdatedBy', 'rapex_documents.approved_by', 'doc_statuses.statusName', 'rapex_documents.DateOn', 'rapex_documents.RejectedBy', 'rapex_documents.Reason', 'users.fname', 'users.oname', 'users.sname')
@@ -81,7 +81,7 @@ class RapexController extends Controller
             ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
             ->where('rapex_documents.UploadedBy', Auth::user()->id)
             ->where('rapex_documents.Draft', true)
-            ->orderBy('rapex_documents.created_at','desc')->get();
+            ->orderBy('rapex_documents.created_at', 'desc')->get();
         return view("FileManager.Rapex.index", compact('allactive', 'allpending', 'allrejected', 'alldeleted', 'mydrafts',
             'mypending', 'myrejected', 'mydeleted'));
     }
@@ -92,13 +92,13 @@ class RapexController extends Controller
         return view("FileManager.Rapex.add", compact("entities", 'categories'));
 
     }
- private function generateUniqueRandomNumber(string $columnName, int $length = 13): string
+    private function generateUniqueRandomNumber(string $columnName, int $length = 13): string
     {
         do {
             // Generate a random string of specified length
             //            $randomNumber = Str::random($length);
             $randomNumber = mt_rand(1000000000000, 9999999999999);
-            $randomNumber = (string)$randomNumber; // Ensuring it is Sting;
+            $randomNumber = (string) $randomNumber; // Ensuring it is Sting;
 
             // Check if the generated number already exists in the database
             $exists = RapexDocuments::where($columnName, $randomNumber)->exists();
@@ -108,12 +108,11 @@ class RapexController extends Controller
     }
     public function store(Request $request)
     {
+        dd($request->file('file'));
+
         // Generate a unique random number for the 'your_column' column
         $uniqueNumber = $this->generateUniqueRandomNumber('ticket', 13);
 
-
-
-        // dd($request->all());
         if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin') {
             $status = 3;
         } else {
@@ -195,13 +194,12 @@ class RapexController extends Controller
 
         }
 
-
         if ($request->hasFile('images')) {
             // $allowedextensions=['pdf','doc','docx','xls','xlsx','png','jpg','jpeg'];
             $img = $request->file('images');
             foreach ($img as $image) {
                 $originalImageName = $image->getClientOriginalName();
-                $imagename         = $datef.'_RAPEX_' . $originalImageName;
+                $imagename         = $datef . '_RAPEX_' . $originalImageName;
 
                 $imgpath    = $image->move(public_path('storage/gallery/RAPEX'), $imagename);
                 $imgArray[] = $imagename;
@@ -219,7 +217,7 @@ class RapexController extends Controller
         if ($request->save) {
             $rpdoc = RapexDocuments::create([
                 'entity'      => $entityID,
-                'ticket'     => $uniqueNumber,
+                'ticket'      => $uniqueNumber,
                 'institution' => $instituteArray,
                 'file'        => $documentArray,
                 'comment'     => $rapexcomment,
@@ -228,12 +226,12 @@ class RapexController extends Controller
                 'UploadedBy'  => Auth::user()->id,
             ]);
 
-            $files=explode(',',$documentArray);
-            foreach($files as $file){
+            $files = explode(',', $documentArray);
+            foreach ($files as $file) {
                 RapexFiles::create([
-                    'uploadedby'=>Auth::user()->id,
-                    'rapex_id'=>$rpdoc->id,
-                    'files'=>$file
+                    'uploadedby' => Auth::user()->id,
+                    'rapex_id'   => $rpdoc->id,
+                    'files'      => $file,
                 ]);
 
             }
@@ -261,15 +259,15 @@ class RapexController extends Controller
             //     'category_id' => $request->category,
             //     'Description' => $request->description,
             // ]);
-            $images=explode(',',$pictureArray);
-            foreach($images as $image){
+            $images = explode(',', $pictureArray);
+            foreach ($images as $image) {
                 RapexImages::create([
-                'uploadedby'  => Auth::user()->id,
-                'rapex_id'    => $rpdoc->id,
-                'imagefiles'  => $image,
-                'category_id' => $request->category,
-                'Description' => $request->description,
-            ]);
+                    'uploadedby'  => Auth::user()->id,
+                    'rapex_id'    => $rpdoc->id,
+                    'imagefiles'  => $image,
+                    'category_id' => $request->category,
+                    'Description' => $request->description,
+                ]);
 
             }
         }
@@ -284,42 +282,41 @@ class RapexController extends Controller
         //
         // copy to the Hod
 
-                $hodEmail = 'allan.tumuhimbise@publicservice.go.ug';
-                $sendermail = Auth::user()->email;
+        $hodEmail   = 'allan.tumuhimbise@publicservice.go.ug';
+        $sendermail = Auth::user()->email;
 
-                $subject = 'New RAPEX Uploaded ' . $uniqueNumber;
-                $data = [
-                    'fname' => Auth::user()->fname,
-                    'sname' => Auth::user()->sname,
-                    'ticket' => $uniqueNumber,
-                    'created_at' => $rpdoc->created_at,
-                    'url' => route('file.approve', $rpdoc->id),
-                    'message' => 'Welcome to our service!'
-                ];
+        $subject = 'New RAPEX Uploaded ' . $uniqueNumber;
+        $data    = [
+            'fname'      => Auth::user()->fname,
+            'sname'      => Auth::user()->sname,
+            'ticket'     => $uniqueNumber,
+            'created_at' => $rpdoc->created_at,
+            'url'        => route('file.approve', $rpdoc->id),
+            'message'    => 'Welcome to our service!',
+        ];
 
-                // Send email using a Blade view
-                Mail::send('FileManager.Mails.Establishment.Recieve', $data, function ($message) use ($hodEmail, $subject) {
-                    $message->to($hodEmail)
-                        ->subject($subject);
-                });
+        // Send email using a Blade view
+        Mail::send('FileManager.Mails.Establishment.Recieve', $data, function ($message) use ($hodEmail, $subject) {
+            $message->to($hodEmail)
+                ->subject($subject);
+        });
 
-                //coppy to sender
+        //coppy to sender
 
-                $subject = 'A RAPEX document with ticket Number' . $uniqueNumber . 'has been sent';
-                $data = [
-                    'fname' => Auth::user()->fname,
-                    'sname' => Auth::user()->sname,
-                    'created_at' => $rpdoc->created_at,
-                    'ticket' => $uniqueNumber,
-                    'url' => route('rapex.file.show', $rpdoc->id),
-                    'message' => 'Welcome to our service!'
-                ];
+        $subject = 'A RAPEX document with ticket Number' . $uniqueNumber . 'has been sent';
+        $data    = [
+            'fname'      => Auth::user()->fname,
+            'sname'      => Auth::user()->sname,
+            'created_at' => $rpdoc->created_at,
+            'ticket'     => $uniqueNumber,
+            'url'        => route('rapex.file.show', $rpdoc->id),
+            'message'    => 'Welcome to our service!',
+        ];
 
-                // Send email using a Blade view
-                Mail::send('FileManager.Mails.Establishment.SenderCopy', $data, function ($message) use ($hodEmail, $subject) {
-                    $message->to(Auth::user()->email)->subject($subject);
-                });
-
+        // Send email using a Blade view
+        Mail::send('FileManager.Mails.Establishment.SenderCopy', $data, function ($message) use ($hodEmail, $subject) {
+            $message->to(Auth::user()->email)->subject($subject);
+        });
 
         return redirect()->route('rapex.file.list')->with('success', 'Files uploaded Successfully');
     }
@@ -445,36 +442,35 @@ class RapexController extends Controller
     }
     public function show(Request $request, $id)
     {
-        $linemin   = GovEntities::all();
+        $linemin = GovEntities::all();
 
         $categories = ImageCategory::all();
-        $file = RapexDocuments::select(
-        'rapex_documents.ticket',
-        'rapex_documents.entity',
-         'rapex_documents.institution',
-         'rapex_documents.file',
-         'rapex_documents.comment',
-          'rapex_documents.zoomlink',
-           'users.fname', 'users.sname',
-           'doc_statuses.statusName',
-           'rapex_documents.created_at',
-           'users.oname')
+        $file       = RapexDocuments::select(
+            'rapex_documents.ticket',
+            'rapex_documents.entity',
+            'rapex_documents.institution',
+            'rapex_documents.file',
+            'rapex_documents.comment',
+            'rapex_documents.zoomlink',
+            'users.fname', 'users.sname',
+            'doc_statuses.statusName',
+            'rapex_documents.created_at',
+            'users.oname')
             ->join('users', 'users.id', '=', 'rapex_documents.UploadedBy')
-            ->join('doc_statuses', 'doc_statuses.id','=','rapex_documents.status')
+            ->join('doc_statuses', 'doc_statuses.id', '=', 'rapex_documents.status')
             ->where('rapex_documents.id', $id)
             ->first();
 
-            $images= RapexImages::select('rapex_images.id', 'rapex_images.imagefiles')
-                ->join('rapex_documents', 'rapex_documents.id', '=', 'rapex_images.rapex_id')
-                ->where('rapex_images.rapex_id', $id)
+        $images = RapexImages::select('rapex_images.id', 'rapex_images.imagefiles')
+            ->join('rapex_documents', 'rapex_documents.id', '=', 'rapex_images.rapex_id')
+            ->where('rapex_images.rapex_id', $id)
             ->get();
 
-            $files= RapexFiles::select('rapex_files.id', 'rapex_files.files', 'rapex_files.rapex_id', 'rapex_documents.id as RapexID')
-                ->join('rapex_documents', 'rapex_documents.id', '=', 'rapex_files.rapex_id')
-                ->where('rapex_files.rapex_id', $id)->get();
+        $files = RapexFiles::select('rapex_files.id', 'rapex_files.files', 'rapex_files.rapex_id', 'rapex_documents.id as RapexID')
+            ->join('rapex_documents', 'rapex_documents.id', '=', 'rapex_files.rapex_id')
+            ->where('rapex_files.rapex_id', $id)->get();
 
-
-        return view('FileManager.Rapex.view', compact('file','images','categories','linemin','files'));
+        return view('FileManager.Rapex.view', compact('file', 'images', 'categories', 'linemin', 'files'));
 
     }
     public function Edit(Request $request, $id)
@@ -487,6 +483,20 @@ class RapexController extends Controller
     {
         $Rapex = RapexDocuments::findOrFail($id);
 
+    }
+    public function deleteImages(Request $request)
+    {
+        $selectedIds = $request->input('item_ids');
+
+        if (! empty($selectedIds)) {
+            RapexImages::whereIn('id', $selectedIds)->delete();
+
+            // return redirect()->route('rapex.file.list')->with('success', 'Selected image deleted successfully.');
+            $response = ['success' => 'Selected image deleted successfully.', 'url' => route('rapex.file.list')];
+            return response()->json($response);
+        }
+
+        return response()->json(['message' => 'No items selected for deletion.'], 400);
     }
 
 }

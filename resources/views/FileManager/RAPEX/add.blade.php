@@ -76,24 +76,6 @@
                                 </select>
                             </div>
                         </div>
-
-                        <div class="form-group row mb-1">
-                            <label class="col-sm-2">Upload Files</label>
-                            <div class="col-md-10">
-                                <label class="btn btn-sm btn-success" onclick="openCustomFileInput()">Upload File
-                                </label>&nbsp;&nbsp;<span class="text text-danger">Excel, Word,PDF PowerPoint
-                                    (Max: 4mbs)</span>
-                                @error('docs')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                                <input id="customFileInput" required name="docs[]" type="file" multiple
-                                    style="display: none" class="form-control @error('images') is-invalid @enderror"
-                                    accept=".xlsx,.xls,.doc,.docx,.ppt,.pptx,.pps,.pdf" value="{{ old('docs') }}">
-                                <ul id="selectedFilesList"></ul>
-                            </div>
-                        </div>
                         <div class="form-group row mb-1">
                             <label class="col-sm-2">Virtual link</label>
                             <div class="col-md-10">
@@ -115,71 +97,11 @@
                                 </span>
                             @enderror
                         </div>
-                        <div class="form-group row mb-1">
-                            <label id="lblimage" class="float float-right btn btn-success btn-sm"><i class="fa fa-light fa-image" style="color: blue; font-size: 18px;"></i>&nbsp; &nbsp; Attach Photos</label>
+                        <div class="form-group">
+                            <input class="form-control"  type="hidden" name="docs[]" id="pdf_files_input">
                         </div>
-                        <div id="imagewrapper" class="mb-2" hidden>
-                            <div class="form-group row mb-1">
-                                <label class="col-sm-3">Upload images</label>
-                                <div class="col-md-9">
-                                    <label class="btn btn-sm btn-success" onclick="openCustomImageInput()">Upload Images
-                                    </label><span class="text text-danger"> &nbsp;&nbsp;Images(Max: 4mbs)</span>
-                                    @error('image')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                    <input name="images[]" type="file" multiple id="customImageInput"
-                                        style="display: none" class="form-control @error('images') is-invalid @enderror"
-                                        accept=".png,.jpeg,.jpg" value="{{ old('images') }}">
-                                    <ul id="selectedImagesList"></ul>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-1">
-                                <label class="col-sm-3">Category</label>
-                                <div class="col-md-9">
-                                    <select class="select2 form-control @error('category') is-invalid @enderror "
-                                        name="category">
-                                        <option value="">Select Image Category</option>
-                                        @foreach ($categories as $item)
-                                            <option value="{{ $item->id }}">{{ $item->Category }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('category')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group mb-1">
-                                <label>Description</label>
-                                <textarea name="description" class="form-control" rows="4" placeholder="Description"></textarea>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row mb-1">
-                            <label id="lblvideo" class="float float-right btn btn-success btn-sm"><i class="fa fa-light fa-video" style=" color: red; font-size: 18px;;"></i>&nbsp; &nbsp; Attach Video</label>
-                        </div>
-                        <div id="videowrapper" hidden>
-                            <div class="form-group mb-1">
-                                <label class="btn btn-success btn-sm" onclick="AttachVideo()">Attach Video </label><br>
-                                <input name="video" type="file" accept="video/*,.mkv" id="videoInput"
-                                    class="form-control mb-2 @error('video')is-invalid @enderror" style="display: none">
-                                <video id="videoPreview" controls class="form-controls aspect-video"
-                                    style="height: 350px">
-                                    @error('video')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                            </div>
-                        </div>
-                        <div class="form-group mt-2">
-                            <input type="submit" class="btn btn-primary" value="Upload" name="save">
-                            <input type="submit" class="btn btn-success float-right" value="Save Draft" name="draft">
-                        </div>
+                        <div id="myAwesomeDropzone" class="dropzone"></div>
+                        <button type="submit">Submit</button>
                     </form>
                 </div>
             </div>
@@ -191,93 +113,51 @@
 
 @section('scripts')
     <script>
-        //image wrapper
-        var imagewrap = document.getElementById('imagewrapper')
-        var videowrap = document.getElementById('videowrapper')
-        $('#lblimage').on('click', function() {
-            imagewrap.removeAttribute('hidden', 'hidden')
-        })
-
-        $('#lblvideo').on('click', function() {
-            videowrap.removeAttribute('hidden', 'hidden')
-        })
-
-        var selectedFiles = []; // Array to store selected files
-        var selectedImages = []; // Array to store selected imagess
-        function openCustomFileInput() {
-            var fileInput = document.getElementById('customFileInput')
-            fileInput.click()
-        }
-
-        function openCustomImageInput() {
-            var fileInput = document.getElementById('customImageInput')
-            fileInput.click()
-        }
-
-        function handleCustomFileInput(event) {
-            var fileList = event.target.files;
-            var selectedFilesList = document.getElementById('selectedFilesList');
-            for (var i = 0; i < fileList.length; i++) {
-                var file = fileList[i];
-                selectedFiles.push(file); //Adding newly selected item to Array
-                var listItem = document.createElement('li');
-                listItem.textContent = file.name;
-                var deleteButton = document.createElement('button');
-
-                deleteButton.textContent = 'Delete';
-                deleteButton.className = 'ml-2 btn btn-sm btn-danger'
-                deleteButton.addEventListener('click', createDeleteHandler(file, listItem));
-                listItem.appendChild(deleteButton)
-                selectedFilesList.appendChild(listItem)
-            }
-        }
-
-
-        function handleCustomImageInput(event) {
-            var imageList = event.target.files;
-            var selectedImagesList = document.getElementById('selectedImagesList');
-            for (var i = 0; i < imageList.length; i++) {
-                var image = imageList[i];
-                selectedImages.push(image); //Adding newly selected item to Array
-                var listImages = document.createElement('li');
-                listImages.textContent = image.name;
-                listImages.className = "mt-2"
-                var deleteButton = document.createElement('button');
-
-                deleteButton.textContent = 'Delete';
-                deleteButton.className = 'ml-2 btn btn-sm btn-danger'
-                deleteButton.addEventListener('click', createDeleteHandle(image, listImages));
-                listImages.appendChild(deleteButton)
-                selectedImagesList.appendChild(listImages)
-            }
-        }
-
-        function createDeleteHandler(file, listItem) {
-            return function() {
-                var index = selectedFiles.indexOf(file);
-                if (index !== -1) {
-                    selectedFiles.splice(index, 1); // Remove the file from the array
+        Dropzone.options.myAwesomeDropzone = {
+            url: "{{ route('rapex.file.store') }}", // Same endpoint as the main form
+            autoProcessQueue: false, // Don't process automatically
+            uploadMultiple: true,
+            // acceptedFiles: "application/pdf",
+            addRemoveLinks: true,
+            // ... other configurations
+            maxFilesize: 10, // MB
+            acceptedFiles: '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pps,.pptx', // Accept only PDF files
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            success: function(file, response) {
+                // Handle success, e.g., add hidden input for file name
+                $('form').append('<input type="hidden" name="docs[]" value="' + response.name + '">')
+            },
+            removedfile: function(file) {
+                // Handle file removal, e.g., remove hidden input
+                file.previewElement.remove()
+                var name = ''
+                if (typeof file.file_name !== 'undefined') {
+                    name = file.file_name
+                } else {
+                    name = uploadedDocumentMap[file.name]
                 }
-
-                listItem.parentNode.removeChild(listItem); // Remove the list item from the list
-            };
-        }
-
-        function createDeleteHandle(image, listImages) {
-            return function() {
-                var indexs = selectedFiles.indexOf(image);
-                if (indexs !== -1) {
-                    selectedImages.splice(indexs, 1); // Remove the file from the array
-                }
-
-                listImages.parentNode.removeChild(listImages); // Remove the list item from the list
-            };
-        }
-
-        document.getElementById('customFileInput').addEventListener('change', handleCustomFileInput);
-        document.getElementById('customImageInput').addEventListener('change', handleCustomImageInput);
+                $('form').find('input[name="docs[]"][value="' + name + '"]').remove()
+            },
+            init: function() {
+                var myDropzone = this;
+                document.querySelector("form").addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    myDropzone.processQueue(); // Manually process the queue on form submission
+                });
+                this.on("sendingmultiple", function(file, xhr, formData) {
+                    // Append other form fields to the formData object
+                    formData.append("entity[]", document.querySelector("input[name='entity[]']").value);
+                    formData.append("institute[]", document.querySelector("input[name='institute[]']")
+                        .value);
+                    // ... append other form fields
+                });
+            }
+        };
     </script>
-
     <script>
         $('#entity').on('change', function() {
             var entity = document.getElementById('entity');
@@ -338,30 +218,6 @@
                 // alert('Select ')
                 $('#institute').html('<option = ""> Select Class</option>')
 
-            }
-
-        })
-    </script>
-
-
-
-
-
-    <script>
-        var videoinput = document.getElementById('videoInput')
-
-        function AttachVideo() {
-            videoInput.click()
-        }
-        var videopreview = document.getElementById('videoPreview')
-        // var videoinput = document.getElementById('videoInput')
-
-
-        videoinput.addEventListener('change', (event) => {
-
-            if (event.target.files && event.target.files[0]) {
-                videopreview.src = URL.createObjectURL(event.target.files[0]);
-                videopreview.load()
             }
 
         })
