@@ -54,7 +54,7 @@
                                         $Month = explode('_', $item)[2];
                                         $PDFsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
                                         $PDFext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->PDF);
-                                        $finalPDF = explode('_', $item->PDF)[5];
+                                        $finalPDF = last(explode('_', $item->PDF));
                                     }
                                     ?>
                                     <tr>

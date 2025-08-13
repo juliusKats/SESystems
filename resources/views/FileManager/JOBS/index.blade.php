@@ -75,7 +75,7 @@
                                                                     $extname = $item->ext;
                                                                     $Yr = explode('_', $item)[3];
                                                                     $Month = explode('_', $item)[2];
-                                                                    $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                    $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                     if ($extname == 'pdf') {
                                                                         $EXCELsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/JDPDF/' . $item->EXCEL));
                                                                         $EXCELext = File::extension('storage/Jobs/' . $Yr . '/' . $Month . '/' . '/JDPDF' . $item->EXCEL);
@@ -104,9 +104,9 @@
                                                                     <?php
                                                                     $Yr = explode('_', $item)[3];
                                                                     $Month = explode('_', $item)[2];
-                                                                    $finalPDF = explode('_', $item->PDF)[5];
+                                                                    $finalPDF = last(explode('_', $item->PDF));
                                                                     $PDFsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
-                                                                    
+
                                                                     ?>
                                                                     <a href="#" title="Preview {{ $finalPDF }}"
                                                                         target="_blank">
@@ -234,7 +234,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/JDPDF/' . $item->EXCEL));
                                                                             $EXCELext = File::extension('storage/Jobs/' . $Yr . '/' . $Month . '/' . '/JDPDF' . $item->EXCEL);
@@ -263,9 +263,9 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         $PDFsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
-                                                                        
+
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -386,7 +386,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/JDPDF/' . $item->EXCEL));
                                                                             $EXCELext = File::extension('storage/Jobs/' . $Yr . '/' . $Month . '/' . '/JDPDF' . $item->EXCEL);
@@ -415,9 +415,9 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         $PDFsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
-                                                                        
+
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -523,7 +523,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/JDPDF/' . $item->EXCEL));
                                                                             $EXCELext = File::extension('storage/Jobs/' . $Yr . '/' . $Month . '/' . '/JDPDF' . $item->EXCEL);
@@ -552,9 +552,9 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         $PDFsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
-                                                                        
+
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -674,7 +674,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/JDPDF/' . $item->EXCEL));
                                                                             $EXCELext = File::extension('storage/Jobs/' . $Yr . '/' . $Month . '/' . '/JDPDF' . $item->EXCEL);
@@ -703,9 +703,9 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         $PDFsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
-                                                                        
+
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -810,7 +810,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/JDPDF/' . $item->EXCEL));
                                                                             $EXCELext = File::extension('storage/Jobs/' . $Yr . '/' . $Month . '/' . '/JDPDF' . $item->EXCEL);
@@ -839,9 +839,9 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         $PDFsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
-                                                                        
+
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -942,7 +942,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/JDPDF/' . $item->EXCEL));
                                                                             $EXCELext = File::extension('storage/Jobs/' . $Yr . '/' . $Month . '/' . '/JDPDF' . $item->EXCEL);
@@ -971,9 +971,9 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         $PDFsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
-                                                                        
+
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -1067,7 +1067,7 @@
                                                                     $extname = $item->ext;
                                                                     $Yr = explode('_', $item)[3];
                                                                     $Month = explode('_', $item)[2];
-                                                                    $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                    $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                     if ($extname == 'pdf') {
                                                                         $EXCELsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/JDPDF/' . $item->EXCEL));
                                                                         $EXCELext = File::extension('storage/Jobs/' . $Yr . '/' . $Month . '/' . '/JDPDF' . $item->EXCEL);
@@ -1096,9 +1096,9 @@
                                                                     <?php
                                                                     $Yr = explode('_', $item)[3];
                                                                     $Month = explode('_', $item)[2];
-                                                                    $finalPDF = explode('_', $item->PDF)[5];
+                                                                    $finalPDF = last(explode('_', $item->PDF));
                                                                     $PDFsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
-                                                                    
+
                                                                     ?>
                                                                     <a href="#"
                                                                         title="Preview {{ $finalPDF }}"

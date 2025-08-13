@@ -64,7 +64,7 @@
                                                 <?php
                                                 $Yr = explode('_', $item)[3];
                                                 $Month = explode('_', $item)[2];
-                                                $finalPDF = explode('_', $item->PDF)[5];
+                                                $finalPDF = last(explode('_', $item->PDF));
                                                 $PDFsize = Number::fileSize(File::size('storage/Schemes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
                                                 ?>
                                                 <i style="color: red; font-size: 30px;"

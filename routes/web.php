@@ -95,7 +95,7 @@ Route::prefix('edbrs.com')->group(function () {
         Route::get('/manage/users', 'userlist')->name('user.list');
         Route::put('/activate/{id}/users', 'ActivateUser')->name('user.activate');
         Route::get('main/dashboard', 'dashboard')->name('main.dashboard');
-
+        Route::get('main/system/team', 'memberlist')->name('user.member');
     });
 });
 

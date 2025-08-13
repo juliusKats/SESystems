@@ -47,6 +47,10 @@
                                         <i class="fa fa-users nav-icon"></i>
                                         <p>USERS</p>
                                     </a>
+                                    <a href="{{ route('user.member') }}" class="nav-link">
+                                        <i class="fa fa-users nav-icon"></i>
+                                        <p>DEPARTMENT MEMBERS</p>
+                                    </a>
                                 <li class="nav-item">
                                     <a href="{{ route('line.ministy.list') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>

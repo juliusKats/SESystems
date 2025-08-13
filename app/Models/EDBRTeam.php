@@ -13,6 +13,6 @@ class EDBRTeam extends Model implements AuditableContract
     use SoftDeletes;
     use Auditable;
 
-    protected $fillable=['None','Pending','Approved','Rejected','Deleted','Restored'];
+    protected $fillable=['user_id','title','about','twitter','facebook','instagram','linkedin','status'];
     protected $dates    = ['deleted_at'];
 }

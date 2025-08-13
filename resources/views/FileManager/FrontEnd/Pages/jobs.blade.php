@@ -78,7 +78,7 @@
                                                 <?php
                                                 $Yr = explode('_', $item)[3];
                                                 $Month = explode('_', $item)[2];
-                                                $finalPDF = explode('_', $item->PDF)[5];
+                                                $finalPDF = last(explode('_', $item->PDF));
                                                 $PDFsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
 
                                                 ?>

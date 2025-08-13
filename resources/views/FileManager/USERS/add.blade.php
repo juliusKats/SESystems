@@ -48,6 +48,9 @@
                                         <div class="col-md-8">
                                             <input type="text" name="fullname" value="{{ old('fullname') }}"
                                                 placeholder="Enter Fullname" class="form-control @error('fullname') is-invalid @enderror" required>
+                                                @error('fullname')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                                @enderror
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -55,6 +58,9 @@
                                         <div class="col-md-8">
                                             <input type="email" required placeholder="johndoe@domain.xxx" name="email"
                                                 value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror">
+                                                 @error('email')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                                @enderror
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -62,6 +68,9 @@
                                         <div class="col-md-8">
                                             <input type="password" required placeholder="Enter Password" name="password"
                                                 value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror">
+                                                 @error('password')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                                @enderror
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -69,6 +78,9 @@
                                         <div class="col-md-8">
                                             <input type="password" required placeholder="Enter Password"
                                                 name="confirmpassword" value="{{ old('confirmpassword') }}" class="form-control @error('confirmpassword') is-invalid @enderror">
+                                                 @error('confirmpassword')
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                                @enderror
                                         </div>
                                     </div>
                                     <div class="form-group row">

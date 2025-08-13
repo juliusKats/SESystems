@@ -19,9 +19,9 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="about section">
+    {{-- <section id="about" class="about section">
 
-        
+
         <div class="container section-title" data-aos="fade-up">
             <h2>About Us</h2>
         </div>
@@ -58,12 +58,40 @@
         </div>
 
     </section><!-- /About Section -->
+ --}}
+  <!-- About Section -->
+    <section id="about" class="about section">
+        <div class="container section-title" data-aos="fade-up">
+            <h2>About Us</h2>
+        </div>
+        <div class="container">
+            <div class="row gy-4">
+                {{-- <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100"> --}}
+                    <p style="word-spacing: 20px;"><em>Management Services</em> is a worldwide industry that constantly strives to improve productivity and quality service delivery. <br>The practice of management services involves the use of a range of skills, methodologies, techniques and particular attitudes as an approach to solving problems, exploiting opportunities and causing positive and necessary changes. Therefore, Management Services is a multi-disciplinary profession that comprises different specialist skills, techniques and tools that aid the process of management in organizations; through provision of accurate, relevant and timely information to inform decision making processes, effective planning for organizational direction, control and monitoring of organizational performance and increased efficiency.
+Management Services Department is a comprehensive function covering a wide range of specialized services which include but not limited to the following: Management Control Systems (MCS); Business Process Re-engineering (BPR); Organization Design and Development (ODD); Work Measurement (WM); Workflow and Methods Study <abbr title="Workflow and Methods Study">(WMS)</abbr>; Computerization and Information Management Systems; Critical Path Analysis (CPA); Cost-Benefit Analysis (CBA); Total Quality Management (TQM); Functional and Workload Analysis (FWA); Job Evaluation and Salary Structure Design (JESD); Ergonomics; Applied Research (AR); among others
+The department has a mandate to provide efficient operational structures, systems and standards for improved performance and productivity of Government Institutions.
+The Department achieves this mandate by developing, reviewing and setting standard guidelines for management and operational structures and systems of Government Institutions; to facilitate increased productivity, improved performance and ultimately improved service delivery in the Public Service.
+The Vision of Management Services Department is “A Centre of excellence in the provision of specialist services/expertise and knowledge in Institutional Architecture, Operational Systems and Standards to facilitate efficient and effective delivery of public services” and its mission is “To facilitate the achievement of an efficient Public Service through improved management and operational structures, systems, Standards, Applied Research and Productivity Studies.” The core values are: Professionalism, Integrity, Accountability, Team Work, Responsiveness, Innovation, Proficiency, and Trust.
+Strategic Objectives: The main objective is to support Government organisations in achieving their strategic goals, through effective organisational planning, staffing, and establishment control.</p>
+
+                {{-- </div>
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+
+
+                </div> --}}
+
+            </div>
+
+        </div>
+
+    </section><!-- /About Section -->
+
 
 
     <!-- Services Section -->
     @if(count($services)>0)
     <section id="services" class="services section light-background">
-        
+
         <div class="container section-title" data-aos="fade-up">
             <h2>Services</h2>
             <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
@@ -84,7 +112,11 @@
                         </div>
 
                         <h4><a href="" class="stretched-link">{{ $service->serviceName }}</a></h4>
-                        <p> @if($service->about){{ Str::words($service->about,20) }}@endif</p>
+                        <p style="text-align: justify; font-size: 14px; color: #000;">
+                             {{-- {{ $service->about }} --}}
+                             @if($service->about){{ Str::words($service->about,20) }}@endif
+                             <button class="btn btn-primary float-right ml-4">Read More</button>
+                            </p>
                     </div>
                 </div>
                 @endforeach
@@ -146,7 +178,7 @@
     <!-- Recent Blog Postst Section -->
     <section id="recent-blog-postst" class="recent-blog-postst section light-background">
 
-        
+
         <div class="container section-title" data-aos="fade-up">
             <h2>Recent Blog Posts</h2>
             <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>

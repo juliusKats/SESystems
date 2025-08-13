@@ -14,10 +14,10 @@
              $Yr = explode('_', $file)[3];
              $Month = explode('_', $file)[2];
              $PDFsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/PSPDF/' . $file->PDF));
-             $finalPDF = explode('_', $file->PDF)[5];
+             $finalPDF = last(explode('_', $file->PDF));
 
              $EXCELsize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/JDDOC/' . $file->EXCEL));
-             $finalEXCEL = explode('_', $file->EXCEL)[5];
+             $finalEXCEL = last(explode('_', $file->EXCEL));
 
              ?>
              <?php
@@ -26,7 +26,7 @@
 
 
              <div class="section-header">
-                 <h1>Viewing Job Description of {{ $file->cardername }} - {{ $file->VName }}</h1>
+                 <h1><span id="headerText">Viewing </span>Job Description of {{ $file->cardername }} - {{ $file->VName }}</h1>
              </div>
              <div class="section-body">
                  <div class="card-header">
@@ -41,7 +41,7 @@
                                  <button id="headerEdit" class="btn btn-sm btn-primary"> <i class="fa fa-edit"></i> Edit
                                  </button>
                                  {{--  only admin and owner --}}
-                                 <form method="post" action="{{ route('soft.delete', $file->id) }}">
+                                 <form method="post" action="{{ route('job.soft.delete', $file->id) }}">
                                      @csrf
                                      @method('DELETE')
 
@@ -50,12 +50,25 @@
                                      </button>
                                  </form>
 
-                                 <form action="{{ route('delete.vote', $file->id) }}" method="post">
+                                 <form action="{{ route('delete.jobs', $file->id) }}" method="post">
                                      @csrf
                                      @method('DELETE')
                                      <button class="btn btn-danger btn-sm ml-4 mt-1 btn-delete">
                                          <i class="fa fa-solid fa-trash"></i>
                                          Delete
+                                     </button>
+                                 </form>
+                             @endif
+                             authuser:{{ Auth::user()->id }}
+                             upload:{{ $file->UploadedBy }}
+                             status:{{ $file->status }}
+
+                             @if (Auth::user()->id == $file->UploadedBy && $file->status == 5)
+                                 <form method="post" action="{{ route('file.restore', $file->id) }}">
+                                     @csrf
+                                     @method('PUT')
+                                     <button class="btn btn-warning btn-sm ml-4 mt-1 btn-delete">
+                                         Restore <i class="fa fa-undo" aria-hidden="true"></i>
                                      </button>
                                  </form>
                              @endif
@@ -120,7 +133,7 @@
                                          </div>
                                          <div class="form-group mb-2">
                                              <label>Line Ministry</label>
-                                             <select id="carder" name="ministry" required
+                                             <select id="carder" name="ministry" required disabled
                                                  class="form-control select2 @error('ministry') is-invalid @enderror">
                                                  <option value="">Select Ministry</option>
                                                  @foreach ($carders as $item)
@@ -140,7 +153,7 @@
                                              <label>Carder Name(s)</label>
                                              <?php
                                              $carders = explode(',', $file->carderName); ?>
-                                             <select id="cardername" name="cardername[]"
+                                             <select id="cardername" name="cardername[]" disabled id="cardername"
                                                  class="form-control select2 @error('cardername') is-invalid @enderror"
                                                  multiple required>
                                                  @foreach ($carder as $item)
@@ -180,7 +193,7 @@
                                          <div id="fileselector">
                                              <div class="form-group mb-2">
                                                  <label>Word File</label><span>(word)</span>
-                                                 <input required name="fileupload" type="file"
+                                                 <input name="fileupload" type="file"
                                                      class="form-control @error('fileupload') is-invalid @enderror"
                                                      accept=".doc,.docx" value="{{ old('fileupload') }}">
                                                  @error('fileupload')
@@ -191,7 +204,7 @@
                                              </div>
                                              <div class="form-group mb-2">
                                                  <label>PDF File </label>
-                                                 <input required name="pdf" type="file"
+                                                 <input name="pdf" type="file"
                                                      class="form-control @error('pdf')is-invalid @enderror" accept=".pdf"
                                                      value="{{ old('pdf') }}">
                                                  @error('pdf')
@@ -204,7 +217,7 @@
                                          <div class="form-group mb-2">
                                              <label>Ammendment Date<span class="text-sm text-small text-danger">(PS
                                                      Approval Date)</span> </label>
-                                             <input required name="approvaldate" type="date"
+                                             <input required name="approvaldate" type="date" readonly id="psdate"
                                                  class="form-control @error('approvaldate')is-invalid @enderror"
                                                  value="{{ $file->PSDate }}">
                                              @error('approvaldate')
@@ -215,7 +228,8 @@
                                          </div>
                                          <div class="form-group mb-2">
                                              <label>Document Version </label>
-                                             <select name="version" class="form-control select2" required>
+                                             <select name="version" class="form-control select2" required disabled
+                                                 id="version">
                                                  <option>Select Version</option>
                                                  @foreach ($versions as $item)
                                                      <option value="{{ $item->id }}"
@@ -231,29 +245,34 @@
                                              @enderror
                                          </div>
                                          <div class="form-group mb-2">
-                                            <?php
+                                             <?php
                                              $uploaddate = \Carbon\Carbon::parse($file->UploadDate)->format('M d, Y');
                                              $psdate = \Carbon\Carbon::parse($file->PSDate)->format('d/m/YY');
                                              $update = \Carbon\Carbon::parse($file->UpDate)->format('M d, Y');
                                              $admindate = \Carbon\Carbon::parse($file->ADMINApproval)->format('M d, Y');
+                                             $created = \Carbon\Carbon::parse($file->created_at)->format('d/m/Y');
 
                                              $Yr = explode('_', $file)[3];
                                              $Month = explode('_', $file)[2];
                                              $SFSize = Number::fileSize(File::size('storage/Jobs/' . $Yr . '/' . $Month . '/SFiles/' . $file->SUPPORT));
                                              $ext = File::extension('storage/Jobs/' . $Yr . '/' . $Month . '/SFiles/' . $file->SUPPORT);
-                                             $SFFile = explode('_', $file->SUPPORT)[5];
+                                             $origi = explode('_', $file->SUPPORT);
+                                             //  $SFFile=last($origi);
+                                             $SFFile = end($origi);
                                              ?>
                                              <label>Do you have Suport files?</label>
                                              <span class="float-right mr-5" style="display:inline">
-                                                 <label><input id="sfyes" type="radio" value="1"  @if( $file->sfresponse ==1) checked @endif
-                                                         name="sf" required style="width: 20px;height:20px">
+                                                 <label><input id="sfyes" disabled type="radio" value="1"
+                                                         @if ($file->sfresponse == 1) checked @endif name="sf"
+                                                         required style="width: 20px;height:20px">
                                                      &nbsp;YES</label>
-                                                 <label><input id="sfno" type="radio" value="0"  @if( $file->sfresponse ==0) checked @endif
-                                                         name="sf" style="width: 20px;height:20px" required>
+                                                 <label><input disabled id="sfno" type="radio" value="0"
+                                                         @if ($file->sfresponse == 0) checked @endif name="sf"
+                                                         style="width: 20px;height:20px" required>
                                                      &nbsp;NO</label>
                                              </span>
                                          </div>
-                                         @if ($file->sfresponse ==1)
+                                         @if ($file->sfresponse == 1)
                                              <div id="sfdisplay">
                                                  <div class="form-group row mb-1 ">
                                                      <label class="col-md-3">Support File</label>
@@ -276,7 +295,7 @@
 
                                          <div id="sfileselect">
                                              <div class="form-group row mb-1">
-                                                 <label class="col-md-3">Support File</label>
+                                                 <label class="col-md-3">Selcet Support File</label>
                                                  <div class="col-md-9">
                                                      <input type="file" name="sfile" class="form-control"
                                                          value="{{ $file->SFile }}">
@@ -315,10 +334,10 @@
                                                  </div>
                                                  <div class="col-md-6">
                                                      <div class="form-group mb-1">
-                                                         <label>Uploaded On </label>
+                                                         <label>Uploaded On </label>{{ $created }}
                                                          <input type="date" name="uploadedOn"
                                                              class="form-control @error('uploadedon')is-invalid @enderror"
-                                                             value="{{ $file->UploadDate }}" readonly>
+                                                             value="{{ $created }}" readonly>
                                                          @error('uploadedOn')
                                                              <span class="invalid-feedback" role="alert">
                                                                  <strong>{{ $message }}</strong>
@@ -370,7 +389,7 @@
                                  </div>
                                  <div class="card-body">
                                      <form>
-                                         @if ($file->State == 3)
+                                         @if ($file->status == 3)
                                              {{-- approve --}}
                                              <div class="form-group row mb-1">
                                                  <div class="col-md-6">
@@ -400,7 +419,7 @@
                                                      </div>
                                                  </div>
                                              </div>
-                                         @elseif ($file->State == 5)
+                                         @elseif ($file->status == 5)
                                              {{-- Deleted --}}
                                              <div class="form-group row mb-1">
                                                  <div class="col-md-6">
@@ -430,7 +449,7 @@
                                                      </div>
                                                  </div>
                                              </div>
-                                         @elseif ($file->State == 6)
+                                         @elseif ($file->status == 6)
                                              {{-- Restored --}}
                                              <div class="form-group row mb-1">
                                                  <div class="col-md-6">
@@ -460,7 +479,7 @@
                                                      </div>
                                                  </div>
                                              </div>
-                                         @elseif ($file->State == 4)
+                                         @elseif ($file->status == 4)
                                              {{-- Rejected --}}
                                              <div class="form-group row mb-1">
                                                  <div class="col-md-6">
@@ -497,21 +516,26 @@
                                             </textarea>
                                              </div>
                                          @endif
+                                         </form>
                                          <div id="adminAction">
-                                             <div class="form-group">
-                                                 <label>Reason</label>
-                                                 <textarea id="rejection" class="form-control summernote-simple" name='reason'>
-                                            </textarea>
-                                             </div>
-                                             <div class="form-group mt-1">
-                                                 <button id="btnCancelAdmin" type="reset"
-                                                     class="btn btn-outline-primary ">Cancel</button>
-                                                 <button type="submit"
-                                                     class="btn  btn-outline-success float float-right">Reject</button>
-                                             </div>
+                                             <form method="post" action="{{ route('job.reject.save', $file->id) }}" enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PUT')
+                                                 <div class="form-group">
+                                                     <label>Reason</label>
+                                                     <textarea id="rejection" class="form-control summernote-simple" name='reason'>
+                                                    </textarea>
+                                                 </div>
+                                                 <div class="form-group mt-1">
+                                                     <button id="btnCancelAdmin" type="reset"
+                                                         class="btn btn-outline-primary ">Cancel</button>
+                                                     <button type="submit"
+                                                         class="btn  btn-outline-success float float-right">Reject</button>
+                                                 </div>
+                                             </form>
                                          </div>
 
-                                     </form>
+
                                      {{-- reason --}}
 
                                  </div>
@@ -526,16 +550,21 @@
  @section('scripts')
      <script>
          // varibale declaration
+
+         var cardername = document.getElementById('cardername');
+         var carder = document.getElementById('carder');
          var userAction = document.getElementById('userAction');
          var adminAction = document.getElementById('adminAction');
-         var votecode = document.getElementById('votecode');
+         var sfyes = document.getElementById('sfyes');
+         var sfno = document.getElementById('sfno');
          var filedisplay = document.getElementById('filedisplay');
          var fileselector = document.getElementById('fileselector');
          var sfiledisplay = document.getElementById('sfiledisplay');
          var psdate = document.getElementById('psdate');
          var version = document.getElementById('version');
          var uploaderinfo = document.getElementById('uploaderinfo');
-         var summernote3 = document.getElementById('sumz');
+         var sumz = document.getElementById('sumz');
+         var headerText = document.getElementById('headerText');
          // initially hide the userAction and adminAction sections
          userAction.style.display = 'none';
          adminAction.style.display = 'none';
@@ -543,10 +572,6 @@
          fileselector.style.display = 'none';
          sfileselect.style.display = 'none';
          $('#sumz').summernote('disable', true);
-
-
-
-
 
 
          // show the userAction and adminAction sections when the header edit button is clicked
@@ -557,21 +582,30 @@
              fileselector.style.display = 'block';
              sfileselect.style.display = 'block';
              uploaderinfo.style.display = 'none';
-             votecode.removeAttribute('disabled');
+             cardername.removeAttribute('disabled');
+             carder.removeAttribute('disabled');
+             sfyes.removeAttribute('disabled');
+             sfno.removeAttribute('disabled');
              psdate.removeAttribute('readonly');
              version.removeAttribute('disabled');
              $('#sumz').summernote('enable', true);
+             headerText.innerHTML = "Editing ";
          })
          // user action cancel button
          document.getElementById('btnCancelUser').addEventListener('click', function() {
              // Hide the userAction and adminAction sections
+             headerText.innerHTML = "Viewing";
              userAction.style.display = 'none';
              fileselector.style.display = 'none';
              filedisplay.style.display = 'block';
              uploaderinfo.style.display = 'block';
-             votecode.setAttribute('disabled', true);
+             sfileselect.style.display = 'none';
+             cardername.setAttribute('disabled', true);
+             carder.setAttribute('disabled', true);
              psdate.setAttribute('readonly', true);
              version.setAttribute('disabled', true);
+             sfyes.setAttribute('disabled', true);
+             sfno.setAttribute('disabled', true);
              $('#sumz').summernote('disable', true);
          })
          // admin action reject button

@@ -74,7 +74,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $EXCELsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/Excel/' . $item->EXCEL));
                                                                         $EXCELext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->EXCEL);
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         ?>
 
                                                                         <a href="{{ route('preview.excel.file', $item->id) }}"
@@ -94,7 +94,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $PDFsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
                                                                         $PDFext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->PDF);
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
                                                                         <a style="display: inline"
                                                                             href="{{ route('preview.ps.file', $item->id) }}"
@@ -224,7 +224,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $EXCELsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/Excel/' . $item->EXCEL));
                                                                         $EXCELext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->EXCEL);
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         ?>
 
                                                                         <a href="{{ route('preview.excel.file', $item->id) }}"
@@ -244,7 +244,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $PDFsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
                                                                         $PDFext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->PDF);
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
                                                                         <a style="display: inline"
                                                                             href="{{ route('preview.ps.file', $item->id) }}"
@@ -330,7 +330,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $EXCELsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/Excel/' . $item->EXCEL));
                                                                         $EXCELext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->EXCEL);
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         ?>
 
                                                                         <a href="{{ route('preview.excel.file', $item->id) }}"
@@ -351,7 +351,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $PDFsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
                                                                         $PDFext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->PDF);
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
 
                                                                         <a style="display: inline"
@@ -478,7 +478,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $EXCELsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/Excel/' . $item->EXCEL));
                                                                         $EXCELext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->EXCEL);
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         ?>
 
                                                                         <a href="{{ route('preview.excel.file', $item->id) }}"
@@ -498,7 +498,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $PDFsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
                                                                         $PDFext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->PDF);
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
 
                                                                         <a style="display: inline"
@@ -605,7 +605,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $EXCELsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/Excel/' . $item->EXCEL));
                                                                         $EXCELext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->EXCEL);
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         ?>
 
                                                                         <a href="{{ route('preview.excel.file', $item->id) }}"
@@ -626,7 +626,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $PDFsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
                                                                         $PDFext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->PDF);
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
 
                                                                         <a style="display: inline"
@@ -751,7 +751,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $EXCELsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/Excel/' . $item->EXCEL));
                                                                         $EXCELext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->EXCEL);
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         ?>
 
                                                                         <a href="{{ route('preview.excel.file', $item->id) }}"
@@ -772,7 +772,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $PDFsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
                                                                         $PDFext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->PDF);
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
 
                                                                         <a style="display: inline"
@@ -882,7 +882,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $EXCELsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/Excel/' . $item->EXCEL));
                                                                         $EXCELext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->EXCEL);
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         ?>
 
                                                                         <a href="{{ route('preview.excel.file', $item->id) }}"
@@ -903,7 +903,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $PDFsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
                                                                         $PDFext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->PDF);
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
 
                                                                         <a style="display: inline"
@@ -1019,7 +1019,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $EXCELsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/Excel/' . $item->EXCEL));
                                                                         $EXCELext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->EXCEL);
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         ?>
 
                                                                         <a href="{{ route('preview.excel.file', $item->id) }}"
@@ -1040,7 +1040,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $PDFsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
                                                                         $PDFext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->PDF);
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
 
                                                                         <a style="display: inline"
@@ -1144,7 +1144,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $EXCELsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/Excel/' . $item->EXCEL));
                                                                         $EXCELext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->EXCEL);
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         ?>
 
                                                                         <a href="{{ route('preview.excel.file', $item->id) }}"
@@ -1165,7 +1165,7 @@
                                                                         $Month = explode('_', $item)[2];
                                                                         $PDFsize = Number::fileSize(File::size('storage/Votes/' . $Yr . '/' . $Month . '/PSPDF/' . $item->PDF));
                                                                         $PDFext = File::extension('storage/Votes/' . $Yr . '/' . $Month . '/' . $item->PDF);
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
 
                                                                         <a style="display: inline"

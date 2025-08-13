@@ -22,7 +22,7 @@
              
              ?>
              <div class="section-header">
-                 <h1>Viewing Details of {{ $file->VCode }} - {{ $file->VName }}</h1>
+                 <h1><span id="headerText">Viewing</> Details of {{ $file->VCode }} - {{ $file->VName }}</h1>
              </div>
              <div class="section-body">
                  <div class="card-header">
@@ -524,6 +524,7 @@
          var version = document.getElementById('version');
          var uploaderinfo = document.getElementById('uploaderinfo');
          var summernote3 = document.getElementById('sumz');
+         var headerText = document.getElementById('headerText');
          // initially hide the userAction and adminAction sections
          userAction.style.display = 'none';
          adminAction.style.display = 'none';
@@ -548,6 +549,7 @@
              votecode.removeAttribute('disabled');
              psdate.removeAttribute('readonly');
              version.removeAttribute('disabled');
+             headerText.innerHTML = "Editing ";
              $('#sumz').summernote('enable', true);
          })
          // user action cancel button
@@ -561,6 +563,7 @@
              psdate.setAttribute('readonly', true);
              version.setAttribute('disabled', true);
              $('#sumz').summernote('disable', true);
+             headerText.innerHTML = "Viewing ";
          })
          // admin action reject button
          document.getElementById('headerReject').addEventListener('click', function() {

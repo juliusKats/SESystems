@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Auditing;
 
 use App\Http\Controllers\Controller;
+use App\Models\EDBRTeam;
 use App\Models\Questions;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,6 +31,17 @@ class AuditController extends Controller
         $activeusers   = User::orderBy('created_at', 'desc')->where('status', true)->get();
         return view('FileManager.USERS.index', compact('activeusers', 'inactiveusers'));
 
+    }
+    public function memberlist(Request $request){
+        $inactiveusers =EDBRTeam::select( 'e_d_b_r_teams.title', 'e_d_b_r_teams.about', 'e_d_b_r_teams.twitter', 'e_d_b_r_teams.facebook', 'e_d_b_r_teams.instagram', 'e_d_b_r_teams.linkedin', 'e_d_b_r_teams.status as MStatus','users.sname','users.fname','users.profile_photo_path')
+        ->join('users','users.id','=','e_d_b_r_teams.user_id')
+        ->orderBy('e_d_b_r_teams.created_at', 'desc')
+        ->where('e_d_b_r_teams.status', false)->get();
+        $activeusers =EDBRTeam::select( 'e_d_b_r_teams.title', 'e_d_b_r_teams.about', 'e_d_b_r_teams.twitter', 'e_d_b_r_teams.facebook', 'e_d_b_r_teams.instagram', 'e_d_b_r_teams.linkedin', 'e_d_b_r_teams.status as MStatus','users.sname','users.fname','users.profile_photo_path')
+        ->join('users','users.id','=','e_d_b_r_teams.user_id')
+        ->orderBy('e_d_b_r_teams.created_at', 'desc')
+        ->where('e_d_b_r_teams.status', true)->get();
+        return view('FileManager.USERS.memberlist',compact('activeusers','inactiveusers'));
     }
 
     public function ActivateUser(Request $request, $id)

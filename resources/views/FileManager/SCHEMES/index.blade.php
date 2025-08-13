@@ -75,7 +75,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
                                                                         } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
@@ -101,7 +101,7 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -222,7 +222,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
                                                                         } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
@@ -248,7 +248,7 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
 
                                                                         ?>
                                                                         <a href="#"
@@ -353,7 +353,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
                                                                         } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
@@ -379,7 +379,7 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -501,7 +501,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
                                                                         } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
@@ -527,7 +527,7 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -629,7 +629,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
                                                                         } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
@@ -656,7 +656,7 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -777,7 +777,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
                                                                         } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
@@ -804,7 +804,7 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -906,7 +906,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
                                                                         } else {$EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEDOC' . $item->EXCEL);
@@ -932,7 +932,7 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -1033,7 +1033,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
                                                                         } else {
@@ -1060,7 +1060,7 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"
@@ -1155,7 +1155,7 @@
                                                                         $extname = $item->ext;
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalEXCEL = explode('_', $item->EXCEL)[5];
+                                                                        $finalEXCEL = last(explode('_', $item->EXCEL));
                                                                         if ($extname == 'pdf') {
                                                                             $EXCELext = File::extension('storage/Schemes/' . $Yr . '/' . $Month . '/' . '/SCHEMEPDF' . $item->EXCEL);
                                                                         } else {
@@ -1182,7 +1182,7 @@
                                                                         <?php
                                                                         $Yr = explode('_', $item)[3];
                                                                         $Month = explode('_', $item)[2];
-                                                                        $finalPDF = explode('_', $item->PDF)[5];
+                                                                        $finalPDF = last(explode('_', $item->PDF));
                                                                         ?>
                                                                         <a href="#"
                                                                             title="Preview {{ $finalPDF }}"

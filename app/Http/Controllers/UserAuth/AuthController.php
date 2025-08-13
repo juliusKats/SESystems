@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\UserAuth;
 
 use App\Http\Controllers\Controller;
+use App\Models\EDBRTeam;
 use App\Models\PasswordReset;
 use App\Models\Team;
 use App\Models\User;
@@ -240,7 +241,7 @@ class AuthController extends Controller
     {
         $userinfo = $request->validate([
             'userphoto'       => 'nullable|mimes:jpeg,jpg,png|max:2048',
-            'fullname'        => 'required|min:3',
+            'fullname'        => 'required|min:7',
             'email'           => 'required', 'email|unique:users,email',
             'password'        => 'string|required|min:5|same:confirmpassword',
             'confirmpassword' => 'required',
@@ -255,7 +256,18 @@ class AuthController extends Controller
         }
         if ($request->role == 'superadmin' and $superadmin > 0) {
             return redirect()->route('user.list')->with('error', 'Only One Superadmin required');
-        } else {
+        }
+        else if(!Str::contains($request->fullname,' ')){
+            return redirect()->route('add.user')->with('error', 'Add a space between first and surname');
+        }
+        elseif(Str::length(explode(' ',$request->fullname)[0])<2){
+            return redirect()->route('add.user')->with('error', 'First name must be greater than 2 characters');
+        }
+        elseif(Str::length(explode(' ',$request->fullname)[1])<2){
+            return redirect()->route('add.user')->with('error', 'Second name must be greater than 2 characters');
+        }
+
+        else {
 
             if ($request->hasFile('userphoto')) {
                 $orig     = $request->file('userphoto')->getClientOriginalName();
@@ -272,8 +284,18 @@ class AuthController extends Controller
                     'current_team_id'    => 1,
                     'profile_photo_path' => $filename,
                 ]);
+
+                 $path = $photo->move(public_path('storage/profile'), $filename);
+                // add user team:
+                if($user and $user->role =='ps') {
+                    EDBRTeam::create([
+                        'user_id'       => $user->id,
+                        'status'          => $user->status,
+                    ]);
+
+                }
+
                 if ($user) {
-                    $path = $photo->move(public_path('storage/profile'), $filename);
                     Team::create([
                         'user_id'       => $user->id,
                         'name'          => $user->name,
@@ -286,7 +308,8 @@ class AuthController extends Controller
 
             } else {
                 $user1 = User::create([
-                    'name'            => $request->fullname,
+                    'fname'            => explode(' ',$request->fullname)[0],
+                    'sname'            => explode(' ',$request->fullname)[1],
                     'email'           => $request->email,
                     'password'        => Hash::make($request->password),
                     'status'          => $request->status,
@@ -295,10 +318,17 @@ class AuthController extends Controller
                     'created_at'      => now(),
                     'updated_at'      => Carbon::now(),
                 ]);
+                if($user1 and $user1->role =='ps') {
+                    EDBRTeam::create([
+                        'user_id'       => $user1->id,
+                        'status'          => $user1->status,
+                    ]);
+
+                }
                 if ($user1) {
                     Team::create([
                         'user_id'       => $user1->id,
-                        'name'          => $user1->name,
+                        'name'          => $user1->sname,
                         'personal_team' => true,
                         'created_at'    => Carbon::now(),
                         'updated_at'    => Carbon::now(),

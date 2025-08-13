@@ -96,7 +96,7 @@ class JobDescriptionController extends Controller
         // Generate a unique random number for the 'your_column' column
         $uniqueNumber = $this->generateUniqueRandomNumber('ticket', 13);
         $suport       = "SupportFiles";
-        $sffile       = "SFilesexcel";
+        $sffile       = "SFiles";
 
         $year  = date("Y");
         $month = date("M");
@@ -148,7 +148,7 @@ class JobDescriptionController extends Controller
             $PSsize     = $request->file('pdf')->getSize();
         }
 
-        
+
 
         $foldermonth = $year . "/" . $month;
         $pdf         = "PSPDF";
@@ -322,7 +322,7 @@ class JobDescriptionController extends Controller
         if ($pdf) {
             $pdfyear  = explode('_', $pdf)[3];
             $pdfmonth = explode('_', $pdf)[2];
-            $pdfpath  = "J0bs/" . $pdfyear . "/" . $pdfmonth . "/PSPDF/" . $pdf;
+            $pdfpath  = "Jobs/" . $pdfyear . "/" . $pdfmonth . "/PSPDF/" . $pdf;
             $pdfexist = File::delete(public_path('storage/' . $pdfpath));
             if ($pdfexist) {
                 File::delete(public_path('storage/' . $pdfpath));
@@ -444,14 +444,124 @@ class JobDescriptionController extends Controller
 
         return view('FileManager.Jobs.view', compact('file', 'carders', 'versions', 'status'));
     }
-    public function edit(string $id)
+    public function edit(Request $request,$id)
     {
-        //
+
     }
 
     public function update(Request $request, string $id)
     {
-        //
+        $job = JobDocuments::findorFail($id);
+        $pdfyear  = explode('_', $job)[3];
+        $pdfmonth = explode('_', $job)[2];
+        $date      = Carbon::now();
+        $date      = $date->format("D_d_M_Y_") . time() . "_";
+        $year  = date("Y");
+        $month = date("M");
+        $data  = $request->validate([
+             'ministry'     => 'required|exists:card_ministries,id',
+            'cardername'   => 'required',
+            'approvaldate' => 'required|date|before_or_equal:' . now()->format('Y-m-d'),
+            'comment'      => 'required|string|min:3',
+            'version'      => 'required|exists:versions,id',
+        ]);
+         $carderID = [];
+        $cardes   = $request->cardername;
+        foreach ($cardes as $key => $value) {
+            $carderArray[] = $value;
+        }
+        $carderID = implode(",", $carderArray);
+
+        $votecomment = $request->comment;
+        $dom         = new \DomDocument();
+        $dom->loadHTML($request->comment, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $imageFile = $dom->getElementsByTagName('imageFile');
+        foreach ($imageFile as $item => $image) {
+            $data              = $image->getAttribute('src');
+            list($type, $data) = explode(';', $data);
+            list(, $data)      = explode(',', $data);
+            $imgeData          = base64_decode($data);
+            $image_name        = "/upload/" . time() . $item . '.png';
+            $path              = public_path() . $image_name;
+            file_put_contents($path, $imgeData);
+            $image->removeAttribute('src');
+            $image->setAttribute('src', $image_name);
+        }
+        $votecomment = $dom->saveHTML();
+        if ($request->file('fileupload') != null) {
+            $fileupload     = $request->file('fileupload')->getClientOriginalName();
+            $fileuploadsize = $request->file('fileupload')->getSize();
+        }
+        if ($request->file('pdf') != null) {
+            $PSfilename = $request->file('pdf')->getClientOriginalName();
+            $PSsize     = $request->file('pdf')->getSize();
+        }
+         $foldermonth = $year . "/" . $month;
+        $pdf         = "PSPDF";
+        $jdpdf       = "JDPDF";
+        $jddoc       = "JDDOC";
+        $sffile       = "SFiles";
+        $pspdfpath   = "Jobs/" . $year . "/" . $month . "/" . $pdf;
+        $jdpdfpath   = "Jobs/" . $year . "/" . $month . "/" . $jdpdf;
+        $jddocpath   = "Jobs/" . $year . "/" . $month . "/" . $jddoc;
+        $jdsfile   = "Jobs/" . $year . "/" . $month . "/" . $sffile;
+        $orignalSFName  =null;
+        $date = Carbon::now();
+        $date = $date->format("D_d_M_Y_") . time() . "_";
+        if ($request->hasFile('pdf') && $request->file('pdf')->isValid()) {
+            $pspdffile = $request->file("pdf");
+            $poriginal = $pspdffile->getClientOriginalName();
+            $pspdfname = $date . str_replace('_','', $poriginal);
+            $epath1    = $pspdffile->move(public_path('storage/' . $pspdfpath), $pspdfname);
+            if($job->PDFFile){
+                $pdpath= "Jobs/" . $pdfyear . "/" . $pdfmonth . "/PSPDF/" . $job->PDFFile;
+                $pdexist = File::delete(public_path('storage/' . $pdpath));
+            }
+            else{
+                $pspdfname = $job->PDFFile;
+            }
+        }
+        if ($request->hasFile('fileupload') && $request->file('fileupload')->isValid()) {
+            $uploadfile = $request->file("fileupload");
+            $ext        = $uploadfile->getClientOriginalExtension();
+            if ($ext == "pdf") {
+                $fileuploadoriginal = $uploadfile->getClientOriginalName();
+                $pdfname            = $date . str_replace('_','', $fileuploadoriginal);
+                $epath2             = $uploadfile->move(public_path('storage/' . $jdpdfpath), $pdfname);
+            } else {
+                $fileuploadoriginal = $uploadfile->getClientOriginalName();
+                $pdfname            = $date . str_replace('_','', $fileuploadoriginal);
+                $epath2             = $uploadfile->move(public_path('storage/' . $jddocpath), $pdfname);
+            }
+        }
+        if ($request->hasFile('sfile') && $request->file('sfile')->isValid()) {
+            $sfname         = $request->file('sfile');
+            $orignalSFName  = $sfname->getClientOriginalName();
+            $sforiginalname = $date .str_replace('_','', $orignalSFName);
+            $sfpath         = $sfname->move(public_path('storage/' . $jdsfile), $sforiginalname);
+            if($job->supportfile){
+                $sffilepath= "Jobs/" . $pdfyear . "/" . $pdfmonth . "/SFiles/" . $job->supportfile;
+                $sfexist = File::delete(public_path('storage/' . $sffilepath));
+            }
+            else{
+                $sforiginalname = $job->supportfile;
+            }
+        }
+        // dd($request->all());
+        $job->carderId   = $request->ministry;
+        $job->CarderName = $carderID;
+        // $job->WordFile   = $pdfname;
+        // $job->ext        = $ext;
+        // $job->PDFFile    = $pspdfname;
+        $job->sfresponse = $request->sf;
+        // $job->supportfile= $sforiginalname;
+        $job->status     = 3;
+        $job->ApprovedOn = $request->approvaldate;
+        $job->comment    = $votecomment;
+        $job->versionId  = $request->version;
+        $job->UpdatedBy  = Auth::user()->sname . " " . Auth::user()->fname ;
+        $job->Draft      = false;
+        $job->save();
     }
 
 }
