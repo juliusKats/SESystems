@@ -196,7 +196,7 @@
         $('#carder').on('change', function() {
             var cardername = $(this).val()
             console.log(cardername)
-            if (cardername == 0) {
+            if (!cardername||cardername == 0) {
                 Swal.fire({
                     title: 'Select a valid ministry',
                     icon:'info',
@@ -218,16 +218,19 @@
                     dataType: 'json',
                     success: function(result) {
                         console.log(result)
-                        if (result.carder.length > 0) {
+                        if (result.carder &&result.carder.length > 0) {
                             $('#cardername').html('<option = ""> Select Carder Name</option>')
                             $.each(result.carder, function(key, value) {
                                 $('#cardername').append('<option = "' + value.id + '">' + value
                                     .cardname + '</option>')
                             })
                         }
+                        else{
+                             $('#cardername').html('<option value="">No Carder Names Found</option>');
+                        }
                     },
-                    error: function(error) {
-                        alert(error)
+                    error: function() {
+                        alert('Error fetching carder names')
                     }
                 })
             }

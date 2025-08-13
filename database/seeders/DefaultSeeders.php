@@ -85,6 +85,31 @@ class DefaultSeeders extends Seeder
             'created_at'      => now(),
             'updated_at'      => Carbon::now(),
         ]);
+
+        $juli = User::create([
+            'fname'           => 'Julius',
+            'sname'           => 'Kats',
+            'email'           => 'julikats2010@gmail.com',
+            'password'        => Hash::make('password'),
+            'is_admin'        => true,
+            'status'          => true,
+            'is_email_verified'=>true,
+            'email_verified_at'=>Carbon::now(),
+            'role'            => 'superadmin',
+            'current_team_id' => 1,
+            'created_at'      => now(),
+            'updated_at'      => Carbon::now(),
+        ]);
+         $juliteam = Team::create([
+            'user_id'       => $juli->id,
+            'name'          => $juli->sname,
+            'personal_team' => true,
+            'created_at'    => \Carbon\Carbon::now(),
+            'updated_at'    => \Carbon\Carbon::now(),
+        ]);
+
+
+
         $superteam2 = Team::create([
             'user_id'       => $superadm->id,
             'name'          => $superadm->sname,
@@ -92,6 +117,29 @@ class DefaultSeeders extends Seeder
             'created_at'    => \Carbon\Carbon::now(),
             'updated_at'    => \Carbon\Carbon::now(),
         ]);
+
+         $allan = User::create([
+            'fname'           => 'Tumuhimbise',
+            'sname'           => 'Allan',
+            'email'           => 'tumuhimbiseallan@gmail.com',
+            'password'        => Hash::make('password'),
+            'is_admin'        => true,
+            'status'          => true,
+            'is_email_verified'=>true,
+            'email_verified_at'=>Carbon::now(),
+            'role'            => 'superadmin',
+            'current_team_id' => 1,
+            'created_at'      => now(),
+            'updated_at'      => Carbon::now(),
+        ]);
+         $allanteam = Team::create([
+            'user_id'       => $allan->id,
+            'name'          => $allan->sname,
+            'personal_team' => true,
+            'created_at'    => \Carbon\Carbon::now(),
+            'updated_at'    => \Carbon\Carbon::now(),
+        ]);
+
         $superadmin = User::create([
             'sname'           => 'Mops',
             'fname'           => 'Admin',
