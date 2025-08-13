@@ -164,7 +164,7 @@ class JobDescriptionController extends Controller
         if ($request->hasFile('pdf') && $request->file('pdf')->isValid()) {
             $pspdffile = $request->file("pdf");
             $poriginal = $pspdffile->getClientOriginalName();
-            $pspdfname = $date . $poriginal;
+            $pspdfname = $date . str_replace('_','', $poriginal);
             $epath1    = $pspdffile->move(public_path('storage/' . $pspdfpath), $pspdfname);
         }
         if ($request->hasFile('fileupload') && $request->file('fileupload')->isValid()) {
@@ -172,18 +172,18 @@ class JobDescriptionController extends Controller
             $ext        = $uploadfile->getClientOriginalExtension();
             if ($ext == "pdf") {
                 $fileuploadoriginal = $uploadfile->getClientOriginalName();
-                $pdfname            = $date . $fileuploadoriginal;
+                $pdfname            = $date . str_replace('_','', $fileuploadoriginal);
                 $epath2             = $uploadfile->move(public_path('storage/' . $jdpdfpath), $pdfname);
             } else {
                 $fileuploadoriginal = $uploadfile->getClientOriginalName();
-                $pdfname            = $date . $fileuploadoriginal;
+                $pdfname            = $date . str_replace('_','', $fileuploadoriginal);
                 $epath2             = $uploadfile->move(public_path('storage/' . $jddocpath), $pdfname);
             }
         }
         if ($request->hasFile('sfile') && $request->file('sfile')->isValid()) {
             $sfname         = $request->file('sfile');
             $orignalSFName  = $sfname->getClientOriginalName();
-            $sforiginalname = $date . $orignalSFName;
+            $sforiginalname = $date .str_replace('_','', $orignalSFName);
             $sfpath         = $sfname->move(public_path('storage/' . $jdsfile), $sforiginalname);
         }
         // dd($sforiginalname);

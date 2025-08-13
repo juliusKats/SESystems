@@ -203,19 +203,19 @@ class EstablishmentController extends Controller
                 $date      = $date->format("D_d_M_Y_") . time() . "_";
                 $pfile     = $request->file("pdf");
                 $poriginal = $pfile->getClientOriginalName();
-                $pfname    = $date . $poriginal;
+                $pfname    = $date . str_replace('_','', $poriginal);
                 $ppath     = $pfile->move(public_path('storage/' . $pdfvote), $pfname);
 
                 $efile     = $request->file("excel");
                 $ext       = $efile->getClientOriginalExtension();
                 $eoriginal = $efile->getClientOriginalName();
-                $efname    = $date . $eoriginal;
+                $efname    = $date . str_replace('_','', $eoriginal);
                 $epath     = $efile->move(public_path('storage/' . $excelvote), $efname);
 
                 if ($request->hasFile('sfile')) {
                     $sfname = $request->file('sfile');
                     $orignalSFName = $sfname->getClientOriginalName();
-                    $sforiginalname = $date . $orignalSFName;
+                    $sforiginalname = $date . str_replace('_','', $orignalSFName);
                     $sfpath = $sfname->move(public_path('storage/' . $suport), $sforiginalname);
                 }
                 $file = UserFiles::create([
@@ -320,13 +320,13 @@ class EstablishmentController extends Controller
             $date = $date->format("D_d_M_Y_") . time() . "_";
             $pfile     = $request->file("pdf");
             $poriginal = $pfile->getClientOriginalName();
-            $pfname    = $date . $poriginal;
+            $pfname    = $date . str_replace('_','', $poriginal);
             $ppath     = $pfile->move(public_path('storage/' . $pdfvote), $pfname);
 
             $efile     = $request->file("excel");
             $ext       = $efile->getClientOriginalExtension();
             $eoriginal = $efile->getClientOriginalName();
-            $efname    = $date . $eoriginal;
+            $efname    = $date . str_replace('_','', $eoriginal);
             $epath     = $efile->move(public_path('storage/' . $excelvote), $efname);
 
             $file = UserFiles::create([
@@ -614,7 +614,7 @@ class EstablishmentController extends Controller
 
             $sfname = $request->file('sfile');
             $orignalSFName = $sfname->getClientOriginalName();
-            $sforiginalname = $date . $orignalSFName;
+            $sforiginalname = $date . str_replace('_','', $orignalSFName);
             $sfpath = $sfname->move(public_path('storage/' . $suport), $sforiginalname);
             if ($establishment->supportfile) {
                 $sfpath  = "Votes/" . $pdfyear . "/" . $pdfmonth . "/SFiles/" . $establishment->supportfile;
@@ -626,7 +626,7 @@ class EstablishmentController extends Controller
         if ($request->hasFile('pdf')) {
             $pfile     = $request->file("pdf");
             $poriginal = $pfile->getClientOriginalName();
-            $pfname    = $date . $poriginal;
+            $pfname    = $date . str_replace('_','', $poriginal);
             $ppath     = $pfile->move(public_path('storage/' . $pdfvote), $pfname);
             if ($establishment->pdffile) {
                 $pdfpath  = "Votes/" . $pdfyear . "/" . $pdfmonth . "/PSPDF/" . $establishment->pdffile;
@@ -638,7 +638,7 @@ class EstablishmentController extends Controller
         if ($request->hasFile('excel')) {
             $efile     = $request->file("excel");
             $eoriginal = $efile->getClientOriginalName();
-            $efname    = $date . $eoriginal;
+            $efname    = $date . str_replace('_','', $eoriginal);
             $epath     = $efile->move(public_path('storage/' . $excelvote), $efname);
             if ($establishment->excelfile) {
                 $excelpath  = "Votes/" . $pdfyear . "/" . $pdfmonth . "/EXCEL/" . $establishment->excelfile;
