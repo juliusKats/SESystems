@@ -14,17 +14,17 @@ return new class extends Migration
         Schema::create('service_uganda_centers', function (Blueprint $table) {
             $table->id();
              $table->string('ticket')->unique();
-            $table->longText('SUCenter')->comment('CenterName');
-            $table->longText('file')->comment('Only Excel,PDF,Word and Images');
-            $table->longText('comment')->nullable()->comment('User Comment');
-            $table->longText('zoomlink')->nullable()->comment('Virtual Meeting');
+            $table->longText('SUCenter'); //'CenterName');
+            $table->longText('file'); //'Only Excel,PDF,Word and Images');
+            $table->longText('comment')->nullable(); //'User Comment');
+            $table->longText('zoomlink')->nullable(); //'Virtual Meeting');
             $table->boolean('Draft')->default(false);
             $table->timestamps();
             $table->softDeletes();
             $table->string('DeletedBy', 90)->nullable();
             $table->string('RestoredBy', 90)->nullable();
 
-            $table->dateTime('UploadedOn')->useCurrent()->comment('Upload date');
+            $table->dateTime('UploadedOn')->useCurrent(); //'Upload date');
             $table->bigInteger('UploadedBy')->unsigned();
 
             $table->string('ApprovedBy', 40)->nullable();

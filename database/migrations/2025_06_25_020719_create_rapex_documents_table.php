@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('rapex_documents', function (Blueprint $table) {
             $table->id();
                 $table->string('ticket')->unique();
-            $table->longText('entity')->comment('Goverment Ministry Names');
-            $table->longText('institution')->comment('Institution Name');
-            $table->longText('file')->comment('Only Excel,PDF and Images');
-            $table->longText('comment')->nullable()->comment('User Comment');
-            $table->longText('zoomlink')->nullable()->comment('Virtual Meeting');
+            $table->longText('entity');
+            $table->longText('institution');
+            $table->longText('file');
+            $table->longText('comment')->nullable();
+            $table->longText('zoomlink')->nullable();
             $table->boolean('Draft')->default(false);
             $table->timestamps();
             $table->softDeletes();
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('RestoredBy',90)->nullable();
 
 
-            $table->dateTime('UploadedOn')->useCurrent()->comment('Upload date');
+            $table->dateTime('UploadedOn')->useCurrent();//; //'Upload date');
             $table->bigInteger('UploadedBy')->unsigned();
 
             $table->string('ApprovedBy', 40)->nullable();

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('rapex_files', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('uploadedby')->unsigned()->nullable();
-            $table->longText('files')->nullable()->comment('Rapex Images');
+            $table->longText('files')->nullable(); //'Rapex Images');
             $table->bigInteger('rapex_id')->unsigned()->nullable();
             $table->foreign('rapex_id')->references('id')->on('rapex_documents')->onDelete('cascade');
             $table->foreign('uploadedby')->references('id')->on('users')->onDelete('cascade');

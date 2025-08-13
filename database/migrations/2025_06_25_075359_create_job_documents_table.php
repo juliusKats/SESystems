@@ -17,20 +17,20 @@ return new class extends Migration
              $table->bigInteger('carderId')->unsigned();
             $table->bigInteger('versionId')->unsigned()->nullable();
             $table->boolean('Draft')->default(false);
-            $table->string('CarderName', 200)->comment('Name Of Carder');
-            $table->longText('WordFile')->comment('Word documment .doc,.docx');
-            $table->enum('ext', ['pdf', 'docx', 'doc'])->comment('File extension');
-            $table->longText('PDFFile')->comment('PS Approved PDF File .pdf');
+            $table->string('CarderName', 200); //'Name Of Carder');
+            $table->longText('WordFile'); //'Word documment .doc,.docx');
+            $table->enum('ext', ['pdf', 'docx', 'doc']); //'File extension');
+            $table->longText('PDFFile'); //'PS Approved PDF File .pdf');
             $table->boolean('sfresponse')->default(false);
              $table->longText('supportfile')->nullable();
-            $table->date('ApprovedOn')->comment('Date when PS Approved PDF File');
-            $table->longText('comment')->nullable()->comment("User's comment on uploadedfile");
+            $table->date('ApprovedOn'); //'Date when PS Approved PDF File');
+            $table->longText('comment')->nullable(); //"User's comment on uploadedfile");
             $table->timestamps();
             $table->softDeletes();
             $table->string('DeletedBy',90)->nullable();
              $table->string('RestoredBy',90)->nullable();
 
-            $table->dateTime('UploadedOn')->useCurrent()->comment('Upload date');
+            $table->dateTime('UploadedOn')->useCurrent(); //'Upload date');
             $table->bigInteger('UploadedBy')->unsigned();
             $table->foreign('carderId')->references('id')->on('carders')->nullable()->cascadeOnDelete();
             $table->foreign('versionId')->references('id')->on('versions')->nullable()->cascadeOnDelete();

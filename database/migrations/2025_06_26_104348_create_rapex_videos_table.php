@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('rapex_videos', function (Blueprint $table) {
             $table->id();
              $table->bigInteger('uploadedby')->unsigned()->nullable();
-             $table->dateTime('UploadedOn')->useCurrent()->comment('Upload date');
+             $table->dateTime('UploadedOn')->useCurrent(); //'Upload date');
             $table->bigInteger('rapex_id')->unsigned()->nullable();
-            $table->longText('videofiles')->nullable()->comment('Rapex Images');
+            $table->longText('videofiles')->nullable(); //'Rapex Images');
             $table->foreign('rapex_id')->references('id')->on('rapex_documents')->onDelete('cascade');
             $table->foreign('uploadedby')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

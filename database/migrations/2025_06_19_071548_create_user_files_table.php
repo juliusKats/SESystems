@@ -24,7 +24,7 @@ return new class extends Migration
             $table->boolean('sfresponse')->default(false);
             $table->longText('supportfile')->nullable();
             $table->date('ApprovedOn')->nullable();
-            $table->date('UploadedOn')->useCurrent()->comment('Upload date');
+            $table->date('UploadedOn')->useCurrent();
 
             $table->bigInteger('UploadedBy')->unsigned();
             $table->string('ApprovedBy', 40)->nullable();

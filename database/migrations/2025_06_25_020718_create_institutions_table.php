@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('lineMinistry');
             $table->string('institution',150);
             $table->boolean('status')->default(false);
-            $table->unique(['entity','institution'],'entity_institues')->comment('Instittue Ministry');
+            $table->unique(['entity','institution'],'entity_institues');
             $table->foreign('entity')->references('id')->on('gov_entities')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
