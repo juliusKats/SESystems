@@ -3,19 +3,20 @@ namespace Database\Seeders;
 
 use App\Models\Carders;
 use App\Models\CardMinistries;
+use App\Models\CountryCodes;
 use App\Models\DocStatus;
-use App\Models\Services;
 use App\Models\GovEntities;
 use App\Models\ImageCategory;
 use App\Models\Institutions;
+use App\Models\Position;
 use App\Models\Questions;
 use App\Models\ServiceCenter;
+use App\Models\Services;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Version;
-use App\Models\VoteDetails;
-use App\Models\CountryCodes;
 // use App\Models\ImageCategory;
+use App\Models\VoteDetails;
 use App\Models\YearMonths;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
@@ -37,6 +38,14 @@ class DefaultSeeders extends Seeder
         $imgcat7 = ImageCategory::create(['Category' => 'Meetings', 'status' => false]);
         $imgcat8 = ImageCategory::create(['Category' => 'Others', 'status' => false]);
          $imgcat8 = ImageCategory::create(['Category' => 'Finance', 'status' => false]);
+         $pos1=Position::create(['positionName'=>'Management Analyst','status'=>true]);
+         $pos2=Position::create(['positionName'=>'Senior Management Analyst','status'=>true]);
+         $pos3=Position::create(['positionName'=>'Principal Management Analyst','status'=>true]);
+         $pos4=Position::create(['positionName'=>'Assistant Commissioner Management Services','status'=>true]);
+         $pos5=Position::create(['positionName'=>'Commissioner Management Services','status'=>true]);
+         $pos6=Position::create(['positionName'=>'Secretary','status'=>true]);
+
+
 
 
         $status7 = DocStatus::create(['statusName' => 'None']);

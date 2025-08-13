@@ -3,7 +3,6 @@
     Profile
 @endsection
 @section('content')
-
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -43,65 +42,119 @@
                                     @csrf
                                     <input id="file-input" type="file" name="userphoto" accept=".png,.jpg,.jpeg"
                                         class="form-control" style="display: none">
-                                    <div class="form-group row">
-                                        <label class="col-md-4">Name</label>
-                                        <div class="col-md-8">
-                                            <input type="text" name="fullname" value="{{ old('fullname') }}"
-                                                placeholder="Enter Fullname" class="form-control @error('fullname') is-invalid @enderror" required>
-                                                @error('fullname')
-                                                <span class="invalid-feedback">{{ $message }}</span>
+
+                                    <div class="form-group row mt-1">
+                                        {{-- name --}}
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Surname</label>
+                                                <input type="text" value="{{ old(sname) }}" name="sname" required placeholder ="Surname Name is required"
+                                                    class="form-control @error('sname')is-invalid @enderror">
+                                                @error('sname')
+                                                    <span class="invalid-feedback">{{ $message }}</span>
                                                 @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <label>First Name</label>
+                                                    <input type="text" value="{{ old(fname) }}" name="fname" required placeholder ="First Name is required"
+                                                        class="form-control @error('fname') is-invalid @enderror">
+                                                    @error('fname')
+                                                        <span class="invalid-feedback">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4">Email</label>
-                                        <div class="col-md-8">
-                                            <input type="email" required placeholder="johndoe@domain.xxx" name="email"
-                                                value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror">
-                                                 @error('email')
-                                                <span class="invalid-feedback">{{ $message }}</span>
-                                                @enderror
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <label>Other Name</label>
+                                                    <input type="text" value="{{ old(oname) }}" name="oname" placeholder ="Enter Other Name"
+                                                        class="form-control @error('oname') is-invalid @enderror">
+                                                    @error('oname')
+                                                        <span class="invalid-feedback">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+
+                                        <div class="form-group ">
+                                            <label>Positions</label>
+                                                <select  name="position" class="form-control select2 @error('fullname') is-invalid @enderror" required>
+                                                    <option value="">Select Positon</option>
+                                                    @foreach($positions as $position)
+                                                    <option value="{{$position->id}}" @if($position->id == old('position')) selected @endif>{{$position->positionName}}</option>
+                                                    @endforeach
+                                                </select>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4">Password</label>
-                                        <div class="col-md-8">
-                                            <input type="password" required placeholder="Enter Password" name="password"
-                                                value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror">
-                                                 @error('password')
-                                                <span class="invalid-feedback">{{ $message }}</span>
-                                                @enderror
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4">Confirm Password</label>
-                                        <div class="col-md-8">
-                                            <input type="password" required placeholder="Enter Password"
-                                                name="confirmpassword" value="{{ old('confirmpassword') }}" class="form-control @error('confirmpassword') is-invalid @enderror">
-                                                 @error('confirmpassword')
-                                                <span class="invalid-feedback">{{ $message }}</span>
-                                                @enderror
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-3">Roles</label>
-                                        <div class="col-md-9">
-                                            <label><input required name="role" style="width:20px;height:20px;" value="superadmin" type="radio">  Super Admin</label>
-                                            <label><input required name="role" style="width:20px;height:20px;" value="admin" type="radio">  Admin</label>
-                                            <label><input required name="role" style="width:20px;height:20px;" value="ps" type="radio">  HOD</label>
-                                            <label><input required name="role" style="width:20px;height:20px;" value="user" type="radio">  User</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4">Roles</label>
-                                        <div class="col-md-8">
-                                            <label><input required name="status" style="width:20px;height:20px;" value="1" type="radio"> Active</label>
-                                            <label><input required name="status" style="width:20px;height:20px;" value="0" type="radio">  Inactive</label>                                        </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <input type="submit" value="SAVE" class="btn btn-dark float-right">
-                                    </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-4">Email</label>
+                                            <div class="col-md-8">
+                                                <input type="email" required placeholder="johndoe@domain.xxx"
+                                                    name="email" value="{{ old('email') }}"
+                                                    class="form-control @error('email') is-invalid @enderror">
+                                                @error('email')
+                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-4">Password</label>
+                                            <div class="col-md-8">
+                                                <input type="password" required placeholder="Enter Password" name="password"
+                                                    value="{{ old('password') }}"
+                                                    class="form-control @error('password') is-invalid @enderror">
+                                                @error('password')
+                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-4">Confirm Password</label>
+                                            <div class="col-md-8">
+                                                <input type="password" required placeholder="Enter Password"
+                                                    name="confirmpassword" value="{{ old('confirmpassword') }}"
+                                                    class="form-control @error('confirmpassword') is-invalid @enderror">
+                                                @error('confirmpassword')
+                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3">Roles</label>
+                                            <div class="col-md-9">
+                                                <label><input required name="role" style="width:20px;height:20px;"
+                                                        value="superadmin" type="radio"> Super Admin</label>
+                                                <label><input required name="role" style="width:20px;height:20px;"
+                                                        value="admin" type="radio"> Admin</label>
+                                                <label><input required name="role" style="width:20px;height:20px;"
+                                                        value="ps" type="radio"> HOD</label>
+                                                <label><input required name="role" style="width:20px;height:20px;"
+                                                        value="user" type="radio"> User</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-4">Roles</label>
+                                            <div class="col-md-8">
+                                                <label><input required name="status" style="width:20px;height:20px;"
+                                                        value="1" type="radio"> Active</label>
+                                                <label><input required name="status" style="width:20px;height:20px;"
+                                                        value="0" type="radio"> Inactive</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="submit" value="SAVE" class="btn btn-dark float-right">
+                                        </div>
                                 </form>
                             </div>
                         </div>

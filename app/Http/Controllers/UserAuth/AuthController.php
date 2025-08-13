@@ -4,6 +4,7 @@ namespace App\Http\Controllers\UserAuth;
 use App\Http\Controllers\Controller;
 use App\Models\EDBRTeam;
 use App\Models\PasswordReset;
+use App\Models\Position;
 use App\Models\Team;
 use App\Models\User;
 use Carbon\Carbon;
@@ -233,15 +234,21 @@ class AuthController extends Controller
     }
 
     public function AddUser(Request $request)
+
     {
-        return view('FileManager.USERS.add');
+        $positions = Position::all();
+        return view('FileManager.USERS.add',compact('positions'));
     }
 
     public function SaveAddUser(Request $request)
     {
+        // dd($request->all());
         $userinfo = $request->validate([
             'userphoto'       => 'nullable|mimes:jpeg,jpg,png|max:2048',
-            'fullname'        => 'required|min:7',
+            'fname'        => 'required|min:3',
+            'sname'        => 'required|min:3',
+            'oname'=>'nullable|min:3',
+            'position'=>'required|exists:positions,id',
             'email'           => 'required', 'email|unique:users,email',
             'password'        => 'string|required|min:5|same:confirmpassword',
             'confirmpassword' => 'required',
@@ -257,15 +264,7 @@ class AuthController extends Controller
         if ($request->role == 'superadmin' and $superadmin > 0) {
             return redirect()->route('user.list')->with('error', 'Only One Superadmin required');
         }
-        else if(!Str::contains($request->fullname,' ')){
-            return redirect()->route('add.user')->with('error', 'Add a space between first and surname');
-        }
-        elseif(Str::length(explode(' ',$request->fullname)[0])<2){
-            return redirect()->route('add.user')->with('error', 'First name must be greater than 2 characters');
-        }
-        elseif(Str::length(explode(' ',$request->fullname)[1])<2){
-            return redirect()->route('add.user')->with('error', 'Second name must be greater than 2 characters');
-        }
+
 
         else {
 
@@ -277,6 +276,7 @@ class AuthController extends Controller
                     'fname'              => $request->fname,
                     'sname'              => $request->sname,
                     'oname'              => $request->oname,
+                    'position'=>$request->position,
                     'email'              => $request->email,
                     'password'           => Hash::make($request->password),
                     'status'             => $request->status,
@@ -290,6 +290,7 @@ class AuthController extends Controller
                 if($user and $user->role =='ps') {
                     EDBRTeam::create([
                         'user_id'       => $user->id,
+                        'title'=>$user->positionId,
                         'status'          => $user->status,
                     ]);
 
@@ -298,7 +299,8 @@ class AuthController extends Controller
                 if ($user) {
                     Team::create([
                         'user_id'       => $user->id,
-                        'name'          => $user->name,
+                        'name'          => $user->sname,
+                        'about'=>'Welcome',
                         'personal_team' => true,
                     ]);
                     return redirect()->route('user.list')->with('success', 'User Account Added successfully');
@@ -308,8 +310,10 @@ class AuthController extends Controller
 
             } else {
                 $user1 = User::create([
-                    'fname'            => explode(' ',$request->fullname)[0],
-                    'sname'            => explode(' ',$request->fullname)[1],
+                    'fname'              => $request->fname,
+                    'sname'              => $request->sname,
+                    'oname'              => $request->oname,
+                    'position'=>$request->position,
                     'email'           => $request->email,
                     'password'        => Hash::make($request->password),
                     'status'          => $request->status,
@@ -321,6 +325,8 @@ class AuthController extends Controller
                 if($user1 and $user1->role =='ps') {
                     EDBRTeam::create([
                         'user_id'       => $user1->id,
+                        'title'=>$user1->positionId,
+                        'about'=>'Welcome',
                         'status'          => $user1->status,
                     ]);
 
