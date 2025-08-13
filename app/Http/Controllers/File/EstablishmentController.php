@@ -163,7 +163,7 @@ class EstablishmentController extends Controller
             'version'      => 'required|exists:versions,id',
             'pdf'          => 'required',
             'pdf.*'        => 'required|mimes:pdf|max:4096',
-            'approvaldate' => 'required|date|before:today',
+            'approvaldate' => 'required|date|before_or_equal:' . now()->format('Y-m-d'),
             'sf' => 'required',
             'sfile' => 'required_if:sf,Yes|mimes:docx,doc,pdf'
         ]);
@@ -227,6 +227,7 @@ class EstablishmentController extends Controller
                     'ApprovedOn'  => $request->approvaldate,
                     'status'      => $status,
                     'comment'     => $votecomment,
+                    'sfresponse' => $request->sf,
                     'supportfile' => $sforiginalname,
                     'ticket' => $uniqueNumber,
                     'UploadedBy'  => Auth::user()->id,
@@ -333,6 +334,8 @@ class EstablishmentController extends Controller
                 'VoteName'    => $request->votename,
                 'excelfile'   => $efname,
                 'pdffile'     => $pfname,
+                'sfresponse' => $request->sf,
+                'supportfile' => $sforiginalname,
                 'versionId' => null,
                 'ApprovedOn'  => $request->approvaldate,
                 'status'      => $status,
@@ -550,7 +553,7 @@ class EstablishmentController extends Controller
         $votes = VoteDetails::all();
         $status = DocStatus::all();
         $versions = Version::all();
-        $file = UserFiles::select('user_files.id', 'user_files.Draft', 'user_files.VoteCode as VCode', 'user_files.ticket', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'user_files.status as State', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.supportfile as SUPPORT', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at as CrDate', 'user_files.updated_at as UpDate', 'user_files.UpdatedBy', 'users.fname', 'users.sname', 'users.oname', 'user_files.versionId', 'user_files.ticket', 'user_files.Reason', 'versions.versionName')
+        $file = UserFiles::select('user_files.id', 'user_files.Draft','user_files.UploadedBy', 'user_files.VoteCode as VCode', 'user_files.ticket', 'vote_details.votecode as VCode', 'vote_details.votename as VName', 'user_files.comment as VComment', 'user_files.status as State', 'doc_statuses.statusName as status', 'user_files.excelfile as EXCEL', 'user_files.supportfile as SUPPORT', 'user_files.pdffile as PDF', 'user_files.ApprovedOn as PSDate', 'user_files.DateOn as ADMINApproval', 'users.sname', 'users.fname', 'users.oname', 'user_files.UploadedBy', 'user_files.ApprovedBy as UpprovedBy', 'user_files.UploadedOn as UploadDate', 'user_files.created_at as CrDate', 'user_files.updated_at as UpDate', 'user_files.UpdatedBy', 'users.fname', 'users.sname', 'users.oname', 'user_files.versionId', 'user_files.ticket', 'user_files.Reason', 'versions.versionName')
             ->join('users', 'users.id', '=', 'user_files.UploadedBy')
             ->join('vote_details', 'vote_details.id', '=', 'user_files.VoteCode')
             ->join('doc_statuses', 'doc_statuses.id', '=', 'user_files.status')
@@ -577,7 +580,7 @@ class EstablishmentController extends Controller
             'version'      => 'required|exists:versions,id',
             // 'pdf'          => 'required',
             // 'pdf.*'        => 'required|mimes:pdf|max:4096',
-            'approvaldate' => 'required|date|before:today',
+            'approvaldate' => 'required|date|before_or_equal:' . now()->format('Y-m-d'),
             // 'sf' => 'required',
             // 'sfile' => 'required_if:sf,Yes|mimes:docx,doc,pdf'
         ]);

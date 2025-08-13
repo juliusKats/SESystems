@@ -11,6 +11,6 @@ class ServiceUgandaCenter extends Model implements AuditableContract
     use SoftDeletes;
     use Auditable;
     //
-    protected $fillable =  ['ticket','Draft','status','centerId','SUCenter','file','comment','zoomlink', 'updated_at','UploadedOn','UploadedBy','Approve','ApprovedOn','ApprovedBy','approved_by','DeletedBy','RestoredBy'];
+    protected $fillable =  ['sfresponse','ticket','Draft','status','centerId','SUCenter','file','comment','zoomlink', 'updated_at','UploadedOn','UploadedBy','Approve','ApprovedOn','ApprovedBy','approved_by','DeletedBy','RestoredBy','supportfile'];
     protected $dates = ['deleted_at'];
 }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->longText('WordFile')->comment('Word documment .doc,.docx');
             $table->enum('ext', ['pdf', 'docx', 'doc'])->comment('File extension');
             $table->longText('PDFFile')->comment('PS Approved PDF File .pdf');
+            $table->boolean('sfresponse')->default(false);
             $table->date('ApprovedOn')->comment('Date when PS Approved PDF File');
             $table->longText('comment')->nullable()->comment("User's comment on uploadedfile");
             $table->timestamps();

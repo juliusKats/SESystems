@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('service_schemes', function (Blueprint $table) {
-            $table->id(); 
+            $table->id();
             $table->string('ticket')->unique();
             $table->bigInteger('carderId')->unsigned();
             $table->bigInteger('versionId')->unsigned()->nullable();
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->longText('WordFile')->comment('Word documment .doc,.docx');
             $table->enum('ext', ['pdf', 'docx', 'doc'])->comment('File extension');
             $table->longText('PDFFile')->comment('PS Approved PDF File .pdf');
+            $table->boolean('sfresponse')->default(false);
             $table->date('ApprovedOn')->comment('Date when PS Approved PDF File');
             $table->longText('comment')->nullable()->comment("User's comment on uploadedfile");
             $table->timestamps();

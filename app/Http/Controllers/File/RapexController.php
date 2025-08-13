@@ -108,7 +108,7 @@ class RapexController extends Controller
     }
     public function store(Request $request)
     {
-        dd($request->file('file'));
+        info($request->all());
 
         // Generate a unique random number for the 'your_column' column
         $uniqueNumber = $this->generateUniqueRandomNumber('ticket', 13);
@@ -194,6 +194,8 @@ class RapexController extends Controller
 
         }
 
+        
+
         if ($request->hasFile('images')) {
             // $allowedextensions=['pdf','doc','docx','xls','xlsx','png','jpg','jpeg'];
             $img = $request->file('images');
@@ -252,13 +254,13 @@ class RapexController extends Controller
         }
 
         if ($request->hasFile('images') != null && $rpdoc) {
-            // RapexImages::create([
-            //     'uploadedby'  => Auth::user()->id,
-            //     'rapex_id'    => $rpdoc->id,
-            //     'imagefiles'  => $pictureArray,
-            //     'category_id' => $request->category,
-            //     'Description' => $request->description,
-            // ]);
+            RapexImages::create([
+                'uploadedby'  => Auth::user()->id,
+                'rapex_id'    => $rpdoc->id,
+                'imagefiles'  => $pictureArray,
+                'category_id' => $request->category,
+                'Description' => $request->description,
+            ]);
             $images = explode(',', $pictureArray);
             foreach ($images as $image) {
                 RapexImages::create([

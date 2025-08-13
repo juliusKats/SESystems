@@ -21,6 +21,7 @@ return new class extends Migration
             //  Vote Excel
             $table->longText('excelfile')->nullable();
             $table->longText('pdffile')->nullable();
+            $table->boolean('sfresponse')->default(false);
             $table->longText('supportfile')->nullable();
             $table->date('ApprovedOn')->nullable();
             $table->date('UploadedOn')->useCurrent()->comment('Upload date');

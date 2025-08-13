@@ -172,6 +172,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::put('job/{id}/approve', 'ApproveFile')->name('job.approve');
             Route::get('job/{id}/reject', 'RejectFile')->name('job.reject');
             Route::put('job/{id}/reject', 'RejectSave')->name('job.reject.save');
+            Route::get('job/{id}/view', 'show')->name('job.file.view');
+             Route::put('job/update/{id}/job_description','update')->name('job.file.update');
 
         });
         Route::controller(RapexController::class)->group(function () {

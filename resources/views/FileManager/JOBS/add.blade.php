@@ -135,14 +135,36 @@
                             </div>
 
                         </div>
-                        <div class="form-group mb-2">
-                            <label>Comment </label>
-                            <textarea name="comment" id="summernote" class="summernote @error('comment')is-invalid @enderror">{{ old('comment') }}</textarea>
-                            @error('comment')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-2">
+                                    <label>Do you have Suport files?</label>
+                                    <span class="float-right mr-5" style="display:inline">
+                                        <label><input id="sfyes" type="radio" value="1" name="sf" required style="width: 20px;height:20px"> &nbsp;YES</label>
+                                        <label><input id="sfno" type="radio" value="0" name="sf" style="width: 20px;height:20px" required> &nbsp;NO</label>
+                                    </span>
+                                </div>
+                                <div class="form-group" id="sfselect">
+                                    <label>Support Files</label>
+                                    <input type="file" name="sfile" class="form-control @error('sfile') is-invalid @enderror " accept=".pdf,.doc,.docx">
+                                    @error('sfile')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            <div class="form-group mb-2">
+                                <label>Comment </label>
+                                <textarea name="comment" id="summernote" class="summernote @error('comment')is-invalid @enderror">{{ old('comment') }}</textarea>
+                                @error('comment')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            </div>
                         </div>
                         <div class="form-group mt-2">
                             <input type="submit" class="btn btn-primary" value="Upload" name="save">
@@ -159,6 +181,17 @@
 
 @section('scripts')
     <script>
+         // initioalization
+        var sfselect = document.getElementById('sfselect');
+        sfselect.style.display ="none";
+        $('#sfyes').on('click',function(){
+            sfselect.style.display="block";
+            sfselect.setAttribute('required','required')
+        });
+        $('#sfno').on('click',function(){
+            sfselect.style.display="none";
+            sfselect.removeAttribute('required','required')
+        });
         var txtinput = document.getElementById('cardername')
         $('#carder').on('change', function() {
             var cardername = $(this).val()

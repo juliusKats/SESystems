@@ -142,8 +142,8 @@
                                 <div class="form-group mb-2">
                                     <label>Do you have Suport files?</label>
                                     <span class="float-right mr-5" style="display:inline">
-                                        <label><input id="sfyes" type="radio" value="Yes" name="sf" required style="width: 20px;height:20px"> &nbsp;YES</label>
-                                        <label><input id="sfno" type="radio" value="No" name="sf" style="width: 20px;height:20px" required> &nbsp;NO</label>
+                                        <label><input id="sfyes" type="radio" value="1" name="sf" required style="width: 20px;height:20px"> &nbsp;YES</label>
+                                        <label><input id="sfno" type="radio" value="0" name="sf" style="width: 20px;height:20px" required> &nbsp;NO</label>
                                     </span>
                                 </div>
                                 <div class="form-group" id="sfselect">

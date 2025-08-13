@@ -85,7 +85,7 @@ class SchemeController extends Controller
         $data = $request->validate([
             'ministry'     => 'required|exists:card_ministries,id',
             'cardername'   => 'required',
-            'approvaldate' => 'required|date|before:today',
+            'approvaldate' => 'required|date|before_or_equal:' . now()->format('Y-m-d'),
             'comment'      => 'nullable|string',
             'fileupload'   => 'required',
             'fileupload.*' => 'required|mimes:docx,doc',
